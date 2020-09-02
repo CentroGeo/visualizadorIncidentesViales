@@ -4,7 +4,7 @@
 \alias{preprocesa_pgj}
 \title{Title}
 \usage{
-preprocesa_pgj(path)
+preprocesa_pgj(pgj)
 }
 \arguments{
 \item{path}{}

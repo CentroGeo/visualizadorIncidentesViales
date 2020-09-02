@@ -12,11 +12,12 @@ mod_csvFileUI_ui <- function(id, label = "CSV file"){
   tagList(
     tagList(
       fileInput(ns("file"), label),
-      checkboxInput(ns("heading"), "Has heading"),
+      checkboxInput(ns("heading"), "Has heading", value=TRUE),
       selectInput(ns("quote"), "Quote", c(
-        "None" = "",
         "Double quote" = "\"",
-        "Single quote" = "'"
+        "Single quote" = "'",
+        "None" = ""
+        
       )
       ),
       selectInput(ns("separator"), "Separator", c(
@@ -35,7 +36,7 @@ mod_csvFileUI_ui <- function(id, label = "CSV file"){
 #' csvFileUI Server Function
 #'
 #' @noRd 
-mod_csvFileUI_server <- function(input, output, session, stringsAsFactors = FALSE){
+mod_csvFileUI_server <- function(input, output, session){
   ns <- session$ns
   userFile <- reactive({
     # If no file is selected, don't do anything
@@ -45,12 +46,13 @@ mod_csvFileUI_server <- function(input, output, session, stringsAsFactors = FALS
   
   # The user's data, parsed into a data frame
   dataframe <- reactive({
-    read.csv(userFile()$datapath,
-             header = input$heading,
+    df <- readr::read_delim(userFile()$datapath,
+             col_names = input$heading,
              quote = input$quote,
-             sep = input$separator,
-             stringsAsFactors = stringsAsFactors,
-             encoding = input$encoding)
+             delim = input$separator
+             )
+
+    preprocesa_pgj(df)
   })
   
   # We can run observers in here if we want to
