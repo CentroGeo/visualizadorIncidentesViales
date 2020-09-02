@@ -10,7 +10,15 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # List the first level UI elements here 
     fluidPage(
-      h1("package")
+      sidebarLayout(
+        sidebarPanel(
+          mod_csvFileUI_ui("csvFileUI_ui_1")
+          #csvFileUI("datafile", "User data (.csv format)")
+        ),
+        mainPanel(
+          DT::dataTableOutput("table")
+        )
+      )
     )
   )
 }
