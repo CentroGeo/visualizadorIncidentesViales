@@ -4,19 +4,20 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @noRd
+
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # List the first level UI elements here 
     fluidPage(
+      
       sidebarLayout(
         sidebarPanel(
-          mod_csvFileUI_ui("csvFileUI_ui_1")
-          #csvFileUI("datafile", "User data (.csv format)")
+          mod_csvFileUI_ui("csvFileUI_ui", label = "Selecciona un CSV")
         ),
         mainPanel(
-          DT::dataTableOutput("table")
+          DT::dataTableOutput("tabla")
         )
       )
     )
@@ -42,9 +43,10 @@ golem_add_external_resources <- function(){
     bundle_resources(
       path = app_sys('app/www'),
       app_title = 'package'
-    )
+    ),
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert() 
+    shinyjs::useShinyjs(debug = TRUE)
   )
 }
 

@@ -6,9 +6,7 @@
 #' @noRd
 app_server <- function( input, output, session ) {
   # List the first level callModules here
-  datafile <- callModule(mod_csvFileUI_server, "csvFileUI_ui_1")
-  output$table <- DT::renderDataTable({
-    datafile()
-  })
-
+  data <- callModule(mod_csvFileUI_server, "csvFileUI_ui")
+  output$tabla <- DT::renderDataTable({data()})
+  save <- callModule(mod_saveDataUI_server, "saveDataUI_ui", datos = data)
 }
