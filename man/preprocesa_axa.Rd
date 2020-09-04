@@ -2,16 +2,19 @@
 % Please edit documentation in R/utils_helpers.R
 \name{preprocesa_axa}
 \alias{preprocesa_axa}
-\title{Title}
+\title{Preprocesa archivo csv de AXA}
 \usage{
 preprocesa_axa(axa)
 }
 \arguments{
-\item{path}{}
+\item{Tibble}{con los datos de AXA leídos de csv}
 }
 \value{
-
+Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
 }
 \description{
-Title
+Preprocesa archivo csv de AXA
+}
+\examples{
+axa_procesado <- preprocesa_axa(axa)
 }

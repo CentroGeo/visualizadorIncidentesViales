@@ -2,16 +2,19 @@
 % Please edit documentation in R/utils_helpers.R
 \name{preprocesa_ssc}
 \alias{preprocesa_ssc}
-\title{Title}
+\title{Preprocesa archivo csv de Secretaría de Seguridad Ciudadana}
 \usage{
 preprocesa_ssc(ssc)
 }
 \arguments{
-\item{path}{}
+\item{Tibble}{con los datos de SSC leídos de csv}
 }
 \value{
-
+Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
 }
 \description{
-Title
+Preprocesa archivo csv de Secretaría de Seguridad Ciudadana
+}
+\examples{
+ssc_procesado <- preprocesa_ssc(ssc)
 }

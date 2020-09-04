@@ -2,16 +2,19 @@
 % Please edit documentation in R/utils_helpers.R
 \name{preprocesa_pgj}
 \alias{preprocesa_pgj}
-\title{Title}
+\title{Preprocesa archivo csv de Fiscalía}
 \usage{
 preprocesa_pgj(pgj)
 }
 \arguments{
-\item{path}{}
+\item{Tibble}{con los datos de fiscalía leídos de csv}
 }
 \value{
-
+Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
 }
 \description{
-Title
+Preprocesa archivo csv de Fiscalía
+}
+\examples{
+pgj_procesado <- preprocesa_pgj(pgj)
 }

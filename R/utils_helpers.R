@@ -1,11 +1,12 @@
-#' Title
+#' Preprocesa archivo csv de Fiscalía
 #'
-#' @param path
+#' @param Tibble con los datos de fiscalía leídos de csv
 #'
-#' @return
-#' @export
+#' @return Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
+#' 
 #'
 #' @examples
+#' pgj_procesado <- preprocesa_pgj(pgj)
 preprocesa_pgj <- function(pgj) {
   pgj["hora_de_hechos"] <-
     chron::times(paste0(substr(pgj$fecha_hechos, 12, 16), ":00"))
@@ -28,14 +29,15 @@ preprocesa_pgj <- function(pgj) {
   return(pgj)
 }
 
-#' Title
+#' Preprocesa archivo csv de Secretaría de Seguridad Ciudadana
 #'
-#' @param path
+#' @param Tibble con los datos de SSC leídos de csv
 #'
-#' @return
-#' @export
+#' @return Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
+#' 
 #'
 #' @examples
+#' ssc_procesado <- preprocesa_ssc(ssc)
 preprocesa_ssc <- function(ssc) {
   ssc <- janitor::clean_names(ssc, "snake")
   # =
@@ -69,14 +71,15 @@ preprocesa_ssc <- function(ssc) {
   return(ssc)
 }
 
-#' Title
+#' Preprocesa archivo csv de AXA
 #'
-#' @param path
+#' @param Tibble con los datos de AXA leídos de csv
 #'
-#' @return
-#' @export
+#' @return Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
+#' 
 #'
 #' @examples
+#' axa_procesado <- preprocesa_axa(axa)
 preprocesa_axa <- function(axa) {
   axa['hora'] <- chron::times(paste0(axa$hora, ':01:00'))
   axa['mes'] <- as.character(axa$mes)
