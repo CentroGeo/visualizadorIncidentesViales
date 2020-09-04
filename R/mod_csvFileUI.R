@@ -1,6 +1,6 @@
-#' csvFileUI UI Function
+#' Elemento de interfase para subir csvs las fuentes de datos
 #'
-#' @description A shiny Module.
+#' @description Interfase para subir, procesar y actualizar las fuentes de datos que se utilizan
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
@@ -33,6 +33,7 @@ mod_csvFileUI_ui <- function(id, label = "Selecciona el archivo"){
 #' @noRd 
 mod_csvFileUI_server <- function(input, output, session){
   ns <- session$ns
+  shinyjs::toggleState("save")
   userFile <- reactive({
     # If no file is selected, don't do anything
     validate(need(input$file, message = FALSE))
@@ -48,7 +49,8 @@ mod_csvFileUI_server <- function(input, output, session){
                               delim = ","
       )
       validate(need(try(preprocesa_pgj(df)), "El archivo no es de la FGJ"))
-      df <- preprocesa_pgj(df)  
+      shinyjs::toggleState("save")
+      df <- preprocesa_pgj(df)
     }else if (input$database == "ssc"){
       df <- readr::read_delim(userFile()$datapath, 
                         col_names = TRUE,
@@ -58,6 +60,7 @@ mod_csvFileUI_server <- function(input, output, session){
                                         "HORA_EVENTO" = readr::col_character())
                         )
       validate(need(try(preprocesa_ssc(df)), "El archivo no es de la SSC"))
+      shinyjs::toggleState("save")
       df <- preprocesa_ssc(df)
     }else if (input$database == "axa"){
       df <- readr::read_delim(userFile()$datapath,
@@ -66,15 +69,22 @@ mod_csvFileUI_server <- function(input, output, session){
                               delim = ";"
       )
       validate(need(try(preprocesa_axa(df)), "El archivo no es de AXA"))
+      shinyjs::toggleState("save")
       df <- preprocesa_axa(df)
     }
   })
   
   # We can run observers in here if we want to
   observe({
-    shinyjs::toggleState("save")
     msg <- sprintf("File %s was uploaded", userFile()$name)
     cat(msg, "\n")
+  })
+  
+  observeEvent(input$save, {
+    f_name <- paste0(input$database,".rds")
+    saveRDS(dataframe(), file = paste0("data-raw/", f_name))
+    shinyjs::toggleState("save")
+    showNotification("Datos guardados", type = "message")
   })
   # Return the reactive that yields the data frame
   return(dataframe)
