@@ -78,5 +78,27 @@ preprocesa_ssc <- function(ssc) {
 #'
 #' @examples
 preprocesa_axa <- function(axa) {
-  
+  axa['hora'] <- chron::times(paste0(axa$hora, ':01:00'))
+  axa['mes'] <- as.character(axa$mes)
+  axa$mes[axa$mes == 'ENERO'] <- 1
+  axa$mes[axa$mes == 'FEBRERO'] <- 2
+  axa$mes[axa$mes == 'MARZO'] <- 3
+  axa$mes[axa$mes == 'ABRIL'] <- 4
+  axa$mes[axa$mes == 'MAYO'] <- 5
+  axa$mes[axa$mes == 'JUNIO'] <- 6
+  axa$mes[axa$mes == 'JULIO'] <- 7
+  axa$mes[axa$mes == 'AGOSTO'] <- 8
+  axa$mes[axa$mes == 'SEPTIEMBRE'] <- 9
+  axa$mes[axa$mes == 'OCTUBRE'] <- 10
+  axa$mes[axa$mes == 'NOVIEMBRE'] <- 11
+  axa$mes[axa$mes == 'DICIEMBRE'] <- 12
+  axa['fecha'] <- chron::dates(paste0(axa$dia_numero , '/' , axa$mes , '/' , axa$ao) , format = 'd/m/y')
+  axa['timestamp'] <- chron::chron(axa$fecha , axa$hora)
+  axa['causa_siniestro'] <- as.character(axa$causa_siniestro)
+  axa$causa_siniestro[axa$causa_siniestro == '\\N'] <- paste0('SinID_', seq(1:nrow(dplyr::filter(axa , causa_siniestro == '\\N'))))
+  axa <- dplyr::filter(axa , !is.na(latitud) & !is.na(longitud))
+  axa <- dplyr::filter(axa , !is.na(timestamp))
+  # =
+  axa <- sf::st_transform(sf::st_as_sf(axa , coords = c('longitud','latitud') , crs = 4326), 32614)
+  return(axa)
 }
