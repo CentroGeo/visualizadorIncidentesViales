@@ -6,5 +6,5 @@
 #' @noRd
 app_server <- function( input, output, session ) {
   # List the first level callModules here
-
+  callModule(mod_mapa_server, "mapa_ui_1")
 }
