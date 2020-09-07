@@ -10,10 +10,11 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # List the first level UI elements here 
     fluidPage(
-      #h1("package"),
-      mod_mapa_ui("mapa_ui_1")
-      
+      #mod_mapa_ui("mapa_ui_1"), 
+      mod_DBSelector_ui("DBSelector_ui_1"),
+      mod_graficas_ui("graficas_ui_1")
     )
+    
   )
 }
 

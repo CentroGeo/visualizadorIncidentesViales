@@ -11,7 +11,7 @@ mod_mapa_ui <- function(id){
   ns <- NS(id)
   #####Aqui va el mapa 
   fluidPage(
-    leaflet::leafletOutput(ns("myMap"))
+    leaflet::leafletOutput(ns("myMap"), height = '756px')
   )
   
 }
@@ -25,7 +25,7 @@ mod_mapa_server <- function( input, output, session ){
   lugar <- cdmx
   lon <- -99.152613
   lat <- 19.320497
-  zoom <- 11
+  zoom <- 10
   
   output$myMap<-leaflet::renderLeaflet({
     leaflet::leaflet(data = lugar) %>%
