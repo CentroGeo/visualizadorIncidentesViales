@@ -33,8 +33,9 @@ usethis::use_package( "janitor" )
 
 ## Add modules ----
 ## Create a module infrastructure in R/
-golem::add_module( name = "csvFileUI" ) # Name of the module
-golem::add_module( name = "saveDataUI" )
+golem::add_module( name = "landingPageUI") # Página de inicio 
+golem::add_module( name = "csvFileUI" ) # Interfase de actualización de bases de datos
+
 # golem::add_module( name = "name_of_module2" ) # Name of the module
 
 ## Add helper functions ----
