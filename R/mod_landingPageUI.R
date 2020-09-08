@@ -16,11 +16,11 @@ mod_landingPageSidebar_ui <- function(id){
             shinydashboard::menuItem(
               text = 'Introducción' ,
               selected = TRUE ,
-              #icon = icon('door-open') ,
+              icon = icon('door-open') ,
               tabName = 'introduccion'
             ),
             shinydashboard::menuItem(text = 'Bases de Datos' ,
-                                     #icon = icon('layer-group') ,
+                                     icon = icon('layer-group') ,
                                      tabName = 'bd'),
             shinydashboard::menuItem(
               text = 'Visualizador',
@@ -28,7 +28,7 @@ mod_landingPageSidebar_ui <- function(id){
               tabName = 'visualizador'
             ),
             shinydashboard::menuItem(text = 'Integración de Información' ,
-                                     #icon = icon('question-circle') ,
+                                     icon = icon('question-circle') ,
                                      tabName = 'instrucciones')
           )
         )
@@ -46,7 +46,7 @@ mod_landingPageBody_ui <- function(id){
               style = 'width: 100%; height: 90vh; text-align: center; padding-top: 1vh;',
               tags$div(
                 style = 'background-color: white; margin: auto; width: 80%; padding: 30px; border-radius: 10px;',
-                tags$img(src = 'logo_semovi.png' , style = 'height: 100px;'),
+                tags$img(src = 'www/logo_semovi.png' , style = 'height: 100px;'),
                 tags$p(strong('Visualizador de Incidentes Viales') , style = 'font-size: 32pt; color: #848888; padding-bottom: 15px;'),
                 tags$div(
                   style = 'text-align: justify; margin: auto; width: 90%; font-size: 12pt; color: #697070;',
@@ -59,12 +59,12 @@ mod_landingPageBody_ui <- function(id){
                   ),
                   column(
                     3,
-                    tags$img(src = 'img/intro_a.jpg' , style = 'width: 100%;')
+                    tags$img(src = 'www/img/intro_a.jpg' , style = 'width: 100%;')
                   )),
                   tags$div(style = 'height: 20px; background-color: white;'),
                   fluidRow(column(
                     3,
-                    tags$img(src = 'img/intro_b.jpg' , style = 'width: 100%;')
+                    tags$img(src = 'www/img/intro_b.jpg' , style = 'width: 100%;')
                   ),
                   column(
                     9,
@@ -103,7 +103,7 @@ mod_landingPageBody_ui <- function(id){
                   ),
                   column(
                     3,
-                    tags$img(src = 'img/intro_c.jpg' , style = 'width: 100%;')
+                    tags$img(src = 'www/img/intro_c.jpg' , style = 'width: 100%;')
                   ))
                 ),
                 tags$div(style = 'height: 20px; background-color: white;'),
@@ -113,11 +113,11 @@ mod_landingPageBody_ui <- function(id){
                          )),
                 tags$div(style = 'margin: auto; width: 90%;',
                          fluidRow(
-                           column(3, tags$img(src = 'logo_semovi.png' , style = 'height: 45px;')),
-                           column(2, tags$img(src = 'axa.png' , style = 'height: 50px;')),
-                           column(2, tags$img(src = 'conacyt.png' , style = 'height: 50px;')),
-                           column(2, tags$img(src = 'centrogeo.png' , style = 'height: 50px;')),
-                           column(3, tags$img(src = 'datalab.png' , style = 'height: 30px;'))
+                           column(3, tags$img(src = 'www/logo_semovi.png' , style = 'height: 45px;')),
+                           column(2, tags$img(src = 'www/axa.png' , style = 'height: 50px;')),
+                           column(2, tags$img(src = 'www/conacyt.png' , style = 'height: 50px;')),
+                           column(2, tags$img(src = 'www/centrogeo.png' , style = 'height: 50px;')),
+                           column(3, tags$img(src = 'www/datalab.png' , style = 'height: 30px;'))
                          ))
               )
             )

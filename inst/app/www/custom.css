@@ -1,0 +1,26 @@
+#div_modal_zoom .modal-dialog {
+  width: 75vw !important;
+}
+
+#div_modal_zoom2 .modal-dialog {
+  width: 75vw !important;
+}
+
+.diccionario {
+  border: 1px solid black;
+  padding: 0 5px;
+}
+
+.dicc_center {
+  text-align: center;
+}
+
+.dicc_header {
+  background-color: #00AA5A;
+  color: white;
+}
+
+.dicc_rndm {
+  background-color: #49C288;
+  color: white;
+}
