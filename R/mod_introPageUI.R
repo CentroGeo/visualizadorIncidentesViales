@@ -11,7 +11,7 @@ mod_introPageUI_ui <- function(id) {
   ns <- NS(id)
   tagList(
     tags$div(
-      style = "width: 100%; height: 90vh; text-align: center; padding-top: 1vh;",
+      style = "width: 100%; height: 100%; text-align: center; padding-top: 1vh;",
       tags$div(
         style = "background-color: white; margin: auto; width: 80%; padding: 30px; border-radius: 10px;",
         tags$img(src = "www/logo_semovi.png", style = "height: 100px;"),
