@@ -16,8 +16,11 @@ app_ui <- function(request) {
       shinydashboard::tabItem(tabName = "intro",
         mod_introPageUI_ui("introPageUI_ui_1")
       ),
-      shinydashboard::tabItem(tabName = "bd", h1("Tab Two")),
-      shinydashboard::tabItem(tabName = "visualizador", h1("Tab Three"))
+      shinydashboard::tabItem(tabName = "bd", h1("Descripción Bases de Datos")),
+      shinydashboard::tabItem(tabName = "visualizador", h1("Visualizador")),
+      shinydashboard::tabItem(tabName = "actualiza",
+        h1("Actualiza Bases de Datos")
+        )
     )),
   )
 }

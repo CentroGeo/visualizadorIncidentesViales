@@ -21,6 +21,11 @@ app_server <- function(input, output, session) {
                   "Visualizador",
                   icon = icon("globe"),
                   tabName = "visualizador"
+                ),
+                shinydashboard::menuItem(
+                  "Actualización de Datos",
+                  icon = icon("globe"),
+                  tabName = "actualiza"
                 )
     )
   })

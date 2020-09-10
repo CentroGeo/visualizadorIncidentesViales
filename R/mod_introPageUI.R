@@ -109,16 +109,16 @@ mod_introPageUI_server <- function(input, output, session, parent) {
   ns <- session$ns
   observeEvent(input$boton_ver_visualizador, {
     shinydashboard::updateTabItems(parent,
-      inputId = "menu",
+      inputId = "tabs",
       selected = "visualizador"
     )
   })
-  observeEvent(input$boton_ver_visualizador, {
-    shinydashboard::updateTabItems(parent,
-      inputId = "menu",
-      selected = "visualizador"
-    )
-  })
+  # observeEvent(input$boton_ver_visualizador, {
+  #   shinydashboard::updateTabItems(parent,
+  #     inputId = "menu",
+  #     selected = "visualizador"
+  #   )
+  # })
 }
 
 ## To be copied in the UI
