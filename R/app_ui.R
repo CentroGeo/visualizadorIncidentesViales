@@ -19,7 +19,8 @@ app_ui <- function(request) {
       shinydashboard::tabItem(tabName = "bd", h1("Descripción Bases de Datos")),
       shinydashboard::tabItem(tabName = "visualizador", h1("Visualizador")),
       shinydashboard::tabItem(tabName = "actualiza",
-        h1("Actualiza Bases de Datos")
+        mod_csvFileUI_ui("csvFileUI_ui", label = "Selecciona un CSV"),
+        DT::dataTableOutput("tabla")
         )
     )),
   )
