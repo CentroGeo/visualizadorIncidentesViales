@@ -9,10 +9,20 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # List the first level UI elements here 
+    
     fluidPage(
-      #mod_mapa_ui("mapa_ui_1"), 
-      mod_DBSelector_ui("DBSelector_ui_1"),
-      mod_graficas_ui("graficas_ui_1")
+      column(6 ,
+              mod_mapa_ui("mapa_ui_1")
+              ),
+      column(6,
+             mod_DBSelector_ui("DBSelector_ui_1"),
+              DT::dataTableOutput(outputId = 'tabla_FGJ' ),
+              DT::dataTableOutput(outputId = 'tabla_SSC' ),
+              DT::dataTableOutput(outputId = 'tabla_AXA' )
+             #mod_graficas_ui("graficas_ui_1")
+             )
+      
+      
     )
     
   )

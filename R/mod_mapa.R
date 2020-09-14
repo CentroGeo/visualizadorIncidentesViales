@@ -1,12 +1,14 @@
 #' mapa UI Function
 #'
-#' @description A shiny Module.
+#' @description Selection of databases 
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
+#' 
+#' @return a map
 mod_mapa_ui <- function(id){
   ns <- NS(id)
   #####Aqui va el mapa 
