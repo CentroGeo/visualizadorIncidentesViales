@@ -32,8 +32,7 @@ usethis::use_package( "janitor" )
 usethis::use_package( "leafleat" )
 usethis::use_package( "sp" )
 usethis::use_package( "rgdal" )
-usethis::use_package("shinydashboard")
-usethis::use_package("shinycssloaders")
+usethis::use_package( "DT" )
 ## Add modules ----
 ## Create a module infrastructure in R/
 # golem::add_module( name = "name_of_module1" ) # Name of the module
