@@ -13,7 +13,8 @@ preprocesa_pgj <- function(pgj) {
   pgj["fecha_de_hechos"] <-
     chron::dates(substr(pgj$fecha_hechos, 1, 10), format = "y-m-d")
   pgj["timestamp"] <-
-    chron::chron(pgj$fecha_de_hechos, pgj$hora_de_hechos)
+    with(pgj, lubridate::ymd(pgj$fecha_de_hechos) + lubridate::hms(pgj$hora_de_hechos))
+#    chron::chron(pgj$fecha_de_hechos, pgj$hora_de_hechos)
   pgj <-
     dplyr::filter(pgj, timestamp >= chron::dates("2016-01-01", format = "y-m-d"))
   pgj["geopoint"] <- NULL
@@ -96,12 +97,78 @@ preprocesa_axa <- function(axa) {
   axa$mes[axa$mes == 'NOVIEMBRE'] <- 11
   axa$mes[axa$mes == 'DICIEMBRE'] <- 12
   axa['fecha'] <- chron::dates(paste0(axa$dia_numero , '/' , axa$mes , '/' , axa$ao) , format = 'd/m/y')
-  axa['timestamp'] <- chron::chron(axa$fecha , axa$hora)
+  axa$timestamp <- with(axa, lubridate::ymd(axa$fecha) + lubridate::hms(axa$hora))
+  # axa['timestamp'] <- chron::chron(axa$fecha, axa$hora)
   axa['causa_siniestro'] <- as.character(axa$causa_siniestro)
   axa$causa_siniestro[axa$causa_siniestro == '\\N'] <- paste0('SinID_', seq(1:nrow(dplyr::filter(axa , causa_siniestro == '\\N'))))
-  axa <- dplyr::filter(axa , !is.na(latitud) & !is.na(longitud))
-  axa <- dplyr::filter(axa , !is.na(timestamp))
+  axa <- dplyr::filter(axa, !is.na(latitud) & !is.na(longitud))
+  axa <- dplyr::filter(axa, !is.na(timestamp))
   # =
   axa <- sf::st_transform(sf::st_as_sf(axa , coords = c('longitud','latitud') , crs = 4326), 32614)
   return(axa)
+}
+
+une_tablas <- function() {
+  axa <- readRDS("./data-raw/axa.rds")
+  fgj <- readRDS("./data-raw/fgj.rds")
+  ssc <- readRDS("./data-raw/ssc.rds")
+  fgj_cols <- c("delito", "geometry", "timestamp")
+  ssc_cols <- c("total_occisos", "geometry", "timestamp", "total_lesionados")
+  axa_cols <- c("fallecido", "geometry", "timestamp", "lesionados")
+  axa <- dplyr::select(axa, tidyselect::all_of(axa_cols))
+  fgj <- dplyr::select(fgj, tidyselect::all_of(fgj_cols))
+  ssc <- dplyr::select(ssc, tidyselect::all_of(ssc_cols))
+  fgj <- dplyr::mutate(
+    fgj,
+    tipo_incidente =
+      ifelse(startsWith(
+        fgj$delito,
+        "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR"
+      ), "DECESO",
+      ifelse(startsWith(
+        fgj$delito,
+        "LESIONES CULPOSAS POR TRANSITO VEHICULAR"),
+        "LESIONADO",
+        ifelse(startsWith(
+        fgj$delito,
+        "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR"),
+        "ACCIDENTE",
+        NA
+        ))
+      )
+  )
+  fgj$fuente <- "FGJ"
+  ssc <- dplyr::mutate(
+    ssc,
+    tipo_incidente =
+      ifelse(ssc$total_occisos > 0, "DECESO",
+      ifelse(ssc$total_occisos == 0 & ssc$total_lesionados > 0,
+        "LESIONADO",
+        ifelse(ssc$total_occisos == 0 & ssc$total_lesionados == 0,
+        "ACCIDENTE",
+        NA
+        ))
+      )
+  )
+  ssc$fuente <- "SSC"
+  axa <- dplyr::mutate(
+    axa,
+    tipo_incidente =
+      ifelse(axa$fallecido == "SI", "DECESO",
+      ifelse(axa$fallecido != "SI" & axa$lesionados > 0,
+        "LESIONADO",
+        ifelse(axa$fallecido != "SI" & axa$lesionados == 0,
+        "ACCIDENTE",
+        NA
+        ))
+      )
+  )
+  axa$fuente <- "AXA"
+  cols <- c("geometry", "timestamp", "tipo_incidente", "fuente")
+  axa <- dplyr::select(axa, tidyselect::all_of(cols))
+  fgj <- dplyr::select(fgj, tidyselect::all_of(cols))
+  ssc <- dplyr::select(ssc, tidyselect::all_of(cols))
+  total <- rbind(axa, fgj)
+  total <- rbind(total, axa)
+  return(total)
 }
