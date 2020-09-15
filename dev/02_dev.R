@@ -36,7 +36,7 @@ usethis::use_package("janitor")
 golem::add_module(name = "introPageUI") # Página de inicio
 golem::add_module(name = "landingPageUI") # Página de inicio
 golem::add_module(name = "csvFileUI") # Interfase de actualización de bases de datos
-
+golem::add_module(name = "infoBdUI") # Ifo de las bases de datos
 # golem::add_module( name = "name_of_module2" ) # Name of the module
 
 ## Add helper functions ----

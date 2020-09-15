@@ -30,6 +30,7 @@ app_server <- function(input, output, session) {
     )
   })
   callModule(mod_introPageUI_server, "introPageUI_ui_1", parent = session)
+  callModule(mod_infoBdUI_server, "infoBdUI_ui_1", parent = session)
   data <- callModule(mod_csvFileUI_server, "csvFileUI_ui")
   output$tabla <- DT::renderDataTable({data()})
   # List the first level callModules here
