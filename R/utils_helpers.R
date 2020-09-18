@@ -8,15 +8,14 @@
 #' @examples
 #' pgj_procesado <- preprocesa_pgj(pgj)
 preprocesa_pgj <- function(pgj) {
-  pgj["hora_de_hechos"] <-
-    chron::times(paste0(substr(pgj$fecha_hechos, 12, 16), ":00"))
-  pgj["fecha_de_hechos"] <-
-    chron::dates(substr(pgj$fecha_hechos, 1, 10), format = "y-m-d")
-  pgj["timestamp"] <-
-    with(pgj, lubridate::ymd(pgj$fecha_de_hechos) + lubridate::hms(pgj$hora_de_hechos))
-#    chron::chron(pgj$fecha_de_hechos, pgj$hora_de_hechos)
+  pgj['timestamp'] <- lubridate::parse_date_time(
+                       pgj$fecha_hechos,
+                       "Y-m-d H:M:S"
+                      )
   pgj <-
-    dplyr::filter(pgj, timestamp >= chron::dates("2016-01-01", format = "y-m-d"))
+     dplyr::filter(pgj,
+       timestamp >= lubridate::parse_date_time("2016-01-01", "Y-m-d")
+      )
   pgj["geopoint"] <- NULL
   pgj <- pgj[order(pgj$timestamp),]
   pgj["id"] <- seq.int(nrow(pgj))
@@ -42,7 +41,7 @@ preprocesa_pgj <- function(pgj) {
 preprocesa_ssc <- function(ssc) {
   ssc <- janitor::clean_names(ssc, "snake")
   # =
-  ssc$hora_evento <- chron::times(paste0(
+  ssc$hora_evento <- lubridate::hms(chron::times(paste0(
     ifelse(nchar(ssc$hora2) == 1, paste0("0", ssc$hora2), ssc$hora2),
     ":",
     ifelse(
@@ -51,11 +50,18 @@ preprocesa_ssc <- function(ssc) {
       stringr::str_sub(ssc$hora_evento,-2)
     ),
     ":00"
-  ))
-  ssc$timestamp <- with(ssc, lubridate::ymd(ssc$fecha_evento) + lubridate::hms(ssc$hora_evento))
+  )))
+
+  ssc$timestamp <- with(ssc, lubridate::ymd(ssc$fecha_evento) + ssc$hora_evento)
   # =
-  ssc$no_folio[ssc$no_folio == "SD"] <-paste0("SinID_", seq(1:nrow(dplyr::filter(ssc, no_folio == "SD"))))
-  tmp <- dplyr::filter(as.data.frame(table(ssc$no_folio), stringsAsFactors = FALSE), Freq > 1)
+  ssc$no_folio[ssc$no_folio == "SD"] <-
+    paste0("SinID_", seq(1:nrow(dplyr::filter(ssc, no_folio == "SD"))))
+  tmp <- dplyr::filter(
+                       as.data.frame(
+                         table(ssc$no_folio),
+                         stringsAsFactors = FALSE),
+                         Freq > 1
+                      )
   for (i in tmp$Var1) {
     ssc$no_folio[ssc$no_folio == i] <-
       paste0(i, "_", seq(1:tmp[tmp$Var1 == i,]$Freq))
@@ -82,8 +88,7 @@ preprocesa_ssc <- function(ssc) {
 #' @examples
 #' axa_procesado <- preprocesa_axa(axa)
 preprocesa_axa <- function(axa) {
-  axa['hora'] <- chron::times(paste0(axa$hora, ':01:00'))
-  axa['mes'] <- as.character(axa$mes)
+  axa['hora'] <- lubridate::hms(paste0(axa$hora, ':01:00'))
   axa$mes[axa$mes == 'ENERO'] <- 1
   axa$mes[axa$mes == 'FEBRERO'] <- 2
   axa$mes[axa$mes == 'MARZO'] <- 3
@@ -96,15 +101,33 @@ preprocesa_axa <- function(axa) {
   axa$mes[axa$mes == 'OCTUBRE'] <- 10
   axa$mes[axa$mes == 'NOVIEMBRE'] <- 11
   axa$mes[axa$mes == 'DICIEMBRE'] <- 12
-  axa['fecha'] <- chron::dates(paste0(axa$dia_numero , '/' , axa$mes , '/' , axa$ao) , format = 'd/m/y')
-  axa$timestamp <- with(axa, lubridate::ymd(axa$fecha) + lubridate::hms(axa$hora))
-  # axa['timestamp'] <- chron::chron(axa$fecha, axa$hora)
+  axa['fecha'] <- lubridate::date(chron::dates(
+                                paste0(
+                                       axa$dia_numero,
+                                       "-",
+                                       axa$mes,
+                                       "-",
+                                       axa$ao),
+                                       format = "d-m-y"
+                              ))
+  axa$timestamp <- with(
+                          axa,
+                          axa$fecha + axa$hora
+                        )
   axa['causa_siniestro'] <- as.character(axa$causa_siniestro)
-  axa$causa_siniestro[axa$causa_siniestro == '\\N'] <- paste0('SinID_', seq(1:nrow(dplyr::filter(axa , causa_siniestro == '\\N'))))
+  axa$causa_siniestro[axa$causa_siniestro == '\\N'] <-
+    paste0(
+      'SinID_',
+      seq(1:nrow(dplyr::filter(axa , causa_siniestro == '\\N')
+      )))
   axa <- dplyr::filter(axa, !is.na(latitud) & !is.na(longitud))
   axa <- dplyr::filter(axa, !is.na(timestamp))
   # =
-  axa <- sf::st_transform(sf::st_as_sf(axa , coords = c('longitud','latitud') , crs = 4326), 32614)
+  axa <- sf::st_transform(
+                          sf::st_as_sf(axa,
+                                          coords = c('longitud','latitud'),
+                                          crs = 4326), 32614
+                          )
   return(axa)
 }
 
