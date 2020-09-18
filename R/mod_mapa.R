@@ -13,7 +13,7 @@ mod_mapa_ui <- function(id){
   ns <- NS(id)
   #####Aqui va el mapa 
   fluidPage(
-    leaflet::leafletOutput(ns("myMap"), height = '756px')
+    leaflet::leafletOutput(outputId=ns("myMap"), height = '756px')
   )
   
 }
@@ -46,7 +46,3 @@ mod_mapa_server <- function( input, output, session ){
     
 ## To be copied in the UI
 # mod_mapa_ui("mapa_ui_1")
-    
-## To be copied in the server
-# callModule(mod_mapa_server, "mapa_ui_1")
- 

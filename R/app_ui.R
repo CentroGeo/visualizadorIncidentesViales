@@ -12,13 +12,15 @@ app_ui <- function(request) {
     
     fluidPage(
       column(6 ,
-              mod_mapa_ui("mapa_ui_1")
+              mod_mapa_ui("mapa_ui_1"),
+              mod_bar_ui("bar_ui_1")
               ),
       column(6,
              mod_DBSelector_ui("DBSelector_ui_1"),
-              DT::dataTableOutput(outputId = 'tabla_FGJ' ),
-              DT::dataTableOutput(outputId = 'tabla_SSC' ),
-              DT::dataTableOutput(outputId = 'tabla_AXA' )
+              # DT::dataTableOutput(outputId = 'tabla_FGJ' ),
+              # DT::dataTableOutput(outputId = 'tabla_SSC' ),
+              # DT::dataTableOutput(outputId = 'tabla_AXA' )
+             DT::dataTableOutput(outputId = "tabla_todos" )
              #mod_graficas_ui("graficas_ui_1")
              )
       
