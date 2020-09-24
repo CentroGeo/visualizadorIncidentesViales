@@ -37,6 +37,7 @@ usethis::use_package( "DT" )
 ## Create a module infrastructure in R/
 # golem::add_module( name = "name_of_module1" ) # Name of the module
 golem::add_module( name = "mapa" ) # Name of the module
+golem::add_module( name = "bar" ) # Name of the module
 golem::add_module( name = "DBSelector" ) # Name of the module
 golem::add_module( name = "graficas" ) # Name of the module
 ## Add helper functions ----

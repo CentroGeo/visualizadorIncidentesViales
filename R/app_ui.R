@@ -20,10 +20,9 @@ app_ui <- function(request) {
               # DT::dataTableOutput(outputId = 'tabla_FGJ' ),
               # DT::dataTableOutput(outputId = 'tabla_SSC' ),
               # DT::dataTableOutput(outputId = 'tabla_AXA' )
-             DT::dataTableOutput(outputId = "tabla_todos" )
-             #mod_graficas_ui("graficas_ui_1")
-             )
-      
+             mod_graficas_ui("graficas_ui_1")
+             ),
+      DT::dataTableOutput(outputId = "tabla_todos" )
       
     )
     
