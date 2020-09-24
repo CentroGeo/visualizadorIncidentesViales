@@ -147,10 +147,21 @@ mod_graficas_server <- function(input, output, session, dataframe_rec){
                                       nchar(count_months_year$month_year_fue) 
                                       )
     print(names(count_months_year))
-    p<- ggplot2::ggplot(
-              data = count_months_year,
-              aes(x=month_year, y=n, group = fuente) 
-              ) + ggplot2::geom_line()
+    if(length(unique(data$fuente))!= 1 ){
+      p<- ggplot2::ggplot(
+        data = count_months_year,
+        aes(x=month_year, y=n, group = fuente) 
+      ) + ggplot2::geom_line()  
+    }
+    else if(length(unique(data$fuente))== 0){
+      p<- ggplot2::ggplot()
+    }
+    else{
+      p<- ggplot2::ggplot(
+        data = count_months_year,
+        aes(x=month_year, y=n, group = 1) 
+      ) + ggplot2::geom_line()
+    }
     p
   })
   

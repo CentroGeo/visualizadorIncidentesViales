@@ -20,9 +20,9 @@ mod_DBSelector_ui <- function(id){
                  'Milpa Alta' , 'Tlalpan' , 'Tláhuac' , 'Venustiano Carranza', 'Xochimilco')
   tipo_incidentes <- c("ACCIDENTE" ,"LESIONADO" ,"DECESO" , 'TODOS')
   # bases<-c('FGJ' , 'SSC' , 'C5' , 'AXA' , 'Repubikla')
-  bases<-c('FGJ' , 'SSC' , 'AXA' )
+  bases<-c("FGJ" , "SSC" , "AXA" )
   fluidPage(
-      selectInput(inputId = ns('filtro_lugar') , label = 'Área de Análisis',
+      selectInput(inputId = ns("filtro_lugar") , label = "Área de Análisis",
                                     choices = list_selec
       ),
       fluidRow( 
@@ -59,20 +59,22 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
   
   # print(ns)
   datafram_re <- reactive({
-    #print(input$filtro_bd)
-    dataframe_fil <- readRDS('./data-raw/fuentes_unidas.rds')
+    # print(input$filtro_bd)
+    dataframe_fil <- readRDS("./data-raw/fuentes_unidas.rds")
     dataframe_fil <- dataframe_fil[dataframe_fil$fuente %in% input$filtro_bd,]   
-    #print(input$filtro_incidente)
+    # print(unique(dataframe_fil$fuente))
+    # print(nrow(dataframe_fil))
     if(input$filtro_incidente != 'TODOS'){
-      incidenter_vec<-c()
+      print("Entro aqui")
       dataframe_fil <-dataframe_fil[dataframe_fil$tipo_incidente == input$filtro_incidente,]   
     }
     #### filtro fecha 
     interval_bar <- interval_ba_rea()
+    # print(interval_bar)
     dataframe_fil <- dataframe_fil[dataframe_fil$timestamp %within%
                                      interval(ymd(interval_bar[1]),ymd(interval_bar[2])),]
     
-    
+    print(nrow(dataframe_fil))
     if (input$filtro_lugar != 'Total Ciudad de México') {
       #print('filtro 4')
       tmp_contains <- sf::st_contains(
@@ -84,9 +86,8 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
       )
       dataframe_fil <- dataframe_fil[tmp_contains[[1]],]
     }
+    # print(nrow(dataframe_fil))
     #### convertir las fechas del dataframe
-    # dataframe_fil$timestamp<-as.POSIXct(as.character(dataframe_fil$timestamp), format="(%m/%d/%y %H:%M:%S)")
-    # dataframe_fil$timestamp<-format(dataframe_fil$timestamp, '%d-%m-%y %H:%M:%S') 
     dataframe_fil
     
   })
