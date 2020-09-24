@@ -192,6 +192,6 @@ une_tablas <- function() {
   fgj <- dplyr::select(fgj, tidyselect::all_of(cols))
   ssc <- dplyr::select(ssc, tidyselect::all_of(cols))
   total <- rbind(axa, fgj)
-  total <- rbind(total, ssc)
+  total <- rbind(total, axa)
   return(total)
 }
