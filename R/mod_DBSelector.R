@@ -65,7 +65,7 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
     # print(unique(dataframe_fil$fuente))
     # print(nrow(dataframe_fil))
     if(input$filtro_incidente != 'TODOS'){
-      print("Entro aqui")
+      # print("Entro aqui")
       dataframe_fil <-dataframe_fil[dataframe_fil$tipo_incidente == input$filtro_incidente,]   
     }
     #### filtro fecha 
@@ -74,7 +74,7 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
     dataframe_fil <- dataframe_fil[dataframe_fil$timestamp %within%
                                      interval(ymd(interval_bar[1]),ymd(interval_bar[2])),]
     
-    print(nrow(dataframe_fil))
+    # print(nrow(dataframe_fil))
     if (input$filtro_lugar != 'Total Ciudad de México') {
       #print('filtro 4')
       tmp_contains <- sf::st_contains(

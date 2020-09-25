@@ -24,7 +24,7 @@ mod_graficas_ui <- function(id){
     tabPanel(title = "Gráficas por Totales",
              selectInput(inputId = ns("Datos_grafica"),
                          label = "Datos a Graficar",
-                         choices = choices_po,
+                         choices = choices_po, ### Falta arreglar que esto sea interactivo
                          selected = "Combinadas"
                          ),
              fluidRow(column(9,
@@ -60,7 +60,7 @@ mod_graficas_ui <- function(id){
     tabPanel(title = "Gráficas por Día y Hora",
              selectInput(inputId = ns("tipo_grafica2"), 
                          label = "Datos a Graficar",
-                         choices = ''
+                         choices = choices_po
                          ),
              fluidRow(
                       column(9,
@@ -118,55 +118,153 @@ mod_graficas_ui <- function(id){
 #' @noRd 
 
   
+mes_dia_graf <- function(dataframe_rec_in ,input){
+  renderPlot({
+    print(input$tiempo_grafica)
+    if(input$tiempo_grafica =="Por Mes"){
+      ############## Por Mes####################
+      data <- dataframe_rec_in()
+      # print(names(data))
+      count_months_year<- dplyr::count(
+        data,
+        paste0(
+          1,
+          "/",
+          month(data$timestamp),
+          '/',
+          year(data$timestamp),
+          fuente
+        )
+      )
+      names(count_months_year)<- c("month_year_fue","n", "geometry")
+      
+      count_months_year$month_year<- substr(
+        count_months_year$month_year_fue,
+        1,
+        nchar(count_months_year$month_year_fue)- 3 
+      ) 
+      count_months_year$fuente<- substr(
+        count_months_year$month_year_fue,
+        nchar(count_months_year$month_year_fue)- 3 +1,
+        nchar(count_months_year$month_year_fue) 
+      )
+      count_months_year$month_year<- lubridate::as_date(
+                                                  count_months_year$month_year,
+                                                  format="%d/%m/%y"
+                                      )
+      if(length(unique(data$fuente))!= 1 ){
+        p<- ggplot2::ggplot(
+              data = count_months_year,
+              aes(x=month_year, y=n, group = fuente) 
+            )  
+            
+        
+      }
+      else if(length(unique(data$fuente))== 0){
+        p<- ggplot2::ggplot() 
+          
+      }
+      else{
+        p<- ggplot2::ggplot(
+          data = count_months_year,
+          aes(x=month_year, y=n, group = 1) 
+        )
+        
+      }
+      p <- p + 
+          ggplot2::geom_line() +
+          ggplot2::scale_x_date(breaks = "1 month") +
+          ggplot2::labs(
+                      x = 'Mes',
+                      y = 'Número de Incidentes',
+                      title = 'Número de Incidentes por Mes'
+          ) +
+          ggplot2::theme(
+                      axis.text.x = element_text(
+                                      angle = 45,
+                                      vjust = 0.5
+                                    )
+          )
+    }
+    else if(input$tiempo_grafica =="Por Día"){
+      ############## Por Mes####################
+      data <- dataframe_rec_in()
+      count_months_year<- dplyr::count(
+        data,
+        paste0(day(data$timestamp),
+              "/", 
+              month(data$timestamp),
+              "/",
+              year(data$timestamp),
+              fuente
+        )
+        
+      )
+      names(count_months_year)<- c("dmy_fue","n", "geometry")
+      count_months_year$dmy<- substr(
+        count_months_year$dmy_fue,
+        1,
+        nchar(count_months_year$dmy_fue)- 3 
+      ) 
+      count_months_year$fuente<- substr(
+        count_months_year$dmy_fue,
+        nchar(count_months_year$dmy_fue)- 3 +1,
+        nchar(count_months_year$dmy_fue) 
+      )
+      count_months_year$dmy <- lubridate::as_date(
+                                    count_months_year$dmy,
+                                    format= "%d/%m/%Y"
+                                ) 
+      if(length(unique(data$fuente))!= 1 ){
+        p<- ggplot2::ggplot(
+                      data = count_months_year,
+                      aes(x=dmy, y=n, group = fuente) 
+            )
+      }
+      else if(length(unique(data$fuente))== 0){
+        p<- ggplot2::ggplot()
+      }
+      else{
+        p <- ggplot2::ggplot(
+          data = count_months_year,
+          aes(x=dmy, y=n, group = 1) 
+        )
+      } 
+      p<- p +
+          ggplot2::geom_line() +
+          ggplot2::geom_smooth(
+                method = "loess"
+          ) +
+          ggplot2::scale_x_date(breaks = "1 week") +
+          ggplot2::labs(
+                x = 'Dia',
+                y = "Número de Incidentes",
+                title = "Número de Incidentes por Día"
+          ) +
+          ggplot2::theme(
+                axis.text.x = element_text(
+                    angle = 45,
+                    vjust = 0.5
+                )
+          )
+    }
+    print(p)
+    return(p)
+  })
+}
+
+select_mes_dia <- function(input , data_frame_reac){
+  reactivePlot({
+    print(input$tiempo_grafica)
+    plo<-mes_año_graf(data_frame_reac)
+    plo
+    })
   
+}
+
 mod_graficas_server <- function(input, output, session, dataframe_rec){
   ns <- session$ns
-  output$grafica_sp <- renderPlot({
-    data <- dataframe_rec()
-    print(names(data))
-    count_months_year<- dplyr::count(
-                                      data,
-                                      paste0(
-                                            month(data$timestamp),
-                                            '/',
-                                            year(data$timestamp),
-                                            fuente
-                                            )
-                                      )
-    
-    names(count_months_year)<- c("month_year_fue","n", "geometry")
-    
-    count_months_year$month_year<- substr(
-                                        count_months_year$month_year_fue,
-                                        1,
-                                        nchar(count_months_year$month_year_fue)- 3 
-                                        ) 
-    count_months_year$fuente<- substr(
-                                      count_months_year$month_year_fue,
-                                      nchar(count_months_year$month_year_fue)- 3 +1,
-                                      nchar(count_months_year$month_year_fue) 
-                                      )
-    print(names(count_months_year))
-    if(length(unique(data$fuente))!= 1 ){
-      p<- ggplot2::ggplot(
-        data = count_months_year,
-        aes(x=month_year, y=n, group = fuente) 
-      ) + ggplot2::geom_line()  
-    }
-    else if(length(unique(data$fuente))== 0){
-      p<- ggplot2::ggplot()
-    }
-    else{
-      p<- ggplot2::ggplot(
-        data = count_months_year,
-        aes(x=month_year, y=n, group = 1) 
-      ) + ggplot2::geom_line()
-    }
-    p
-  })
-  
-  
-
+  output$grafica_sp <- mes_dia_graf(dataframe_rec,input)
 }
 #   observeEvent(c(dataframe_rec() ),
 #   { 
