@@ -55,7 +55,7 @@ mod_DBSelector_ui <- function(id){
 #' 
 mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
   ns <- session$ns
-  cdmx <- read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
+  cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
   
   # print(ns)
   datafram_re <- reactive({
@@ -74,13 +74,16 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
     interval_bar <- interval_ba_rea()
     
     
-    dataframe_fil <- dataframe_fil[dataframe_fil$timestamp %within%
-                                     lubridate::interval(lubridate::ymd(interval_bar[1]),
-                                                         lubridate::ymd(interval_bar[2])
-                                                         ),
-                                   ]
-    
-    
+    # dataframe_fil <- dataframe_fil[dataframe_fil$timestamp %within%
+    #                                  lubridate::interval(lubridate::ymd(interval_bar[1]),
+    #                                                      lubridate::ymd(interval_bar[2])
+    #                                                      ),
+    #                                ]
+    dataframe_fil <- dplyr::filter(dataframe_fil,
+                                  (dataframe_fil$timestamp > lubridate::ymd(interval_bar[1])
+                                   &
+                                  dataframe_fil$timestamp < lubridate::ymd(interval_bar[2]))
+                                  )    
     if (input$filtro_lugar != 'Total Ciudad de México') {
       tmp_contains <- sf::st_contains(
         sf::st_transform(

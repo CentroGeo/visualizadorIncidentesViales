@@ -130,9 +130,9 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
         paste0(
           1,
           "/",
-          month(data$timestamp),
+          lubridate::month(data$timestamp),
           '/',
-          year(data$timestamp),
+          lubridate::year(data$timestamp),
           fuente
         )
       )
@@ -152,11 +152,11 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                                                   count_months_year$month_year,
                                                   format="%d/%m/%y"
                                       )
-      if(length(unique(data$fuente))!= 1 ){
+      if(length(unique(data$fuente)) != 1){
         p<- ggplot2::ggplot(
               data = count_months_year,
-              aes(x=month_year, y=n, group = fuente) 
-            )  
+              ggplot2::aes(x = month_year, y = n, group = fuente)
+            )
             
         
       }
@@ -167,7 +167,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
       else{
         p<- ggplot2::ggplot(
           data = count_months_year,
-          aes(x=month_year, y=n, group = 1) 
+          ggplot2::aes(x=month_year, y=n, group = 1) 
         )
         
       }
@@ -180,7 +180,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                       title = 'Número de Incidentes por Mes'
           ) +
           ggplot2::theme(
-                      axis.text.x = element_text(
+                      axis.text.x = ggplot2::element_text(
                                       angle = 45,
                                       vjust = 0.5
                                     )
@@ -218,7 +218,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
       if(length(unique(data$fuente))!= 1 ){
         p<- ggplot2::ggplot(
                       data = count_months_year,
-                      aes(x=dmy, y=n, group = fuente) 
+                      ggplot2::aes(x=dmy, y=n, group = fuente) 
             )
       }
       else if(length(unique(data$fuente))== 0){
@@ -227,7 +227,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
       else{
         p <- ggplot2::ggplot(
           data = count_months_year,
-          aes(x=dmy, y=n, group = 1) 
+          ggplot2::aes(x=dmy, y=n, group = 1) 
         )
       } 
       p<- p +
@@ -242,7 +242,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                 title = "Número de Incidentes por Día"
           ) +
           ggplot2::theme(
-                axis.text.x = element_text(
+                axis.text.x = ggplot2::element_text(
                     angle = 45,
                     vjust = 0.5
                 )
@@ -257,10 +257,10 @@ horas_graf <- function(dataframe_rec_in, input){
     data <- dataframe_rec_in()
     
     if(input$tiempo_grafica2=="Mañana (6AM - 12PM)"){
-      data <- data[hour(lubridate::data$timestamp) >= 6 & hour(lubridate::data$timestamp) < 13,]
+      data <- data[lubridate::hour(data$timestamp) >= 6 & lubridate::hour(data$timestamp) < 13,]
     }
     else if (input$tiempo_grafica2=="Tarde (1PM - 9PM)" ){
-      data <- data[lubridate::hour(data$timestamp) >= 13 & hour(lubridate::data$timestamp) < 22,]
+      data <- data[lubridate::hour(data$timestamp) >= 13 & lubridate::hour(data$timestamp) < 22,]
     }
     else if (input$tiempo_grafica2=="Noche (10PM - 5AM)" ){
       data <- data[lubridate::hour(data$timestamp) >= 22 | lubridate::hour(data$timestamp) < 6,]
@@ -288,7 +288,7 @@ horas_graf <- function(dataframe_rec_in, input){
     # print(unique(count_dia_c$fuente))
     p<- ggplot2::ggplot(
         data = count_dia_c,
-        aes(x=dia, y=n, fill = fuente) 
+        ggplot2::aes(x=dia, y=n, fill = fuente) 
       )+
       ggplot2::geom_col(position = "dodge") +
       ggplot2::labs(
