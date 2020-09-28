@@ -59,24 +59,29 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
   
   # print(ns)
   datafram_re <- reactive({
-    # print(input$filtro_bd)
+    
     dataframe_fil <- readRDS("./data-raw/fuentes_unidas.rds")
     dataframe_fil <- dataframe_fil[dataframe_fil$fuente %in% input$filtro_bd,]   
-    # print(unique(dataframe_fil$fuente))
-    # print(nrow(dataframe_fil))
     if(input$filtro_incidente != 'TODOS'){
-      # print("Entro aqui")
-      dataframe_fil <-dataframe_fil[dataframe_fil$tipo_incidente == input$filtro_incidente,]   
+      
+      print(input$filtro_incidente)
+      dataframe_fil <-dataframe_fil[dataframe_fil$tipo_incidente == input$filtro_incidente,]
+      ##### Remove the ones that are NA  #### Since the ones that are not specific are not pass 
+      dataframe_fil <- dataframe_fil[!is.na(dataframe_fil$tipo_incidente),] 
     }
+    
     #### filtro fecha 
     interval_bar <- interval_ba_rea()
-    # print(interval_bar)
-    dataframe_fil <- dataframe_fil[dataframe_fil$timestamp %within%
-                                     interval(ymd(interval_bar[1]),ymd(interval_bar[2])),]
     
-    # print(nrow(dataframe_fil))
+    
+    dataframe_fil <- dataframe_fil[dataframe_fil$timestamp %within%
+                                     lubridate::interval(lubridate::ymd(interval_bar[1]),
+                                                         lubridate::ymd(interval_bar[2])
+                                                         ),
+                                   ]
+    
+    
     if (input$filtro_lugar != 'Total Ciudad de México') {
-      #print('filtro 4')
       tmp_contains <- sf::st_contains(
         sf::st_transform(
           cdmx[cdmx$nom_mun ==input$filtro_lugar,],
@@ -86,12 +91,8 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
       )
       dataframe_fil <- dataframe_fil[tmp_contains[[1]],]
     }
-    # print(nrow(dataframe_fil))
-    #### convertir las fechas del dataframe
-    dataframe_fil
-    
+    return(dataframe_fil)
   })
-  
   return(datafram_re)
 }  
   

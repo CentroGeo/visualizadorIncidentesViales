@@ -81,7 +81,7 @@ mod_graficas_ui <- function(id){
                              )
                       ),
              shinycssloaders::withSpinner(
-                                    plotOutput(outputId = ns('grafica_sp2'),
+                                    plotOutput(outputId = ns('grafica_horas'),
                                                height = '350px',
                                                click = clickOpts(id = 'plot_click2')
                                                ),
@@ -191,11 +191,11 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
       data <- dataframe_rec_in()
       count_months_year<- dplyr::count(
         data,
-        paste0(day(data$timestamp),
+        paste0(lubridate::day(data$timestamp),
               "/", 
-              month(data$timestamp),
+              lubridate::month(data$timestamp),
               "/",
-              year(data$timestamp),
+              lubridate::year(data$timestamp),
               fuente
         )
         
@@ -248,64 +248,61 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                 )
           )
     }
-    print(p)
     return(p)
   })
 }
 
-select_mes_dia <- function(input , data_frame_reac){
-  reactivePlot({
-    print(input$tiempo_grafica)
-    plo<-mes_año_graf(data_frame_reac)
-    plo
-    })
-  
+horas_graf <- function(dataframe_rec_in, input){
+  renderPlot({ 
+    data <- dataframe_rec_in()
+    
+    if(input$tiempo_grafica2=="Mañana (6AM - 12PM)"){
+      data <- data[hour(lubridate::data$timestamp) >= 6 & hour(lubridate::data$timestamp) < 13,]
+    }
+    else if (input$tiempo_grafica2=="Tarde (1PM - 9PM)" ){
+      data <- data[lubridate::hour(data$timestamp) >= 13 & hour(lubridate::data$timestamp) < 22,]
+    }
+    else if (input$tiempo_grafica2=="Noche (10PM - 5AM)" ){
+      data <- data[lubridate::hour(data$timestamp) >= 22 | lubridate::hour(data$timestamp) < 6,]
+    }
+    
+    count_dia_c<- dplyr::count(
+      data,
+      paste0(
+        lubridate::wday(data$timestamp),
+        fuente
+      )
+    )
+    names(count_dia_c)<- c("dia_fue","n", "geometry")
+    
+    count_dia_c$dia<- substr(
+      count_dia_c$dia_fue,
+      1,
+      1
+    ) 
+    count_dia_c$fuente<- substr(
+      count_dia_c$dia_fue,
+      nchar(count_dia_c$dia_fue)- 2,
+      nchar(count_dia_c$dia_fue) 
+    )
+    # print(unique(count_dia_c$fuente))
+    p<- ggplot2::ggplot(
+        data = count_dia_c,
+        aes(x=dia, y=n, fill = fuente) 
+      )+
+      ggplot2::geom_col(position = "dodge") +
+      ggplot2::labs(
+                  x = "Día de la Semana",
+                  y = "Número de Incidentes",
+                  title = "Número de Incidentes por Día de la Semana")
+    
+    return(p)
+  })
 }
 
 mod_graficas_server <- function(input, output, session, dataframe_rec){
   ns <- session$ns
   output$grafica_sp <- mes_dia_graf(dataframe_rec,input)
+  output$grafica_horas <- horas_graf(dataframe_rec,input)
+  
 }
-#   observeEvent(c(dataframe_rec() ),
-#   { 
-#     data_frame_sel <- dataframe_rec()
-#     if(input$Datos_grafica!= "Combinadas"){
-#       data_all<- data_frame_sel[data_frame_sel$fuente == input$Datos_grafica,]
-#       interval_max <-max(data_all$timestamp )
-#       interval_min <-min(data_all$timestamp )
-#       
-#       # if (input$tiempo_grafica == 'Por Mes' ) {
-#       #   style <- paste0("position:absolute; z-index:100; background-color: rgba(205, 205, 205, 0.80); ",
-#       #                   "left:",
-#       #                   left_px + 10,
-#       #                   "px; top:", 
-#       #                   top_px - 40,
-#       #                   "px; padding: 5px 10px 0px; border-radius: 10px;"
-#       #                   )
-#       # }
-#       # else {
-#       #   style <- paste0("position:absolute; z-index:100; background-color: rgba(205, 205, 205, 0.80); ",
-#       #                   "left:", 
-#       #                   left_px + 10,
-#       #                   "px; top:",
-#       #                   top_px - 40,
-#       #                   "px;padding: 5px 10px 0px; border-radius: 10px; font-size: 125%;"
-#       #                   ) 
-#       # }
-#     }
-#     else{
-#       
-#       data_FGJ<- data_frame_sel[data_frame_sel$fuente =="FGJ",]
-#       data_SSC<- data_frame_sel[data_frame_sel$fuente =="SCC",]
-#       data_AXA<- data_frame_sel[data_frame_sel$fuente =="AXA",]
-#       
-#     } 
-#      
-# 
-#             
-#   })
-#   
-#   output$grafica_sp ####
-# 
-# }
-    
