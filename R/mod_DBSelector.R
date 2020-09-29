@@ -14,36 +14,34 @@
 #' 
 mod_DBSelector_ui <- function(id){
   ns <- NS(id)
-  list_selec<- c('Total Ciudad de México' , 'Álvaro Obregón' , 'Azcapotzalco' , 'Benito Juárez' , 'Coyoacán',
-                 'Cuajimalpa de Morelos' , 'Cuauhtémoc' , 'Gustavo A. Madero' ,
-                 'Iztacalco' , 'Iztapalapa' , 'La Magdalena Contreras' , 'Miguel Hidalgo',
-                 'Milpa Alta' , 'Tlalpan' , 'Tláhuac' , 'Venustiano Carranza', 'Xochimilco')
-  tipo_incidentes <- c("ACCIDENTE" ,"LESIONADO" ,"DECESO" , 'TODOS')
-  # bases<-c('FGJ' , 'SSC' , 'C5' , 'AXA' , 'Repubikla')
+  list_selec<- c("Total Ciudad de México" , "Álvaro Obregón" , "Azcapotzalco" ,
+                 "Benito Juárez" , "Coyoacán", "Cuajimalpa de Morelos",
+                 "Cuauhtémoc" , "Gustavo A. Madero" , "Iztacalco" , "Iztapalapa",
+                 "La Magdalena Contreras" , "Miguel Hidalgo", "Milpa Alta", 
+                 "Tlalpan" , "Tláhuac" , "Venustiano Carranza", "Xochimilco")
+  tipo_incidentes <- c("ACCIDENTE" ,"LESIONADO" ,"DECESO" , "TODOS")
   bases<-c("FGJ" , "SSC" , "AXA" )
   fluidPage(
-      selectInput(inputId = ns("filtro_lugar") , label = "Área de Análisis",
-                                    choices = list_selec
+      selectInput(inputId = ns("filtro_lugar") ,
+                  label = "Área de Análisis",
+                  choices = list_selec,
+                  selected = "Total Ciudad de México"
       ),
       fluidRow( 
             column(6,
-                radioButtons(inputId = ns('filtro_incidente') ,
-                    label = 'Tipo de Incidente' ,
+                radioButtons(inputId = ns("filtro_incidente") ,
+                    label = "Tipo de Incidente" ,
                     inline = TRUE,
-                    choices = tipo_incidentes
+                    choices = tipo_incidentes, 
+                    selected = "LESIONADO"
                 ),
-                checkboxGroupInput(inputId = ns('filtro_bd') , 
-                    label = 'Base de Datos' ,
+                checkboxGroupInput(inputId = ns("filtro_bd") , 
+                    label = "Base de Datos" ,
                     inline = TRUE,
-                    choices = bases
+                    choices = bases, 
+                    selected = "FGJ"
                 )
-            )#,
-            #  column(6,
-            #       DT::dataTableOutput(outputId = ns( 'table_FGJ' )),
-            # #     DT::dataTableOutput(outputId = ns( 'table_SSC' )),
-            # #     DT::dataTableOutput(outputId = ns( 'table_AXA' )),
-            #      textOutput(ns('txt'))
-            #  )
+            )
       )
   )
 }
@@ -72,13 +70,6 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
     
     #### filtro fecha 
     interval_bar <- interval_ba_rea()
-    
-    
-    # dataframe_fil <- dataframe_fil[dataframe_fil$timestamp %within%
-    #                                  lubridate::interval(lubridate::ymd(interval_bar[1]),
-    #                                                      lubridate::ymd(interval_bar[2])
-    #                                                      ),
-    #                                ]
     dataframe_fil <- dplyr::filter(dataframe_fil,
                                   (dataframe_fil$timestamp > lubridate::ymd(interval_bar[1])
                                    &

@@ -18,8 +18,8 @@ mod_graficas_ui <- function(id){
   Mes_dia<- c("Por Mes" , "Por Día")
   intervalos <- c("Todo el Día" , "Mañana (6AM - 12PM)" ,
                   "Tarde (1PM - 9PM)" , "Noche (10PM - 5AM)")
-  choices_po <- c("Combinadas", "FGJ", "SSC", "AXA") ### Este vector deveria ser reactivo y poder cambiar
-  
+  choices_po <- c("Combinadas", "FGJ", "SSC", "AXA") ### Este vector deberia ser reactivo y poder cambiar
+  #print(ns("fuentes_graf"))
   tabsetPanel(
     tabPanel(title = "Gráficas por Totales",
              selectInput(inputId = ns("Datos_grafica"),
@@ -60,12 +60,13 @@ mod_graficas_ui <- function(id){
     tabPanel(title = "Gráficas por Día y Hora",
              selectInput(inputId = ns("tipo_grafica2"), 
                          label = "Datos a Graficar",
-                         choices = choices_po
+                         choices = choices_po,
+                         selected = "Combinadas"
                          ),
              fluidRow(
                       column(9,
                           radioButtons(
-                                  inputId = ns('tiempo_grafica2'),
+                                  inputId = ns("tiempo_grafica2"),
                                   label = 'Temporalidad a Graficar',
                                   inline = TRUE,
                                   choices = intervalos ,
@@ -120,7 +121,6 @@ mod_graficas_ui <- function(id){
   
 mes_dia_graf <- function(dataframe_rec_in ,input){
   renderPlot({
-    print(input$tiempo_grafica)
     if(input$tiempo_grafica =="Por Mes"){
       ############## Por Mes####################
       data <- dataframe_rec_in()
@@ -136,6 +136,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
           fuente
         )
       )
+      
       names(count_months_year)<- c("month_year_fue","n", "geometry")
       
       count_months_year$month_year<- substr(
@@ -148,10 +149,12 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
         nchar(count_months_year$month_year_fue)- 3 +1,
         nchar(count_months_year$month_year_fue) 
       )
+  
       count_months_year$month_year<- lubridate::as_date(
                                                   count_months_year$month_year,
-                                                  format="%d/%m/%y"
+                                                  format="%d/%m/%Y"
                                       )
+      
       if(length(unique(data$fuente)) != 1){
         p<- ggplot2::ggplot(
               data = count_months_year,
@@ -175,9 +178,9 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
           ggplot2::geom_line() +
           ggplot2::scale_x_date(breaks = "1 month") +
           ggplot2::labs(
-                      x = 'Mes',
-                      y = 'Número de Incidentes',
-                      title = 'Número de Incidentes por Mes'
+                      x = "Mes",
+                      y = "Número de Incidentes",
+                      title = "Número de Incidentes por Mes"
           ) +
           ggplot2::theme(
                       axis.text.x = ggplot2::element_text(
@@ -237,7 +240,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
           ) +
           ggplot2::scale_x_date(breaks = "1 week") +
           ggplot2::labs(
-                x = 'Dia',
+                x = "Dia",
                 y = "Número de Incidentes",
                 title = "Número de Incidentes por Día"
           ) +
@@ -302,6 +305,26 @@ horas_graf <- function(dataframe_rec_in, input){
 
 mod_graficas_server <- function(input, output, session, dataframe_rec){
   ns <- session$ns
+  observeEvent(dataframe_rec() , ignoreNULL = FALSE, {
+    print("Si entra")
+    data_f <- dataframe_rec() 
+    val_fue<-unique(data_f$fuente)
+    val_fue <- append(val_fue, "Combinadas")
+    opciones <- as.character(val_fue)
+    # print(opciones)
+    updateSelectInput(session , inputId = "Datos_grafica",
+                      label = "Datos a Graficar",
+                      choices = opciones, 
+                      selected = "Combinadas"
+                      )
+    updateSelectInput(session , inputId = "tipo_grafica2",
+                      label = "Datos a Graficar",
+                      choices = opciones, 
+                      selected = "Combinadas"
+    )
+  })
+  
+
   output$grafica_sp <- mes_dia_graf(dataframe_rec,input)
   output$grafica_horas <- horas_graf(dataframe_rec,input)
   
