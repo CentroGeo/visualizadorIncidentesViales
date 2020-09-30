@@ -118,6 +118,8 @@ mod_graficas_ui <- function(id){
 #'
 #' @noRd 
 
+
+
   
 mes_dia_graf <- function(dataframe_rec_in ,input){
   renderPlot({
@@ -125,6 +127,9 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
       ############## Por Mes####################
       data <- dataframe_rec_in()
       # print(names(data))
+      
+      
+      ########### Agrupar###################
       if(input$Datos_grafica!= "Combinadas"){
         data<- data[data$fuente ==input$Datos_grafica, ]
       }
@@ -157,11 +162,12 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                                                   count_months_year$month_year,
                                                   format="%d/%m/%Y"
                                       )
-      
+      count_months_year$fuente<-as.factor(count_months_year$fuente)
+      ############### Grafica
       if(length(unique(data$fuente)) != 1){
         p<- ggplot2::ggplot(
               data = count_months_year,
-              ggplot2::aes(x = month_year, y = n, group = fuente)
+              ggplot2::aes(x = month_year, y = n, group = fuente, colour= fuente)
             )
             
         
@@ -173,12 +179,15 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
       else{
         p<- ggplot2::ggplot(
           data = count_months_year,
-          ggplot2::aes(x=month_year, y=n, group = 1) 
+          ggplot2::aes(x=month_year, y=n, group = 1, colour= fuente) 
         )
         
       }
-      p <- p + 
+      
+      paleta_colores <- c(FGJ= "#952800",SSC= '#043A5F', AXA ='#5E0061')
+      p <- p +
           ggplot2::geom_line() +
+
           ggplot2::scale_x_date(breaks = "1 month") +
           ggplot2::labs(
                       x = "Mes",
@@ -190,11 +199,17 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                                       angle = 45,
                                       vjust = 0.5
                                     )
-          )
+          )+ 
+          ggplot2::scale_colour_manual(values = paleta_colores,
+                                       limits= unique(count_months_year$fuente),
+                                       name= "Fuente de Datos"
+          ) 
+          
     }
     else if(input$tiempo_grafica =="Por Día"){
-      ############## Por Mes####################
+      ############## Por DIA####################
       data <- dataframe_rec_in()
+      ########### Agrupar###################
       count_months_year<- dplyr::count(
         data,
         paste0(lubridate::day(data$timestamp),
@@ -221,10 +236,12 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                                     count_months_year$dmy,
                                     format= "%d/%m/%Y"
                                 ) 
+      count_months_year$fuente <- as.factor(count_months_year$fuente)
+      ##########Grafica
       if(length(unique(data$fuente))!= 1 ){
         p<- ggplot2::ggplot(
                       data = count_months_year,
-                      ggplot2::aes(x=dmy, y=n, group = fuente) 
+                      ggplot2::aes(x=dmy, y=n, group = fuente, colour= fuente) 
             )
       }
       else if(length(unique(data$fuente))== 0){
@@ -233,16 +250,18 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
       else{
         p <- ggplot2::ggplot(
           data = count_months_year,
-          ggplot2::aes(x=dmy, y=n, group = 1) 
+          ggplot2::aes(x=dmy, y=n, group = 1, colour= fuente) 
         )
       } 
+      paleta_colores <- c(FGJ= "#952800",SSC= '#043A5F', AXA ='#5E0061')
       p<- p +
           ggplot2::geom_line() +
           ggplot2::geom_smooth(
                 method = "loess"
           ) +
-          ggplot2::scale_x_date(breaks = "1 week") +
-          ggplot2::labs(
+          ggplot2::scale_x_date(breaks = "2 week") +
+          
+         ggplot2::labs(
                 x = "Dia",
                 y = "Número de Incidentes",
                 title = "Número de Incidentes por Día"
@@ -252,7 +271,12 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                     angle = 45,
                     vjust = 0.5
                 )
+          ) + 
+          ggplot2::scale_colour_manual(values = paleta_colores,
+                                     limits= unique(count_months_year$fuente),
+                                     name= "Fuente de Datos"
           )
+          
     }
     return(p)
   })
@@ -261,7 +285,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
 horas_graf <- function(dataframe_rec_in, input){
   renderPlot({ 
     data <- dataframe_rec_in()
-    print(input$tipo_grafica2)
+    paleta_colores <- c(FGJ= "#952800",SSC= '#043A5F', AXA ='#5E0061')
     if(input$tipo_grafica2!= "Combinadas"){
       data<- data[data$fuente ==input$tipo_grafica2, ]
     }
@@ -294,6 +318,7 @@ horas_graf <- function(dataframe_rec_in, input){
       nchar(count_dia_c$dia_fue)- 2,
       nchar(count_dia_c$dia_fue) 
     )
+    count_dia_c$fuente<- as.factor(count_dia_c$fuente)
     # print(unique(count_dia_c$fuente))
     p<- ggplot2::ggplot(
         data = count_dia_c,
@@ -303,7 +328,13 @@ horas_graf <- function(dataframe_rec_in, input){
       ggplot2::labs(
                   x = "Día de la Semana",
                   y = "Número de Incidentes",
-                  title = "Número de Incidentes por Día de la Semana")
+                  title = "Número de Incidentes por Día de la Semana"
+              )+
+      ggplot2::scale_fill_manual(values = paleta_colores,
+                                   limits= unique(count_dia_c$fuente),
+                                   name= "Fuente de Datos"
+              )
+      
     
     return(p)
   })
