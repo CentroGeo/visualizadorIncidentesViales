@@ -125,6 +125,9 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
       ############## Por Mes####################
       data <- dataframe_rec_in()
       # print(names(data))
+      if(input$Datos_grafica!= "Combinadas"){
+        data<- data[data$fuente ==input$Datos_grafica, ]
+      }
       count_months_year<- dplyr::count(
         data,
         paste0(
@@ -258,7 +261,10 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
 horas_graf <- function(dataframe_rec_in, input){
   renderPlot({ 
     data <- dataframe_rec_in()
-    
+    print(input$tipo_grafica2)
+    if(input$tipo_grafica2!= "Combinadas"){
+      data<- data[data$fuente ==input$tipo_grafica2, ]
+    }
     if(input$tiempo_grafica2=="Mañana (6AM - 12PM)"){
       data <- data[lubridate::hour(data$timestamp) >= 6 & lubridate::hour(data$timestamp) < 13,]
     }
@@ -306,7 +312,6 @@ horas_graf <- function(dataframe_rec_in, input){
 mod_graficas_server <- function(input, output, session, dataframe_rec){
   ns <- session$ns
   observeEvent(dataframe_rec() , ignoreNULL = FALSE, {
-    print("Si entra")
     data_f <- dataframe_rec() 
     val_fue<-unique(data_f$fuente)
     val_fue <- append(val_fue, "Combinadas")
