@@ -21,40 +21,33 @@ app_ui <- function(request) {
       shinydashboard::tabItem(tabName = "bd", mod_infoBdUI_ui("infoBdUI_ui_1")),
       ########### Visualizador#################
       shinydashboard::tabItem(
-			tabName = "visualizador",
-      				  fluidPage(
-				     column(6,
-				       mod_mapa_ui("mapa_ui_1"),
-				       mod_bar_ui("bar_ui_1")
-				     ),
-				     column(6,
-				       mod_DBSelector_ui("DBSelector_ui_1"),
-				       mod_graficas_ui("graficas_ui_1")
-				     )
-				   )
-		),
+			                    tabName = "visualizador",
+      				            fluidPage(
+                				     column(6,
+                				       mod_mapa_ui("mapa_ui_1"),
+                				       mod_bar_ui("bar_ui_1")
+                				     ),
+                				     
+                				     column(6,
+				                        mod_DBSelector_ui("DBSelector_ui_1"),
+				                        mod_graficas_ui("graficas_ui_1")
+				                    )
+				                )
+		                ),
       ######## Actualizacion########
       shinydashboard::tabItem(tabName = "actualiza",
         mod_csvFileUI_ui("csvFileUI_ui", label = "Selecciona un CSV"),
         DT::dataTableOutput("tabla")
         )
-    )),
-  tagList(
+    ),
+    tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # List the first level UI elements here 
-    
-    fluidPage(
-      column(6 ,
-              mod_mapa_ui("mapa_ui_1"),
-              mod_bar_ui("bar_ui_1")
-              ),
-      column(6,
-             mod_DBSelector_ui("DBSelector_ui_1"),
-             mod_graficas_ui("graficas_ui_1")
-             )
+
     )
-  )
+ )
+) 
 }
 
 #' Add external Resources to the Application
