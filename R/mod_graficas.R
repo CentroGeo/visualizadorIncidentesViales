@@ -159,7 +159,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                                                   count_months_year$month_year,
                                                   format="%d/%m/%Y"
                                       )
-      count_months_year$fuente<-as.factor(count_months_year$fuente)
+      count_months_year$fuente<-as.factor(count_months_year$fuente)### To be able to change the colors 
       ############### Grafica
       if(length(unique(data$fuente)) != 1){
         p<- ggplot2::ggplot(
@@ -167,7 +167,6 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
               ggplot2::aes(x = month_year, y = n, group = fuente, colour= fuente)
             )
             
-        
       }
       else if(length(unique(data$fuente))== 0){
         p<- ggplot2::ggplot() 
