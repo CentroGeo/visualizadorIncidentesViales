@@ -30,6 +30,10 @@ usethis::use_package("shinyjs")
 usethis::use_package("leaflet.extras")
 usethis::use_package("htmltools")
 usethis::use_package("janitor")
+usethis::use_package( "leafleat" )
+usethis::use_package( "sp" )
+usethis::use_package( "rgdal" )
+usethis::use_package( "DT" )
 
 ## Add modules ----
 ## Create a module infrastructure in R/
@@ -38,6 +42,12 @@ golem::add_module(name = "landingPageUI") # Página de inicio
 golem::add_module(name = "csvFileUI") # Interfase de actualización de bases de datos
 golem::add_module(name = "infoBdUI") # Ifo de las bases de datos
 # golem::add_module( name = "name_of_module2" ) # Name of the module
+golem::add_module( name = "mapa" ) # Visualizador
+golem::add_module( name = "bar" ) # Visualizador
+golem::add_module( name = "DBSelector" ) # Visualizador
+golem::add_module( name = "graficas" ) # Visualizador
+
+
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*

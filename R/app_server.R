@@ -38,4 +38,11 @@ app_server <- function(input, output, session) {
   # data <- callModule(mod_csvFileUI_server, "csvFileUI_ui")
   # output$tabla <- DT::renderDataTable({data()})
   # save <- callModule(mod_saveDataUI_server, "saveDataUI_ui", datos = data)
+
+  ##########LayOut######
+  callModule(mod_mapa_server, "mapa_ui_1")
+  
+  inter_bar_call <- callModule(mod_bar_server, "bar_ui_1")
+  data_out <- callModule(mod_DBSelector_server, "DBSelector_ui_1", inter_bar_call)
+  callModule(mod_graficas_server, "graficas_ui_1" ,data_out)
 }
