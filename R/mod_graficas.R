@@ -118,9 +118,6 @@ mod_graficas_ui <- function(id){
 #'
 #' @noRd 
 
-
-
-  
 mes_dia_graf <- function(dataframe_rec_in ,input){
   renderPlot({
     if(input$tiempo_grafica =="Por Mes"){
@@ -188,7 +185,11 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
       p <- p +
           ggplot2::geom_line() +
 
-          ggplot2::scale_x_date(breaks = "1 month") +
+          #ggplot2::scale_x_date(breaks = "1 month") +
+          ggplot2::scale_x_date(minor_breaks = function(x) seq.Date(from = min(x), 
+                                                                    to = max(x), 
+                                                                    by = "1 month")
+          ) +
           ggplot2::labs(
                       x = "Mes",
                       y = "Número de Incidentes",
@@ -199,10 +200,10 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
                                       angle = 45,
                                       vjust = 0.5
                                     )
-          )+ 
+          ) + 
           ggplot2::scale_colour_manual(values = paleta_colores,
                                        limits= unique(count_months_year$fuente),
-                                       name= "Fuente de Datos"
+                                       name= "Fuente"
           ) 
           
     }
@@ -259,7 +260,11 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
           ggplot2::geom_smooth(
                 method = "loess"
           ) +
-          ggplot2::scale_x_date(breaks = "2 week") +
+         #ggplot2::scale_x_date(breaks = "2 week") +
+         ggplot2::scale_x_date(minor_breaks = function(x) seq.Date(from = min(x), 
+                                           to = max(x), 
+                                           by = "2 weeks")
+                              )+
           
          ggplot2::labs(
                 x = "Dia",
@@ -274,7 +279,7 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
           ) + 
           ggplot2::scale_colour_manual(values = paleta_colores,
                                      limits= unique(count_months_year$fuente),
-                                     name= "Fuente de Datos"
+                                     name= "Fuente"
           )
           
     }
