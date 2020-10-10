@@ -1,12 +1,13 @@
 #' bar UI Function
+#' 
+#' Generate a bar to get a time interval 
+#' 
 #'
-#' @description A shiny Module.
+#' @param id Internal parameters for {shiny}.
 #'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
 #'
 #' @importFrom shiny NS tagList 
+#' 
 mod_bar_ui <- function(id){
   ns <- NS(id)
   fluidRow(
@@ -21,9 +22,17 @@ mod_bar_ui <- function(id){
   )
 }
     
-#' bar Server Function
+#' Bar Server Function
+#' 
+#' The function returns a reactive function that returns a vectos with the date of the interval
+#' 
+#' @param input shiny internal
+#' 
+#' @param output shiny internal
+#' 
+#' @param session shiny internal
 #'
-#' @noRd 
+#' @return Reactive function thatreturns a vector with a time interval (min, max) dates
 mod_bar_server <- function(input, output, session){
   ns <- session$ns
   interval_val <- reactive({

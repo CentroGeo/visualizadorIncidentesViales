@@ -1,80 +1,93 @@
-#' DBSelector UI Function
 #'
-#' @description A shiny Module.
+#' 
+#'  A shiny Module that contains the mod_DBSelector_ui and mod_DBSelector_server 
+#' functions that are use to select the source, location, and accident types
+#' that can be use to be display of use to generate plots. 
+
+
+#' DBSelector UI Function
+#'  
+#' Generate the UI for selecting the "Incidentes viales" data source,
+#' type of accident and location  
 #'
 #' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
-#'
-#' @rdname mod_DBSelector
-#' @export
-#' @importFrom shiny NS tagList 
 #' 
+#' 
+#' @importFrom shiny NS tagList 
 #' 
 mod_DBSelector_ui <- function(id){
   ns <- NS(id)
+  ## Vector with the posible locations
   list_selec<- c("Total Ciudad de México" , "Álvaro Obregón" , "Azcapotzalco" ,
                  "Benito Juárez" , "Coyoacán", "Cuajimalpa de Morelos",
                  "Cuauhtémoc" , "Gustavo A. Madero" , "Iztacalco" , "Iztapalapa",
                  "La Magdalena Contreras" , "Miguel Hidalgo", "Milpa Alta", 
-                 "Tlalpan" , "Tláhuac" , "Venustiano Carranza", "Xochimilco")
-  tipo_incidentes <- c("ACCIDENTE" ,"LESIONADO" ,"DECESO" , "TODOS")
+                 "Tlalpan" , "Tláhuac" , "Venustiano Carranza", "Xochimilco") 
+  ## Vector with the accident types
+  tipo_incidentes <- c("ACCIDENTE" ,"LESIONADO" ,"DECESO" , "TODOS") 
   bases<-c("FGJ" , "SSC" , "AXA" )
   fluidPage(
-      selectInput(inputId = ns("filtro_lugar") ,
-                  label = "Área de Análisis",
-                  choices = list_selec,
-                  selected = "Total Ciudad de México"
+      selectInput(inputId = ns("filtro_lugar") ,## Name to reference in the input
+                  label = "Área de Análisis", ##  Label in the UI
+                  choices = list_selec, #Vector of choices
+                  selected = "Total Ciudad de México" ## Selected by default
       ),
       fluidRow( 
             column(6,
-                radioButtons(inputId = ns("filtro_incidente") ,
-                    label = "Tipo de Incidente" ,
+                radioButtons(inputId = ns("filtro_incidente") ,## Name to reference in the input
+                    label = "Tipo de Incidente" , # Label to show in the UI
                     inline = TRUE,
-                    choices = tipo_incidentes, 
-                    selected = "LESIONADO"
+                    choices = tipo_incidentes,  ## Vector of choices
+                    selected = "LESIONADO" ## Selected by default 
                 ),
-                checkboxGroupInput(inputId = ns("filtro_bd") , 
-                    label = "Base de Datos" ,
+                checkboxGroupInput(inputId = ns("filtro_bd") ,## Name to reference in the input
+                    label = "Base de Datos" , ## Label to show in the UI
                     inline = TRUE,
-                    choices = bases, 
-                    selected = "FGJ"
+                    choices = bases, ## vector of  choices  
+                    selected = "FGJ" ## Selected by default
                 )
             )
       )
   )
 }
 
+
 #' DBSelector Server Function
-#' @rdname mod_DBSelector
-#' @export
-#' @keywords internal
 #' 
+#' Using the filters selected in the UI the function returns a reactive function that returns 
+#' a dataframe filtered using the corresponding filters. 
+#' 
+#' 
+#' 
+#' @keywords internal
+#' @param input shiny internal
+#' @param output shiny  internal
+#' @param session shiny internal
+#' @param interval_ba_rea Interval reactive that returne time interval to select data
+#' @return reactive function that returns a filtered dataframe using the inputs from the UI
 mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
   ns <- session$ns
-  cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
-  
-  # print(ns)
+  #### Read
+  cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx") ## Read the shape for CDMX
   datafram_re <- reactive({
-    
-    dataframe_fil <- readRDS("./data-raw/fuentes_unidas.rds")
-    dataframe_fil <- dataframe_fil[dataframe_fil$fuente %in% input$filtro_bd,]   
+    ## Read the resulting dataframe from the mod_csvFileUI
+    dataframe_fil <- readRDS("./data-raw/fuentes_unidas.rds") 
+    dataframe_fil <- dataframe_fil[dataframe_fil$fuente %in% input$filtro_bd,]   ## filter by data source
+    ## filter by type of accident
     if(input$filtro_incidente != 'TODOS'){
-      
-      print(input$filtro_incidente)
       dataframe_fil <-dataframe_fil[dataframe_fil$tipo_incidente == input$filtro_incidente,]
       ##### Remove the ones that are NA  #### Since the ones that are not specific are not pass 
       dataframe_fil <- dataframe_fil[!is.na(dataframe_fil$tipo_incidente),] 
     }
     
     #### filtro fecha 
-    interval_bar <- interval_ba_rea()
+    interval_bar <- interval_ba_rea() ## Get the interbal from the time bar
     dataframe_fil <- dplyr::filter(dataframe_fil,
                                   (dataframe_fil$timestamp > lubridate::ymd(interval_bar[1])
                                    &
                                   dataframe_fil$timestamp < lubridate::ymd(interval_bar[2]))
                                   )    
+    ### Filter by location (Alcaldias)
     if (input$filtro_lugar != 'Total Ciudad de México') {
       tmp_contains <- sf::st_contains(
         sf::st_transform(
