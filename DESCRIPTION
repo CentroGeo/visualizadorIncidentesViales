@@ -1,13 +1,20 @@
-Package: package
-Title: An Amazing Shiny App
-Version: 0.0.0.9000
-Authors@R: 
-    person(given = "firstname",
-           family = "lastname",
-           role = c("aut", "cre"),
-           email = "your@email.com")
-Description: What the package does (one paragraph).
-License: What license is it under?
+Package: visualizadorIncidentesViales
+Title: Visualizador de Incidentes Viales para la CDMX
+Version: 0.1
+Authors@R: c(person('Karime', 'González-Zuccolotto', 
+             email = 'karime.gonzalez@centreogeo.edu.mx', 
+             role = c('cre', 'aut')),
+             person('Pablo', 'López-Ramírez', 
+             email = 'pablo.lopez@centreogeo.edu.mx', 
+             role = c('cre', 'aut')),
+             person('Miguel', 'Salazar-Montiel', 
+             email = 'pablo.lopez@centreogeo.edu.mx', 
+             role = c('cre', 'aut')),
+             person('Juan Carlos', 'Hernández-Orta', 
+             email = 'jchernandez@centreogeo.edu.mx', 
+             role = c('cre', 'aut')),)
+Description: Aplicación de Shiny para visualizar incidentes viales de diferentes fuentes.
+License: MIT + file LICENSE
 Imports: 
     config,
     golem,
@@ -31,9 +38,11 @@ Imports:
     janitor
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/CentroGeo/visualizadorIncidentesViales
+BugReports: https://github.com/CentroGeo/visualizadorIncidentesViales/issues
