@@ -27,27 +27,27 @@ mod_DBSelector_ui <- function(id){
   tipo_incidentes <- c("ACCIDENTE" ,"LESIONADO" ,"DECESO" , "TODOS") 
   bases<-c("FGJ" , "SSC" , "AXA" )
   fluidPage(
-      selectInput(inputId = ns("filtro_lugar") ,## Name to reference in the input
-                  label = "Área de Análisis", ##  Label in the UI
-                  choices = list_selec, #Vector of choices
-                  selected = "Total Ciudad de México" ## Selected by default
-      ),
-      fluidRow( 
-            column(6,
-                radioButtons(inputId = ns("filtro_incidente") ,## Name to reference in the input
-                    label = "Tipo de Incidente" , # Label to show in the UI
-                    inline = TRUE,
-                    choices = tipo_incidentes,  ## Vector of choices
-                    selected = "LESIONADO" ## Selected by default 
-                ),
-                checkboxGroupInput(inputId = ns("filtro_bd") ,## Name to reference in the input
-                    label = "Base de Datos" , ## Label to show in the UI
-                    inline = TRUE,
-                    choices = bases, ## vector of  choices  
-                    selected = "FGJ" ## Selected by default
-                )
-            )
+    selectInput(inputId = ns("filtro_lugar") ,## Name to reference in the input
+                label = "Área de Análisis", ##  Label in the UI
+                choices = list_selec, #Vector of choices
+                selected = "Total Ciudad de México" ## Selected by default
+    ),
+    fluidRow( 
+      column(6,
+             radioButtons(inputId = ns("filtro_incidente") ,## Name to reference in the input
+                          label = "Tipo de Incidente" , # Label to show in the UI
+                          inline = TRUE,
+                          choices = tipo_incidentes,  ## Vector of choices
+                          selected = "LESIONADO" ## Selected by default 
+             ),
+             checkboxGroupInput(inputId = ns("filtro_bd") ,## Name to reference in the input
+                                label = "Base de Datos" , ## Label to show in the UI
+                                inline = TRUE,
+                                choices = bases, ## vector of  choices  
+                                selected = "FGJ" ## Selected by default
+             )
       )
+    )
   )
 }
 
@@ -83,10 +83,10 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
     #### filtro fecha 
     interval_bar <- interval_ba_rea() ## Get the interbal from the time bar
     dataframe_fil <- dplyr::filter(dataframe_fil,
-                                  (dataframe_fil$timestamp > lubridate::ymd(interval_bar[1])
-                                   &
-                                  dataframe_fil$timestamp < lubridate::ymd(interval_bar[2]))
-                                  )    
+                                   (dataframe_fil$timestamp > lubridate::ymd(interval_bar[1])
+                                    &
+                                      dataframe_fil$timestamp < lubridate::ymd(interval_bar[2]))
+    )    
     ### Filter by location (Alcaldias)
     if (input$filtro_lugar != 'Total Ciudad de México') {
       tmp_contains <- sf::st_contains(
@@ -102,12 +102,12 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
   })
   return(datafram_re)
 }  
-  
+
 
 
 ## To be copied in the UI
 # mod_DBSelector_ui("DBSelector_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_DBSelector_server, "DBSelector_ui_1")
- 
+

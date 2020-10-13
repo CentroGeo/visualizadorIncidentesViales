@@ -16,23 +16,26 @@
 golem::fill_desc(
   pkg_name = "visualizadorIncidentesViales", # The Name of the package containing the App 
   pkg_title = "Visualizador de Incidentes Viales para la CDMX", # The Title of the package containing the App 
-  pkg_description = "Aplicación de Shiny para visualizar incidentes viales de diferentes fuentes", # The Description of the package containing the App 
+  pkg_description = "Aplicación de Shiny para visualizar incidentes viales de diferentes fuentes.", # The Description of the package containing the App 
+
   author_first_name = "Pablo", # Your First Name
   author_last_name = "López-Ramírez", # Your Last Name
-  author_email = "pablo.lopez@cenreogeo.edu.mx", # Your Email
+  author_email = "pablo.lopez@centreogeo.edu.mx", # Your Email
+
   repo_url = "https://github.com/CentroGeo/visualizadorIncidentesViales" # The URL of the GitHub Repo (optional) 
-)     
+)
 
 ## Set {golem} options ----
 golem::set_golem_options()
 
 ## Create Common Files ----
 ## See ?usethis for more information
-usethis::use_mit_license( name = "Golem User" )  # You can set another license here
-usethis::use_readme_rmd( open = FALSE )
+usethis::use_mit_license(name = "CentroGeo")
+# You can set another license here
+usethis::use_readme_rmd(open = FALSE)
 usethis::use_code_of_conduct()
-usethis::use_lifecycle_badge( "Experimental" )
-usethis::use_news_md( open = FALSE )
+usethis::use_lifecycle_badge("Experimental")
+usethis::use_news_md(open = FALSE)
 
 ## Use git ----
 usethis::use_git()
