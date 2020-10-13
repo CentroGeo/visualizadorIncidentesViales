@@ -14,8 +14,10 @@ mod_bar_server(input, output, session)
 \item{session}{shiny internal}
 }
 \value{
-Reactive function thatreturns a vector with a time interval (min, max) dates
+Reactive function that returns a vector with a time interval 
+(min, max) dates
 }
 \description{
-The function returns a reactive function that returns a vectos with the date of the interval
+The function returns a reactive function that returns a vectors with the
+ date of the interval
 }

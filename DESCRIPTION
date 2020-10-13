@@ -3,16 +3,16 @@ Title: Visualizador de Incidentes Viales para la CDMX
 Version: 0.1
 Authors@R: c(person('Karime', 'González-Zuccolotto', 
              email = 'karime.gonzalez@centreogeo.edu.mx', 
-             role = c('cre', 'aut')),
+             role = c('aut')),
              person('Pablo', 'López-Ramírez', 
              email = 'pablo.lopez@centreogeo.edu.mx', 
              role = c('cre', 'aut')),
-             person('Miguel', 'Salazar-Montiel', 
-             email = 'pablo.lopez@centreogeo.edu.mx', 
-             role = c('cre', 'aut')),
+             person('J Miguel', 'Salazar-Montiel', 
+             email = 'msalazar@centreogeo.edu.mx', 
+             role = c( 'aut')),
              person('Juan Carlos', 'Hernández-Orta', 
              email = 'jchernandez@centreogeo.edu.mx', 
-             role = c('cre', 'aut')),)
+             role = c( 'aut')))
 Description: Aplicación de Shiny para visualizar incidentes viales de diferentes fuentes.
 License: MIT + file LICENSE
 Imports: 

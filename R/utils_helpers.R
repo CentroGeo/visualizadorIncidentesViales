@@ -1,12 +1,11 @@
 #' Preprocesa archivo csv de Fiscalía
 #'
-#' @param Tibble con los datos de fiscalía leídos de csv
+#' @param fgj tabla con los datos de fiscalía leídos de csv
 #'
-#' @return Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
+#' @return Tabla con los datos preprocesados listos para utilizarse 
+#' en la plataforma.
 #' 
 #'
-#' @examples
-#' pgj_procesado <- preprocesa_pgj(pgj)
 preprocesa_pgj <- function(pgj) {
   pgj['timestamp'] <- lubridate::parse_date_time(
                        pgj$fecha_hechos,
@@ -31,13 +30,13 @@ preprocesa_pgj <- function(pgj) {
 
 #' Preprocesa archivo csv de Secretaría de Seguridad Ciudadana
 #'
-#' @param Tibble con los datos de SSC leídos de csv
+#' @param ssc Tabla con los datos de SSC leídos de csv
 #'
-#' @return Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
+#' @return Tabla con los datos preprocesados listos para utilizarse
+#'  en la plataforma.
 #' 
 #'
-#' @examples
-#' ssc_procesado <- preprocesa_ssc(ssc)
+#' 
 preprocesa_ssc <- function(ssc) {
   ssc <- janitor::clean_names(ssc, "snake")
   # =
@@ -80,13 +79,13 @@ preprocesa_ssc <- function(ssc) {
 
 #' Preprocesa archivo csv de AXA
 #'
-#' @param Tibble con los datos de AXA leídos de csv
+#' @param axa Tabla con los datos de AXA leídos de csv
 #'
-#' @return Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
+#' @return Tabla con los datos preprocesados listos para utilizarse 
+#' en la plataforma.
 #' 
 #'
-#' @examples
-#' axa_procesado <- preprocesa_axa(axa)
+#' 
 preprocesa_axa <- function(axa) {
   axa['hora'] <- lubridate::hms(paste0(axa$hora, ':01:00'))
   axa$mes[axa$mes == 'ENERO'] <- 1
@@ -131,6 +130,13 @@ preprocesa_axa <- function(axa) {
   return(axa)
 }
 
+
+#' Joins the tables
+#' 
+#'  Modifies the tables to joint in to a single table
+#'  
+#'@returns The table concatenation 
+#'
 une_tablas <- function() {
   axa <- readRDS("./data-raw/axa.rds")
   fgj <- readRDS("./data-raw/fgj.rds")

@@ -24,7 +24,8 @@ mod_bar_ui <- function(id){
     
 #' Bar Server Function
 #' 
-#' The function returns a reactive function that returns a vectos with the date of the interval
+#' The function returns a reactive function that returns a vectors with the
+#'  date of the interval
 #' 
 #' @param input shiny internal
 #' 
@@ -32,7 +33,8 @@ mod_bar_ui <- function(id){
 #' 
 #' @param session shiny internal
 #'
-#' @return Reactive function thatreturns a vector with a time interval (min, max) dates
+#' @return Reactive function that returns a vector with a time interval 
+#' (min, max) dates
 mod_bar_server <- function(input, output, session){
   ns <- session$ns
   interval_val <- reactive({
