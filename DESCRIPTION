@@ -7,8 +7,13 @@ Authors@R: c(person('Karime', 'González-Zuccolotto',
              person('Pablo', 'López-Ramírez', 
              email = 'pablo.lopez@centreogeo.edu.mx', 
              role = c('cre', 'aut')),
+<<<<<<< HEAD
              person('J Miguel', 'Salazar-Montiel', 
              email = 'msalazar@centreogeo.edu.mx', 
+=======
+             person('Miguel', 'Salazar-Montiel', 
+             email = 'pablo.lopez@centreogeo.edu.mx', 
+>>>>>>> master
              role = c( 'aut')),
              person('Juan Carlos', 'Hernández-Orta', 
              email = 'jchernandez@centreogeo.edu.mx', 
