@@ -38,16 +38,29 @@ mod_mapa_server <- function(input, output, session, datos) {
               opacity = 0.75)
   output$myMap <- leaflet::renderLeaflet({map})
   icons <- leaflet::iconList(
-    DECESO = leaflet::makeIcon("www/pgj_a.png"),
-    LESIONADO = leaflet::makeIcon("www/pgj_b.png"),
-    ACCIDENTE = leaflet::makeIcon("www/pgj_c.png")
+    DECESO_FGJ = leaflet::makeIcon("www/pgj_a.png"),
+    LESIONADO_FGJ = leaflet::makeIcon("www/pgj_b.png"),
+    ACCIDENTE_FGJ = leaflet::makeIcon("www/pgj_c.png"),
+    DECESO_SSC = leaflet::makeIcon("www/ssc_a.png"),
+    LESIONADO_SSC = leaflet::makeIcon("www/ssc_b.png"),
+    ACCIDENTE_SSC = leaflet::makeIcon("www/ssc_c.png"),
+    DECESO_AXA = leaflet::makeIcon("www/axa_a.png"),
+    LESIONADO_AXA = leaflet::makeIcon("www/axa_b.png"),
+    ACCIDENTE_AXA = leaflet::makeIcon("www/axa_c.png")
   )
   observeEvent(datos(), ignoreNULL = FALSE, {
     datos_4326 <- sf::st_transform(datos(), "+init=epsg:4326")
+    datos_4326 <- dplyr::mutate(datos_4326,
+      icon_class = paste(tipo_incidente, fuente, sep = "_")
+    )
     leaflet::leafletProxy("myMap") %>% leaflet::addMarkers(
       data = datos_4326,
       clusterOptions = leaflet::markerClusterOptions(),
-      icon = ~icons[tipo_incidente])
+      icon = ~icons[icon_class],
+      popup = paste("Fuente: ", datos_4326$fuente, "<br>",
+                    "Tipo de incidente: ", datos_4326$tipo_incidente, "<br>",
+                    "Fecha y Hora: ", datos_4326$timestamp)
+    )
   })
 }
     
