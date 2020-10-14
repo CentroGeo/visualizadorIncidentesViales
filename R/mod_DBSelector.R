@@ -1,10 +1,3 @@
-#'
-#' 
-#'  A shiny Module that contains the mod_DBSelector_ui and mod_DBSelector_server 
-#' functions that are use to select the source, location, and accident types
-#' that can be use to be display of use to generate plots. 
-
-
 #' DBSelector UI Function
 #'  
 #' Generate the UI for selecting the "Incidentes viales" data source,

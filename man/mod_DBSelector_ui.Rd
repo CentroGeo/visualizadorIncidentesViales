@@ -2,10 +2,7 @@
 % Please edit documentation in R/mod_DBSelector.R
 \name{mod_DBSelector_ui}
 \alias{mod_DBSelector_ui}
-\title{A shiny Module that contains the mod_DBSelector_ui and mod_DBSelector_server 
-functions that are use to select the source, location, and accident types
-that can be use to be display of use to generate plots. 
-DBSelector UI Function
+\title{DBSelector UI Function
  
 Generate the UI for selecting the "Incidentes viales" data source,
 type of accident and location}
@@ -16,9 +13,6 @@ mod_DBSelector_ui(id)
 \item{id}{shiny id}
 }
 \description{
-A shiny Module that contains the mod_DBSelector_ui and mod_DBSelector_server 
-functions that are use to select the source, location, and accident types
-that can be use to be display of use to generate plots. 
 DBSelector UI Function
  
 Generate the UI for selecting the "Incidentes viales" data source,
