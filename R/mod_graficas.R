@@ -299,10 +299,15 @@ horas_graf <- function(dataframe_rec_in, input) {
     )
     names(count_dia_c) <- c("dia", "fuente", "n", "geometry")
     count_dia_c$fuente <- as.factor(count_dia_c$fuente)
+    count_dia_c$dia <- as.character(count_dia_c$dia)
+    day_labels <- c("1" = "Domingo", "2" = "Lunes", "3" = "Martes",
+     "4" = "Miércoles",
+     "5" = "Jueves", "6" = "Viernes", "7" = "Sábado")
     p <- ggplot2::ggplot(
         data = count_dia_c,
         ggplot2::aes(x = dia, y = n, fill = fuente)
       ) +
+      ggplot2::scale_x_discrete(labels = day_labels) +
       ggplot2::geom_col(position = "dodge") +
       ggplot2::labs(
                   x = "Día de la Semana",
