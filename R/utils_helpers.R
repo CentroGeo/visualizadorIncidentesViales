@@ -28,6 +28,42 @@ preprocesa_pgj <- function(pgj) {
   return(pgj)
 }
 
+#' Preprocesa archivo csv de Fiscalía
+#'
+#' Lee el rds original y permite incorporar los nuevos datos usando la fecha 
+#'
+#' @param fgj_new tabla con los datos de fiscalía leídos de csv
+#'
+#' @return Tabla con los datos preprocesados listos para utilizarse 
+#' en la plataforma.
+#' 
+#'
+preprocesa_pgj_origin <- function(fgj_new){
+  df_old <- readRDS("./data-raw/fgj.rds")
+  max_date_fgj<- max(df_old$fecha_hechos)
+  fgj_new$fecha_hechos <- lubridate::as_datetime(fgj_new$fecha_hechos)
+  fgj_red_pre <-preprocesa_pgj(fgj_new)
+  fgj_red_pre <- fgj_red_pre[fgj_red_pre$fecha_hechos > max_date_fgj,]
+  ##### esto se debe de cambiar pero es la solucion facil 
+  df_old$fecha_hechos <- as.character(df_old$fecha_hechos)
+  fgj_red_pre$fecha_hechos<- as.character(fgj_red_pre$fecha_hechos)
+  df_old$timestamp <- as.character(df_old$timestamp)
+  fgj_red_pre$timestamp<- as.character(fgj_red_pre$timestamp)
+  df_old$fecha_inicio <- as.character(df_old$fecha_inicio)
+  fgj_red_pre$fecha_inicio<- as.character(fgj_red_pre$fecha_inicio)
+  ####
+  fgj_all <-rbind(df_old, fgj_red_pre)
+  ##### regresar como se debe
+  fgj_all$fecha_hechos <- lubridate::as_datetime(fgj_all$fecha_hechos)
+  fgj_all$fecha_inicio <- lubridate::as_date(fgj_all$fecha_inicio)
+  fgj_all$timestamp <- lubridate::as_datetime(fgj_all$timestamp)
+  return(fgj_all)
+}
+
+
+
+
+
 #' Preprocesa archivo csv de Secretaría de Seguridad Ciudadana
 #'
 #' @param ssc Tabla con los datos de SSC leídos de csv
@@ -77,6 +113,9 @@ preprocesa_ssc <- function(ssc) {
   return(ssc)
 }
 
+######Nio hay para SSC por que sus datos estan iguales 
+
+
 #' Preprocesa los datos de AXA
 #' 
 #'Preprocess the data from the tables in the AXA site  
@@ -85,7 +124,7 @@ preprocesa_ssc <- function(ssc) {
 preprocesa_axa_origin<- function(axa_new){
   
   ### axa is the new and should have the corresponding column names
-  print(head(axa_new))
+  #print(head(axa_new))
   #### Read old axa
   df_old <- readr::read_delim("./data-raw/AXA.csv",
                           col_names = TRUE,
