@@ -33,14 +33,14 @@ mod_graficas_ui <- function(id){
                                           choices = Mes_dia , # Vector of choices
                                           selected = "Por Mes" # Default selected
                                           )
-                             ),
-                      column(2, offset = 1,
-                             actionButton(
-                                          inputId = ns("boton_zoom_grafica"),  # Name to reference in the input
-                                          label = NULL , 
-                                          icon = icon("search-plus"),
-                                          style = "font-size:150%")
                              )
+                      # column(2, offset = 1,
+                      #        actionButton(
+                      #                     inputId = ns("boton_zoom_grafica"),  # Name to reference in the input
+                      #                     label = NULL , 
+                      #                     icon = icon("search-plus"),
+                      #                     style = "font-size:150%")
+                      #        )
                       ),
              shinycssloaders::withSpinner(
                                   plotOutput(outputId = ns("grafica_sp"), ## Name to reference in the input
@@ -73,15 +73,15 @@ mod_graficas_ui <- function(id){
                                   choices = intervalos , ## Vector of choices 
                                   selected = 'Todo el Día' ## Selected by defauls
                                   )
-                      ),
-                      column(2, 
-                             offset = 1,
-                             actionButton(inputId = ns('boton_zoom_grafica2'), # Name to reference the type of graphic
-                                          label = NULL , 
-                                          icon = icon('search-plus'),
-                                          style = 'font-size:150%')
-                             )
-                      ),
+                      )#,
+                      # column(2, 
+                      #        offset = 1,
+                      #        actionButton(inputId = ns('boton_zoom_grafica2'), # Name to reference the type of graphic
+                      #                     label = NULL , 
+                      #                     icon = icon('search-plus'),
+                      #                     style = 'font-size:150%')
+                      #        )
+                       ),
              shinycssloaders::withSpinner(
                                     plotOutput(outputId = ns('grafica_horas'), # Name to reference the type of graphic
                                                height = '350px', 
