@@ -26,6 +26,7 @@ golem::fill_desc(
 )
 
 ## Set {golem} options ----
+golem::set_golem_name("visualizadorIncidentesViales")
 golem::set_golem_options()
 
 ## Create Common Files ----
