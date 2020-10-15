@@ -9,14 +9,16 @@ mod_graficas_server(input, output, session, dataframe_rec)
 \arguments{
 \item{input}{shiny Parameter where the inputs from the UI are store}
 
-\item{output}{shiny parameter where the id are reference to display in the UI}
+\item{output}{shiny parameter where the id are reference
+to display in the UI}
 
 \item{session}{shiny parameter to store the session}
 
 \item{dataframe_rec}{The reactive function that returns a dataframe}
 }
 \description{
-The function use as parameter the reactive function that returns a dataframe 
-from the mod_DBSelector module, and the shiny input parameter to create the plots. 
+The function use as parameter the reactive function that returns a dataframe
+from the mod_DBSelector module, and the shiny input parameter to
+create the plots.
 These are put into the corresponding outputs for the UI reference in the
 }

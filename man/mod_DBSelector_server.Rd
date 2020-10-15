@@ -13,13 +13,15 @@ mod_DBSelector_server(input, output, session, interval_ba_rea)
 
 \item{session}{shiny internal}
 
-\item{interval_ba_rea}{Interval reactive that returne time interval to select data}
+\item{interval_ba_rea}{Interval reactive that returne time
+interval to select data}
 }
 \value{
-reactive function that returns a filtered dataframe using the inputs from the UI
+reactive function that returns a filtered dataframe
+ using the inputs from the UI
 }
 \description{
-Using the filters selected in the UI the function returns a reactive function that returns 
+Using the filters selected in the UI the function returns a reactive function that returns
 a dataframe filtered using the corresponding filters.
 }
 \keyword{internal}

@@ -2,10 +2,7 @@
 % Please edit documentation in R/mod_DBSelector.R
 \name{mod_DBSelector_ui}
 \alias{mod_DBSelector_ui}
-\title{DBSelector UI Function
- 
-Generate the UI for selecting the "Incidentes viales" data source,
-type of accident and location}
+\title{DBSelector UI Function}
 \usage{
 mod_DBSelector_ui(id)
 }
@@ -13,8 +10,6 @@ mod_DBSelector_ui(id)
 \item{id}{shiny id}
 }
 \description{
-DBSelector UI Function
- 
 Generate the UI for selecting the "Incidentes viales" data source,
 type of accident and location
 }

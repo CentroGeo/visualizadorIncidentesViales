@@ -9,7 +9,7 @@ mes_dia_graf(dataframe_rec_in, input)
 \arguments{
 \item{dataframe_rec_in}{The reactive function that returns a dataframe}
 
-\item{input}{shiny parameter where the inputs from the UI are store 
+\item{input}{shiny parameter where the inputs from the UI are store
 and the month or day graph is selected}
 }
 \value{

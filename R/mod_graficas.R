@@ -117,22 +117,22 @@ mod_graficas_ui <- function(id) {
 #'
 #'@returns The render plot selected in the UI
 mes_dia_graf <- function(dataframe_rec_in, input) {
-  renderPlot ({
+  renderPlot({
     if (input$tiempo_grafica == "Por Mes") {
       ############## Por Mes####################
-      data <- dataframe_rec_in()
+      datos <- dataframe_rec_in()
       ########### Agrupar###################
-      if (input$Datos_grafica!= "Combinadas") {
-        data <- data[data$fuente == input$Datos_grafica, ]
+      if (input$Datos_grafica != "Combinadas") {
+        datos <- datos[datos$fuente == input$Datos_grafica, ]
       }
       count_months_year <- dplyr::count(
-        data,
+        datos,
         paste0(
           1,
           "/",
-          lubridate::month(data$timestamp),
+          lubridate::month(datos$timestamp),
           "/",
-          lubridate::year(data$timestamp),
+          lubridate::year(datos$timestamp),
           fuente
         )
       )
@@ -156,7 +156,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
               count_months_year$fuente
             )
       ############### Grafica
-      if (length(unique(data$fuente)) != 1) {
+      if (length(unique(datos$fuente)) != 1) {
         p <- ggplot2::ggplot(
               data = count_months_year,
               ggplot2::aes(x = month_year,
@@ -166,7 +166,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
               )
             )
       }
-      else if (length(unique(data$fuente)) == 0) {
+      else if (length(unique(datos$fuente)) == 0) {
         p <- ggplot2::ggplot()
       }
       else{
@@ -204,15 +204,18 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
     }
     else if (input$tiempo_grafica == "Por Día") {
       ############## Por DIA####################
-      data <- dataframe_rec_in()
+      datos <- dataframe_rec_in()
+      if (input$Datos_grafica != "Combinadas") {
+        datos <- datos[datos$fuente == input$Datos_grafica, ]
+      }
       ########### Agrupar###################
       count_months_year <- dplyr::count(
-        data,
-        paste0(lubridate::day(data$timestamp),
+        datos,
+        paste0(lubridate::day(datos$timestamp),
               "/",
-              lubridate::month(data$timestamp),
+              lubridate::month(datos$timestamp),
               "/",
-              lubridate::year(data$timestamp),
+              lubridate::year(datos$timestamp),
               fuente
         )
       )
@@ -233,7 +236,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                                 )
       count_months_year$fuente <- as.factor(count_months_year$fuente)
       ##########Grafica
-      if (length(unique(data$fuente)) != 1) {
+      if (length(unique(datos$fuente)) != 1) {
         p <- ggplot2::ggplot(
                       data = count_months_year,
                       ggplot2::aes(x = dmy, y = n, 
@@ -241,7 +244,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                       )
             )
       }
-      else if(length(unique(data$fuente)) == 0) {
+      else if(length(unique(datos$fuente)) == 0) {
         p <- ggplot2::ggplot()
       }
       else{
@@ -296,41 +299,41 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 #'@returns The render plot selected in the UI
 horas_graf <- function(dataframe_rec_in, input) {
   renderPlot({
-    data <- dataframe_rec_in()
+    datos <- dataframe_rec_in()
     paleta_colores <- c(FGJ = "#952800", SSC = "#043A5F", AXA = "#5E0061")
     if (input$tipo_grafica2 != "Combinadas") {
-      data <- data[data$fuente == input$tipo_grafica2, ]
+      datos <- datos[datos$fuente == input$tipo_grafica2, ]
     }
     if(input$tiempo_grafica2 == "Mañana (6AM - 12PM)") {
-      data <- data[lubridate::hour(data$timestamp) >= 6 &
-                   lubridate::hour(data$timestamp) < 13, ]
+      datos <- datos[lubridate::hour(datos$timestamp) >= 6 &
+                   lubridate::hour(datos$timestamp) < 13, ]
     }
     else if (input$tiempo_grafica2 == "Tarde (1PM - 9PM)") {
-      data <- data[lubridate::hour(data$timestamp) >= 13 &
-                   lubridate::hour(data$timestamp) < 22, ]
+      datos <- datos[lubridate::hour(datos$timestamp) >= 13 &
+                   lubridate::hour(datos$timestamp) < 22, ]
     }
     else if (input$tiempo_grafica2 == "Noche (10PM - 5AM)") {
-      data <- data[lubridate::hour(data$timestamp) >= 22 |
-                   lubridate::hour(data$timestamp) < 6,]
+      datos <- datos[lubridate::hour(datos$timestamp) >= 22 |
+                   lubridate::hour(datos$timestamp) < 6,]
     }
     count_dia_c <- dplyr::count(
-      data,
+      datos,
       paste0(
-        lubridate::wday(data$timestamp),
+        lubridate::wday(datos$timestamp),
         fuente
       )
     )
     names(count_dia_c) <- c("dia_fue", "n", "geometry")
 
-    count_dia_c$dia<- substr(
+    count_dia_c$dia <- substr(
       count_dia_c$dia_fue,
       1,
       1
-    ) 
-    count_dia_c$fuente<- substr(
+    )
+    count_dia_c$fuente <- substr(
       count_dia_c$dia_fue,
-      nchar(count_dia_c$dia_fue)- 2,
-      nchar(count_dia_c$dia_fue) 
+      nchar(count_dia_c$dia_fue) - 2,
+      nchar(count_dia_c$dia_fue)
     )
     count_dia_c$fuente <- as.factor(count_dia_c$fuente)
     p <- ggplot2::ggplot(

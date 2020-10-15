@@ -7,10 +7,10 @@
 horas_graf(dataframe_rec_in, input)
 }
 \arguments{
-\item{dataframe_rec_in}{The reactive function that returns a dataframe with 
+\item{dataframe_rec_in}{The reactive function that returns a dataframe with
 the "incidentes viales"}
 
-\item{input}{shiny parameter where the inputs from the UI are store 
+\item{input}{shiny parameter where the inputs from the UI are store
 and the month or day graph is selected}
 }
 \value{
