@@ -29,25 +29,24 @@ app_server <- function(input, output, session) {
                 )
     )
   })
+  ##### Módulos de UI ######
+  # Introducción
   callModule(mod_introPageUI_server, "introPageUI_ui_1", parent = session)
+  # Info de BD
   callModule(mod_infoBdUI_server, "infoBdUI_ui_1", parent = session)
+  # Actualización de datos
   data <- callModule(mod_csvFileUI_server, "csvFileUI_ui")
   output$tabla <- DT::renderDataTable({data()})
-  # List the first level callModules here
-  #callModule(mod_landingPageUI_server, "landing")
-  # data <- callModule(mod_csvFileUI_server, "csvFileUI_ui")
-  # output$tabla <- DT::renderDataTable({data()})
-  # save <- callModule(mod_saveDataUI_server, "saveDataUI_ui", datos = data)
 
-  ##########LayOut######
-  #### bar server function###
+  ##### Módulos del servidor #####
+  # Time slider
   inter_bar_call <- callModule(mod_bar_server, "bar_ui_1")
-  #### Database server function####
+  # Selector de bases de datos
   data_out <- callModule(mod_DBSelector_server,
     "DBSelector_ui_1",
     inter_bar_call)
-  #####graph plot server function####
+  # Gráficas
   callModule(mod_graficas_server, "graficas_ui_1", data_out[[1]])
-  ### Map server function
+  # Mapa
   callModule(mod_mapa_server, "mapa_ui_1", data_out)
 }
