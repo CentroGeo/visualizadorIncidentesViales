@@ -125,31 +125,17 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
       if (input$Datos_grafica != "Combinadas") {
         datos <- datos[datos$fuente == input$Datos_grafica, ]
       }
-      count_months_year <- dplyr::count(
-        datos,
-        paste0(
-          1,
-          "/",
-          lubridate::month(datos$timestamp),
-          "/",
-          lubridate::year(datos$timestamp),
-          fuente
-        )
-      )
-      names(count_months_year) <- c("month_year_fue", "n", "geometry")
-      count_months_year$month_year <- substr(
-        count_months_year$month_year_fue,
-        1,
-        nchar(count_months_year$month_year_fue) - 3
-      )
-      count_months_year$fuente <- substr(
-        count_months_year$month_year_fue,
-        nchar(count_months_year$month_year_fue) - 3 + 1,
-        nchar(count_months_year$month_year_fue)
-      )
-
+      count_months_year <- dplyr::count(datos,
+                   lubridate::month(datos$timestamp),
+                   lubridate::year(datos$timestamp),
+                   fuente)
+      names(count_months_year) <- c("month", "year",
+                                    "fuente", "n", "geometry")
       count_months_year$month_year <- lubridate::as_date(
-                                                  count_months_year$month_year,
+                                                  paste0("1/",
+                                                    count_months_year$month,
+                                                    "/",
+                                                    count_months_year$year),
                                                   format = "%d/%m/%Y"
                                       )
       count_months_year$fuente <- as.factor(
@@ -198,8 +184,8 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                                     )
           ) +
           ggplot2::scale_colour_manual(values = paleta_colores,
-                                       limits= unique(count_months_year$fuente),
-                                       name= "Fuente"
+                                       limits = unique(count_months_year$fuente),
+                                       name = "Fuente"
           )
     }
     else if (input$tiempo_grafica == "Por Día") {
@@ -209,31 +195,21 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
         datos <- datos[datos$fuente == input$Datos_grafica, ]
       }
       ########### Agrupar###################
-      count_months_year <- dplyr::count(
-        datos,
-        paste0(lubridate::day(datos$timestamp),
-              "/",
-              lubridate::month(datos$timestamp),
-              "/",
-              lubridate::year(datos$timestamp),
-              fuente
-        )
-      )
-      names(count_months_year) <- c("dmy_fue", "n", "geometry")
-      count_months_year$dmy <- substr(
-        count_months_year$dmy_fue,
-        1,
-        nchar(count_months_year$dmy_fue) - 3
-      )
-      count_months_year$fuente <- substr(
-        count_months_year$dmy_fue,
-        nchar(count_months_year$dmy_fue) - 3 + 1,
-        nchar(count_months_year$dmy_fue)
-      )
+      count_months_year <- dplyr::count(datos,
+                   lubridate::day(datos$timestamp),
+                   lubridate::month(datos$timestamp),
+                   lubridate::year(datos$timestamp),
+                   fuente)
+      names(count_months_year) <- c("day", "month", "year",
+                                    "fuente", "n", "geometry")
       count_months_year$dmy <- lubridate::as_date(
-                                    count_months_year$dmy,
-                                    format = "%d/%m/%Y"
-                                )
+                                                  paste0(count_months_year$day,
+                                                    "/",
+                                                    count_months_year$month,
+                                                    "/",
+                                                    count_months_year$year),
+                                                  format = "%d/%m/%Y"
+                                      )
       count_months_year$fuente <- as.factor(count_months_year$fuente)
       ##########Grafica
       if (length(unique(datos$fuente)) != 1) {
@@ -244,7 +220,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                       )
             )
       }
-      else if(length(unique(datos$fuente)) == 0) {
+      else if (length(unique(datos$fuente)) == 0) {
         p <- ggplot2::ggplot()
       }
       else{
@@ -318,23 +294,10 @@ horas_graf <- function(dataframe_rec_in, input) {
     }
     count_dia_c <- dplyr::count(
       datos,
-      paste0(
-        lubridate::wday(datos$timestamp),
-        fuente
-      )
+      lubridate::wday(datos$timestamp),
+      fuente
     )
-    names(count_dia_c) <- c("dia_fue", "n", "geometry")
-
-    count_dia_c$dia <- substr(
-      count_dia_c$dia_fue,
-      1,
-      1
-    )
-    count_dia_c$fuente <- substr(
-      count_dia_c$dia_fue,
-      nchar(count_dia_c$dia_fue) - 2,
-      nchar(count_dia_c$dia_fue)
-    )
+    names(count_dia_c) <- c("dia", "fuente", "n", "geometry")
     count_dia_c$fuente <- as.factor(count_dia_c$fuente)
     p <- ggplot2::ggplot(
         data = count_dia_c,
