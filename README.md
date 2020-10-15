@@ -26,6 +26,13 @@ La estructura general de la interfase se puede ver en los archivos `R/app_ui.R` 
 
 Cada componente, tanto de `R/app_ui.R` como de `R/app_server.R` corresponde a un módulo en la misma carpeta. Los módulos contienen dos funciones, una para la interfase y uno para el servidor. Dentro de cada módulo está contenida toda la lógica del funcionamiento de cada elemento.
 
+Para correr la aplicación en modo desarrollo se ejecuta el código en `R/run_dev.R`
+
+Para agregar una dependencia:
+````R
+> usethis::use_package("mi_dependencia")
+````
+de esta forma se añade automáticamente al MANIFEST del paquete.
 
 
 
