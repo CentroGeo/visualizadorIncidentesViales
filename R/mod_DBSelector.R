@@ -93,9 +93,10 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
     }
     return(dataframe_fil)
   })
-  return(datafram_re)
-}  
-
+  seleccion_lugar <- reactive({input$filtro_lugar})
+  return(c(datafram_re, seleccion_lugar))
+}
+  
 
 
 ## To be copied in the UI

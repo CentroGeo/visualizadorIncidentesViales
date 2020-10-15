@@ -23,7 +23,7 @@ mod_introPageUI_ui <- function(id) {
               9,
               tags$p(strong("Panorama General"), style = "font-size: 18pt; color: #848888; text-align: left;"),
               tags$p(
-                "Uno de los compromisos de la Secretaría de Movilidad de la Ciudad de México (SEMOVI) es entender las características de los hechos de tránsito que se suscitan en la ciudad, con el objetivo de planear estrategias de seguridad vial con base en evidencia. Por lo que a partir de la liberación de distintas fuentes de datos oficiales, la SEMOVI en colaboración con el Laboratorio de Datos Geoespaciales (DataLab) del Centro de Ciencias de Información Geoespacial (CentroGeo) y la Aseguradora AXA, se dieron a la tarea de desarrollar herramientas de visualización y manejo de información, para entender la dinámica espacial que siguen los hechos de tránsito."
+                "Uno de los compromisos de la Secretaría de Movilidad de la Ciudad de México (SEMOVI) es generar estrategias de seguridad vial basadas en evidencia. Para ello es fundamental entender las características de los hechos de tránsito que se suscitan en la ciudad. Por lo que a partir de la liberación de distintas fuentes de datos oficiales, la SEMOVI en colaboración con el Laboratorio de Datos Geoespaciales (DataLab) del Centro de Ciencias de Información Geoespacial (CentroGeo) y la Aseguradora AXA, se dieron a la tarea de desarrollar herramientas de visualización y manejo de información para entender la dinámica espacial que siguen los hechos de tránsito."
               )
             ),
             column(
@@ -41,7 +41,7 @@ mod_introPageUI_ui <- function(id) {
               9,
               tags$p(strong("Herramienta de Geovisualización"), style = "font-size: 18pt; color: #848888; text-align: left;"),
               tags$p(
-                "Esta herramienta permite a los usuarios explorar y analizar de forma interactiva, los datos disponibles de la Secretaría de Seguridad Ciudadana (SSC), la Procuraduría General de Justicia (PGJ), el Centro de Comando, Control, Cómputo, Comunicaciones y Contacto Ciudadano de la Ciudad de México (C5), la aseguradora AXA y el proyecto colaborativo Repubikla."
+                "Esta herramienta permite a los usuarios explorar y analizar de forma interactiva, los datos disponibles de la Secretaría de Seguridad Ciudadana (SSC), la Fiscalía General de Justicia (FGJ) y la aseguradora AXA."
               ),
               tags$div(
                 style = "font-size: 24pt; text-align: right;",
@@ -54,31 +54,31 @@ mod_introPageUI_ui <- function(id) {
               )
             )
           ),
-          tags$div(style = "height: 20px; background-color: white;"),
-          fluidRow(
-            column(
-              9,
-              tags$p(strong(
-                "Herramienta de Integración de Información"
-              ), style = "font-size: 18pt; color: #848888; text-align: left;"),
-              tags$p(
-                "En la Ciudad de México los datos de incidentes viales  son recopilados por diferentes instituciones gubernamentales basándose en los objetivos particulares de cada una de ellas, por lo que no existe una única fuente de datos. Para la SEMOVI es importante poder contar con un panorama general, que integre los datos de las diferentes instituciones. Por lo que se desarrolló una aplicación que permite explorar los datos para complementar e integrar registros en una sola fuente."
-              ),
-              tags$div(
-                style = "font-size: 24pt; text-align: left;",
-                actionButton(
-                  inputId = "boton_ver_integracion",
-                  label = "Información sobre Herramienta de Integración",
-                  icon = icon("info-circle"),
-                  style = "background-color: #00AA5A; color: white; border-color: ; font-size: 14pt;"
-                )
-              )
-            ),
-            column(
-              3,
-              tags$img(src = "www/img/intro_c.jpg", style = "width: 100%;")
-            )
-          )
+          # tags$div(style = "height: 20px; background-color: white;"),
+          # fluidRow(
+          #   column(
+          #     9,
+          #     tags$p(strong(
+          #       "Herramienta de Integración de Información"
+          #     ), style = "font-size: 18pt; color: #848888; text-align: left;"),
+          #     tags$p(
+          #       "En la Ciudad de México los datos de incidentes viales  son recopilados por diferentes instituciones gubernamentales basándose en los objetivos particulares de cada una de ellas, por lo que no existe una única fuente de datos. Para la SEMOVI es importante poder contar con un panorama general, que integre los datos de las diferentes instituciones. Por lo que se desarrolló una aplicación que permite explorar los datos para complementar e integrar registros en una sola fuente."
+          #     ),
+          #     tags$div(
+          #       style = "font-size: 24pt; text-align: left;",
+          #       actionButton(
+          #         inputId = "boton_ver_integracion",
+          #         label = "Información sobre Herramienta de Integración",
+          #         icon = icon("info-circle"),
+          #         style = "background-color: #00AA5A; color: white; border-color: ; font-size: 14pt;"
+          #       )
+          #     )
+          #   ),
+          #   column(
+          #     3,
+          #     tags$img(src = "www/img/intro_c.jpg", style = "width: 100%;")
+          #   )
+          # )
         ),
         tags$div(style = "height: 20px; background-color: white;"),
         tags$div(
