@@ -7,14 +7,12 @@
 preprocesa_ssc(ssc)
 }
 \arguments{
-\item{Tibble}{con los datos de SSC leídos de csv}
+\item{ssc}{Tabla con los datos de SSC leídos de csv}
 }
 \value{
-Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
+Tabla con los datos preprocesados listos para utilizarse
+ en la plataforma.
 }
 \description{
 Preprocesa archivo csv de Secretaría de Seguridad Ciudadana
-}
-\examples{
-ssc_procesado <- preprocesa_ssc(ssc)
 }

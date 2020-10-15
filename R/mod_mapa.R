@@ -1,6 +1,6 @@
 #' mapa UI Function
 #'
-#' @description Selection of databases
+#' Map to display the "Accidentes viales"
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
@@ -16,11 +16,18 @@ mod_mapa_ui <- function(id) {
     leaflet::leafletOutput(outputId = ns("myMap"), height = "756px")
   )
 }
-    
+
 #' mapa Server Function
 #'
-#' @noRd 
-mod_mapa_server <- function(input, output, session, datos) {
+#' Map server gets the map from openstreetmaps an zoom it acordandly 
+#' 
+#' @param input shiny Parameter where the inputs from the UI are store
+#' 
+#' @param output shiny parameter where the id are reference to display in the UI  
+#' 
+#' @param session shiny parameter to store the session 
+#' 
+mod_mapa_server <- function( input, output, session, datos ){
   cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
   centroides <- sf::st_transform(cdmx, 32614) %>%
     sf::st_centroid(.) %>%
@@ -73,9 +80,8 @@ mod_mapa_server <- function(input, output, session, datos) {
                       "Fecha y Hora: ", datos_4326$timestamp)
       ) %>%
       leaflet::setView(lng = lon, lat = lat, zoom = zoom)
-      print(datos_4326)
   })
 }
-    
+
 ## To be copied in the UI
 # mod_mapa_ui("mapa_ui_1")

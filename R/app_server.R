@@ -40,8 +40,14 @@ app_server <- function(input, output, session) {
   # save <- callModule(mod_saveDataUI_server, "saveDataUI_ui", datos = data)
 
   ##########LayOut######
+  #### bar server function###
   inter_bar_call <- callModule(mod_bar_server, "bar_ui_1")
-  data_out <- callModule(mod_DBSelector_server, "DBSelector_ui_1", inter_bar_call)
-  callModule(mod_mapa_server, "mapa_ui_1", data_out)
+  #### Database server function####
+  data_out <- callModule(mod_DBSelector_server,
+    "DBSelector_ui_1",
+    inter_bar_call)
+  #####graph plot server function####
   callModule(mod_graficas_server, "graficas_ui_1", data_out[[1]])
+  ### Map server function
+  callModule(mod_mapa_server, "mapa_ui_1", data_out)
 }

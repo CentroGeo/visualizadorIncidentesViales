@@ -7,14 +7,12 @@
 preprocesa_pgj(pgj)
 }
 \arguments{
-\item{Tibble}{con los datos de fiscalía leídos de csv}
+\item{fgj}{tabla con los datos de fiscalía leídos de csv}
 }
 \value{
-Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
+Tabla con los datos preprocesados listos para utilizarse 
+en la plataforma.
 }
 \description{
 Preprocesa archivo csv de Fiscalía
-}
-\examples{
-pgj_procesado <- preprocesa_pgj(pgj)
 }

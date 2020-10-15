@@ -1,10 +1,9 @@
-#' Elemento de interfase para subir csvs las fuentes de datos
+#' csvFileUI UI Function
 #'
-#' @description Interfase para subir, procesar y actualizar las fuentes de datos que se utilizan
+#' @description Function that generates the user interface to load the files 
+#' to create the database that is use to visualize "accidentes viales"
 #'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd
+#' @param id
 #'
 #' @importFrom shiny NS tagList
 mod_csvFileUI_ui <- function(id, label = "Selecciona el archivo") {
@@ -27,7 +26,14 @@ mod_csvFileUI_ui <- function(id, label = "Selecciona el archivo") {
 
 #' csvFileUI Server Function
 #'
-#' @noRd
+#' Function that loads the new files for to create a new Dataframe to be use by 
+#' the "visualizador de accidentes"
+#'
+#' @param input shiny Parameter where the inputs from the UI are store
+#' 
+#' @param output shiny parameter where the id are reference to display in the UI  
+#' 
+#' @param session shiny parameter to store the session 
 mod_csvFileUI_server <- function(input, output, session) {
   ns <- session$ns
   shinyjs::toggleState("save")
@@ -45,6 +51,7 @@ mod_csvFileUI_server <- function(input, output, session) {
         quote = "\"",
         delim = ","
       )
+      ##### Validates if the file is from FGJ
       validate(need(try(preprocesa_pgj(df)), "El archivo no es de la FGJ"))
       shinyjs::toggleState("save")
       df <- preprocesa_pgj(df)
@@ -58,6 +65,7 @@ mod_csvFileUI_server <- function(input, output, session) {
           "HORA_EVENTO" = readr::col_character()
         )
       )
+      ##### Validates if the file is from SSC
       validate(need(try(preprocesa_ssc(df)), "El archivo no es de la SSC"))
       shinyjs::toggleState("save")
       df <- preprocesa_ssc(df)
@@ -67,6 +75,7 @@ mod_csvFileUI_server <- function(input, output, session) {
         quote = "\"",
         delim = ";"
       )
+      ##### Validates if the file is from AXA
       validate(need(try(preprocesa_axa(df)), "El archivo no es de AXA"))
       shinyjs::toggleState("save")
       df <- preprocesa_axa(df)
@@ -78,7 +87,7 @@ mod_csvFileUI_server <- function(input, output, session) {
     msg <- sprintf("File %s was uploaded", userFile()$name)
     cat(msg, "\n")
   })
-
+#### Saves file 
   observeEvent(input$save, {
     f_name <- paste0(input$database, ".rds")
     saveRDS(dataframe(), file = paste0("data-raw/", f_name))

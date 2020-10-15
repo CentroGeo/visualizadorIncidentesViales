@@ -7,14 +7,12 @@
 preprocesa_axa(axa)
 }
 \arguments{
-\item{Tibble}{con los datos de AXA leídos de csv}
+\item{axa}{Tabla con los datos de AXA leídos de csv}
 }
 \value{
-Tibble Con los datos preprocesados listos para utilizarse en la plataforma.
+Tabla con los datos preprocesados listos para utilizarse 
+en la plataforma.
 }
 \description{
 Preprocesa archivo csv de AXA
-}
-\examples{
-axa_procesado <- preprocesa_axa(axa)
 }

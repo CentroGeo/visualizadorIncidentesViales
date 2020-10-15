@@ -1,49 +1,49 @@
 #' graficas UI Function
 #'
-#' @description A shiny Module.
+#' UI function that produces the graphic interface to select the type of plots
+#' and the interval to generate them.  
+#'    
 #'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
-#' @noRd 
+#' @param id  shiny parameter for the different sessions 
+#' 
 #'
 #' @importFrom shiny NS tagList 
 #' 
 #' 
 
-
-
 mod_graficas_ui <- function(id){
   ns <- NS(id)
-  
-  Mes_dia<- c("Por Mes" , "Por Día")
+  Mes_dia<- c("Por Mes" , "Por Día") ##Type of plot
   intervalos <- c("Todo el Día" , "Mañana (6AM - 12PM)" ,
-                  "Tarde (1PM - 9PM)" , "Noche (10PM - 5AM)")
-  choices_po <- c("Combinadas", "FGJ", "SSC", "AXA") ### Este vector deberia ser reactivo y poder cambiar
-  #print(ns("fuentes_graf"))
+                  "Tarde (1PM - 9PM)" , "Noche (10PM - 5AM)")  ## Interval of the day
+  choices_po <- c("Combinadas", "FGJ", "SSC", "AXA") ## This vector is use to select 
+  ## the data and is updated in the server function   #print(ns("fuentes_graf"))
   tabsetPanel(
+    ### Graph by month 
     tabPanel(title = "Gráficas por Totales",
-             selectInput(inputId = ns("Datos_grafica"),
-                         label = "Datos a Graficar",
-                         choices = choices_po, ### Falta arreglar que esto sea interactivo
-                         selected = "Combinadas"
+             selectInput(inputId = ns("Datos_grafica"), # Name to reference in the input
+                         label = "Datos a Graficar", # Label show in th UI
+                         choices = choices_po, # This is the vector that is updated
+                         selected = "Combinadas" # Selected by default
                          ),
              fluidRow(column(9,
-                             radioButtons(inputId = ns("tiempo_grafica") , 
-                                          label = "Temporalidad a Graficar", 
-                                          inline = TRUE,
-                                          choices = Mes_dia , 
-                                          selected = "Por Mes"
+                             radioButtons(inputId = ns("tiempo_grafica") , # Name to reference in the input
+                                          label = "Temporalidad a Graficar", # Label show in the UI
+                                          inline = TRUE, 
+                                          choices = Mes_dia , # Vector of choices
+                                          selected = "Por Mes" # Default selected
                                           )
                              ),
                       column(2, offset = 1,
-                             actionButton(inputId = ns("boton_zoom_grafica"),
-                                          label = NULL ,
+                             actionButton(
+                                          inputId = ns("boton_zoom_grafica"),  # Name to reference in the input
+                                          label = NULL , 
                                           icon = icon("search-plus"),
                                           style = "font-size:150%")
                              )
                       ),
              shinycssloaders::withSpinner(
-                                  plotOutput(outputId = ns("grafica_sp"),
+                                  plotOutput(outputId = ns("grafica_sp"), ## Name to reference in the input
                                              height = "350px",
                                              click = clickOpts(id = ns("plot_click"))
                                              ),
@@ -52,38 +52,39 @@ mod_graficas_ui <- function(id){
                                   size = 1 , 
                                   color.background = '#FFFFFF'
                             ),
-             uiOutput(outputId = ns("click_info")),
-             tags$div(id = "div_grafica_a"),
+             uiOutput(outputId = ns("click_info") ) ,
+             tags$div( id = "div_grafica_a"),
              tags$div(tableOutput(outputId = ns("tabla_totales")),
                       style = "font-size: 80%; width: 100%; margin: auto;")
              ),
-    tabPanel(title = "Gráficas por Día y Hora",
-             selectInput(inputId = ns("tipo_grafica2"), 
-                         label = "Datos a Graficar",
-                         choices = choices_po,
-                         selected = "Combinadas"
+    tabPanel(### Graph by day of the week and time
+             title = "Gráficas por Día y Hora", 
+             selectInput(inputId = ns("tipo_grafica2"), # Name to reference in the input
+                         label = "Datos a Graficar", ## Label to show in the UI
+                         choices = choices_po, ## Vector of choices
+                         selected = "Combinadas" ## Selected by default
                          ),
              fluidRow(
                       column(9,
                           radioButtons(
-                                  inputId = ns("tiempo_grafica2"),
-                                  label = 'Temporalidad a Graficar',
-                                  inline = TRUE,
-                                  choices = intervalos ,
-                                  selected = 'Todo el Día'
+                                  inputId = ns("tiempo_grafica2"), # Name to reference in the input
+                                  label = 'Temporalidad a Graficar', ## Label to show in the UI
+                                  inline = TRUE, 
+                                  choices = intervalos , ## Vector of choices 
+                                  selected = 'Todo el Día' ## Selected by defauls
                                   )
                       ),
                       column(2, 
                              offset = 1,
-                             actionButton(inputId = ns('boton_zoom_grafica2'),
-                                          label = NULL ,
+                             actionButton(inputId = ns('boton_zoom_grafica2'), # Name to reference the type of graphic
+                                          label = NULL , 
                                           icon = icon('search-plus'),
                                           style = 'font-size:150%')
                              )
                       ),
              shinycssloaders::withSpinner(
-                                    plotOutput(outputId = ns('grafica_horas'),
-                                               height = '350px',
+                                    plotOutput(outputId = ns('grafica_horas'), # Name to reference the type of graphic
+                                               height = '350px', 
                                                click = clickOpts(id = 'plot_click2')
                                                ),
                                     type = 3 ,
@@ -91,33 +92,26 @@ mod_graficas_ui <- function(id){
                                     size = 1 ,
                                     color.background = '#FFFFFF'
                     ),
-             uiOutput(outputId = 'click_info2'),
-             tags$div(id = 'div_grafica_a2'),
-             fluidRow(column(1 ,
-                             actionButton(inputId = ns('pastel_left'),
-                                          icon = icon('angle-left') ,
-                                          label = NULL)
-                             ),
-                      column(10 ,
-                             textInput(inputId = ns('pastel_texto'),
-                                       label = NULL , 
-                                       value = '')
-                             ),
-                      column(1 ,
-                             actionButton(inputId = ns('pastel_right') ,
-                                          icon = icon('angle-right'),
-                                          label = NULL)
-                             )
-                      ),
-             plotOutput(outputId = ns('grafica_pastel') , height = '50px'))
+             plotOutput(outputId = ns('grafica_pastel') , height = '50px')
+             )
   )
   
 }
-    
-#' graficas Server Function
-#'
-#' @noRd 
 
+
+
+
+#' Graficas Mes Dia Function    
+#' 
+#' Generates the graph of the "Incidentes viales" by month or daily 
+#' 
+#'
+#'@param input shiny parameter where the inputs from the UI are store 
+#'and the month or day graph is selected
+#'
+#'@param dataframe_rec_in The reactive function that returns a dataframe
+#'
+#'@returns The render plot selected in the UI
 mes_dia_graf <- function(dataframe_rec_in ,input){
   renderPlot({
     if(input$tiempo_grafica =="Por Mes"){
@@ -286,6 +280,17 @@ mes_dia_graf <- function(dataframe_rec_in ,input){
   })
 }
 
+#' Grafica Horas Function
+#' 
+#' Generates the graph of the "Incidentes viales" by the selected interval day  
+#'
+#'@param input shiny parameter where the inputs from the UI are store 
+#'and the month or day graph is selected
+#'
+#'@param dataframe_rec_in The reactive function that returns a dataframe with 
+#'the "incidentes viales"
+#'
+#'@returns The render plot selected in the UI
 horas_graf <- function(dataframe_rec_in, input){
   renderPlot({ 
     data <- dataframe_rec_in()
@@ -343,7 +348,20 @@ horas_graf <- function(dataframe_rec_in, input){
     return(p)
   })
 }
-
+#' graficas Server Function
+#' 
+#' The function use as parameter the reactive function that returns a dataframe 
+#' from the mod_DBSelector module, and the shiny input parameter to create the plots. 
+#' These are put into the corresponding outputs for the UI reference in the 
+#' 
+#' @param input shiny Parameter where the inputs from the UI are store
+#' 
+#' @param output shiny parameter where the id are reference to display in the UI  
+#' 
+#' @param session shiny parameter to store the session 
+#' 
+#' @param dataframe_rec  The reactive function that returns a dataframe
+#' 
 mod_graficas_server <- function(input, output, session, dataframe_rec){
   ns <- session$ns
   observeEvent(dataframe_rec() , ignoreNULL = FALSE, {

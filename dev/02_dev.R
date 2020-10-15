@@ -38,10 +38,8 @@ usethis::use_package("DT")
 ## Add modules ----
 ## Create a module infrastructure in R/
 golem::add_module(name = "introPageUI") # Página de inicio
-golem::add_module(name = "landingPageUI") # Página de inicio
 golem::add_module(name = "csvFileUI") # Interfase de actualización de bases de datos
 golem::add_module(name = "infoBdUI") # Ifo de las bases de datos
-# golem::add_module( name = "name_of_module2" ) # Name of the module
 golem::add_module( name = "mapa" ) # Visualizador
 golem::add_module( name = "bar" ) # Visualizador
 golem::add_module( name = "DBSelector" ) # Visualizador

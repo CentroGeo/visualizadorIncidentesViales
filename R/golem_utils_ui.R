@@ -4,7 +4,6 @@
 #' @param class a class for the list
 #' 
 #' @return an HTML list
-#' @noRd
 #' 
 #' @examples
 #' list_to_li(c("a","b"))
@@ -113,7 +112,6 @@ named_to_li <- function(list, class = NULL){
 #' @param ... the attributes to remove
 #'
 #' @return a new tag
-#' @noRd
 #' 
 #' @examples
 #' a <- shiny::tags$p(src = "plop", "pouet")
@@ -131,7 +129,6 @@ tagRemoveAttributes <- function(tag, ...) {
 #' @param tag the tag
 #' 
 #' @return a tag
-#' @noRd
 #' 
 #' @examples
 #' ## Hide
@@ -217,7 +214,6 @@ with_red_star <- function(text) {
 #' @param times the number of br to return
 #'
 #' @return the number of br specified in times
-#' @noRd
 #' 
 #' @examples
 #' rep_br(5)
@@ -233,7 +229,6 @@ rep_br <- function(times = 1) {
 #' @param text the text to display
 #'
 #' @return an a tag
-#' @noRd
 #'
 #' @examples
 #' enurl("https://www.thinkr.fr", "ThinkR")
@@ -248,7 +243,6 @@ enurl <- function(url, text){
 #' These are convenient wrappers around 
 #' `column(12, ...)`, `column(6, ...)`, `column(4, ...)`...
 #' 
-#' @noRd
 #' 
 #' @importFrom shiny column
 col_12 <- function(...){
