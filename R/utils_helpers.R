@@ -85,7 +85,7 @@ preprocesa_ssc <- function(ssc) {
 preprocesa_axa_origin<- function(axa_new){
   
   ### axa is the new and should have the corresponding column names
-  
+  print(head(axa_new))
   #### Read old axa
   df_old <- readr::read_delim("./data-raw/AXA.csv",
                           col_names = TRUE,
@@ -100,6 +100,12 @@ preprocesa_axa_origin<- function(axa_new){
      "HORA","LESIONADOS","RELACION LESIONADOS", "NIVEL LESIONADO",  
      "HOSPITALIZADO","FALLECIDO")
   axa_new<- axa_new[, name_look]
+  ##### remove berofore pass 
+  axa_new<- axa_new[!(axa_new$LATITUD == '\\N' | axa_new$LATITUD == '0'), ] 
+  axa_new<- axa_new[!(axa_new$LONGITUD == '\\N' | axa_new$LONGITUD == '0'), ]
+  names(axa_new) <- names(df_old) 
+  axa_new$latitud <- as.double(axa_new$latitud)
+  axa_new$longitud <- as.double(axa_new$longitud)
   
   axa_rds_loc <- preprocesa_axa(df_old)
   max_year_axa<- max(axa_rds_loc$ao)
@@ -107,8 +113,8 @@ preprocesa_axa_origin<- function(axa_new){
   max_month_axa <- max(axa_rds_loc_y$mes)
   axa_rds_loc_y_m <- axa_rds_loc_y[axa_rds_loc_y$mes== max_month_axa,]
   max_day_axa <- max(axa_rds_loc_y_m$dia_numero)
-  axa_red_pre <-preprocesa_axa(axa_red)
-  axa_red_pre$mes<- as.integer(axa_red_pre$mes)
+  axa_red_pre <-preprocesa_axa(axa_new)
+  #axa_red_pre$mes<- as.integer(axa_red_pre$mes)
   axa_red_pre <- axa_red_pre[axa_red_pre$ao >= max_year_axa,]
   axa_red_pre <- axa_red_pre[axa_red_pre$mes >= max_month_axa,]
   
@@ -116,7 +122,7 @@ preprocesa_axa_origin<- function(axa_new){
     axa_red_pre$dia_numero >= max_day_axa |
     axa_red_pre$mes >max_month_axa, ]
   
-  axa_red_pre$timestamp <-as.chron(axa_red_pre$timestamp)
+  #axa_red_pre$timestamp <-as.chron(axa_red_pre$timestamp)
   axa_all <-rbind(axa_rds_loc, axa_red_pre)
   return(axa_all)
 }

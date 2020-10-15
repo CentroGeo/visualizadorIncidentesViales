@@ -2,7 +2,7 @@
 % Please edit documentation in R/mod_csvFileUI.R
 \name{mod_csvFileUI_ui}
 \alias{mod_csvFileUI_ui}
-\title{EcsvFileUI UI Function}
+\title{csvFileUI UI Function}
 \usage{
 mod_csvFileUI_ui(id, label = "Selecciona el archivo")
 }
