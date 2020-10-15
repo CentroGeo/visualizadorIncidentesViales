@@ -77,6 +77,54 @@ preprocesa_ssc <- function(ssc) {
   return(ssc)
 }
 
+#' Preprocesa los datos de AXA
+#' 
+#'Preprocess the data from the tables in the AXA site  
+#' 
+#' 
+preprocesa_axa_origin<- function(axa_new){
+  
+  ### axa is the new and should have the corresponding column names
+  
+  #### Read old axa
+  df_old <- readr::read_delim("./data-raw/AXA.csv",
+                          col_names = TRUE,
+                          quote = "\"",
+                          delim = ";"
+  )
+  
+  
+  ##### Va a tener que ser harcodeado 
+  name_look<-c( "LATITUD","LONGITUD","CAUSA SINIESTRO", "TIPO VEHICULO",
+     "NIVEL DAÑO VEHICULO" , "PUNTO DE IMPACTO", "AÑO","MES" ,"DÍA NUMERO",
+     "HORA","LESIONADOS","RELACION LESIONADOS", "NIVEL LESIONADO",  
+     "HOSPITALIZADO","FALLECIDO")
+  axa_new<- axa_new[, name_look]
+  
+  axa_rds_loc <- preprocesa_axa(df_old)
+  max_year_axa<- max(axa_rds_loc$ao)
+  axa_rds_loc_y<- axa_rds_loc[axa_rds_loc$ao==max_year_axa,]
+  max_month_axa <- max(axa_rds_loc_y$mes)
+  axa_rds_loc_y_m <- axa_rds_loc_y[axa_rds_loc_y$mes== max_month_axa,]
+  max_day_axa <- max(axa_rds_loc_y_m$dia_numero)
+  axa_red_pre <-preprocesa_axa(axa_red)
+  axa_red_pre$mes<- as.integer(axa_red_pre$mes)
+  axa_red_pre <- axa_red_pre[axa_red_pre$ao >= max_year_axa,]
+  axa_red_pre <- axa_red_pre[axa_red_pre$mes >= max_month_axa,]
+  
+  axa_red_pre <-axa_red_pre[axa_red_pre$mes== max_month_axa &
+    axa_red_pre$dia_numero >= max_day_axa |
+    axa_red_pre$mes >max_month_axa, ]
+  
+  axa_red_pre$timestamp <-as.chron(axa_red_pre$timestamp)
+  axa_all <-rbind(axa_rds_loc, axa_red_pre)
+  return(axa_all)
+}
+
+
+
+
+
 #' Preprocesa archivo csv de AXA
 #'
 #' @param axa Tabla con los datos de AXA leídos de csv
@@ -201,3 +249,5 @@ une_tablas <- function() {
   total <- rbind(total, scc)
   return(total)
 }
+
+
