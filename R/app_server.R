@@ -43,5 +43,5 @@ app_server <- function(input, output, session) {
   inter_bar_call <- callModule(mod_bar_server, "bar_ui_1")
   data_out <- callModule(mod_DBSelector_server, "DBSelector_ui_1", inter_bar_call)
   callModule(mod_mapa_server, "mapa_ui_1", data_out)
-  callModule(mod_graficas_server, "graficas_ui_1", data_out)
+  callModule(mod_graficas_server, "graficas_ui_1", data_out[[1]])
 }

@@ -54,7 +54,6 @@ mod_DBSelector_ui <- function(id){
 mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
   ns <- session$ns
   cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
-  
   # print(ns)
   datafram_re <- reactive({
     
@@ -87,8 +86,9 @@ mod_DBSelector_server <-  function(input, output, session, interval_ba_rea){
     }
     return(dataframe_fil)
   })
-  return(datafram_re)
-}  
+  seleccion_lugar <- reactive({input$filtro_lugar})
+  return(c(datafram_re, seleccion_lugar))
+}
   
 
 
