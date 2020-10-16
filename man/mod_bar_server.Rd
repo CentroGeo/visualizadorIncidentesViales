@@ -2,7 +2,10 @@
 % Please edit documentation in R/mod_bar.R
 \name{mod_bar_server}
 \alias{mod_bar_server}
-\title{Bar Server Function}
+\title{Bar Server Function
+¿
+The function returns a reactive function that returns a vectors with the
+ date of the interval}
 \usage{
 mod_bar_server(input, output, session)
 }
@@ -14,10 +17,12 @@ mod_bar_server(input, output, session)
 \item{session}{shiny internal}
 }
 \value{
-Reactive function that returns a vector with a time interval 
+Reactive function that returns a vector with a time interval
 (min, max) dates
 }
 \description{
+Bar Server Function
+¿
 The function returns a reactive function that returns a vectors with the
  date of the interval
 }

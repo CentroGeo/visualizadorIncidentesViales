@@ -16,10 +16,10 @@ preprocesa_pgj <- function(pgj) {
        timestamp >= lubridate::parse_date_time("2016-01-01", "Y-m-d")
       )
   pgj["geopoint"] <- NULL
-  pgj <- pgj[order(pgj$timestamp),]
+  pgj <- pgj[order(pgj$timestamp), ]
   pgj["id"] <- seq.int(nrow(pgj))
-  pgj <- dplyr::filter(pgj,!is.na(latitud) & !is.na(longitud))
-  pgj <- dplyr::filter(pgj,!is.na(timestamp))
+  pgj <- dplyr::filter(pgj, !is.na(latitud) & !is.na(longitud))
+  pgj <- dplyr::filter(pgj, !is.na(timestamp))
   pgj <- sf::st_transform(sf::st_as_sf(
     pgj,
     coords = c("longitud", "latitud"),
@@ -38,21 +38,21 @@ preprocesa_pgj <- function(pgj) {
 #' en la plataforma.
 #' 
 #'
-preprocesa_pgj_origin <- function(fgj_new){
+preprocesa_pgj_origin <- function(fgj_new) {
   df_old <- readRDS("./data-raw/fgj.rds")
-  max_date_fgj<- max(df_old$fecha_hechos)
-  fgj_new$fecha_hechos <- lubridate::as_datetime(fgj_new$fecha_hechos)
-  fgj_red_pre <-preprocesa_pgj(fgj_new)
-  fgj_red_pre <- fgj_red_pre[fgj_red_pre$fecha_hechos > max_date_fgj,]
-  ##### esto se debe de cambiar pero es la solucion facil 
+  max_date_fgj <- max(df_old$fecha_hechos)
+  fgj_red_pre <- preprocesa_pgj(fgj_new)
+  fgj_red_pre <- fgj_red_pre[fgj_red_pre$fecha_hechos > max_date_fgj, ]
+  ##### esto se debe de cambiar pero es la solucion facil
   df_old$fecha_hechos <- as.character(df_old$fecha_hechos)
-  fgj_red_pre$fecha_hechos<- as.character(fgj_red_pre$fecha_hechos)
+  fgj_red_pre$fecha_hechos <- as.character(fgj_red_pre$fecha_hechos)
   df_old$timestamp <- as.character(df_old$timestamp)
-  fgj_red_pre$timestamp<- as.character(fgj_red_pre$timestamp)
+  fgj_red_pre$timestamp <- as.character(fgj_red_pre$timestamp)
   df_old$fecha_inicio <- as.character(df_old$fecha_inicio)
-  fgj_red_pre$fecha_inicio<- as.character(fgj_red_pre$fecha_inicio)
+  fgj_red_pre$fecha_inicio <- as.character(fgj_red_pre$fecha_inicio)
   ####
-  fgj_all <-rbind(df_old, fgj_red_pre)
+  sf::st_crs(df_old) <- 32614
+  fgj_all <- rbind(df_old, fgj_red_pre)
   ##### regresar como se debe
   fgj_all$fecha_hechos <- lubridate::as_datetime(fgj_all$fecha_hechos)
   fgj_all$fecha_inicio <- lubridate::as_date(fgj_all$fecha_inicio)
@@ -291,7 +291,7 @@ une_tablas <- function() {
   fgj <- dplyr::select(fgj, tidyselect::all_of(cols))
   ssc <- dplyr::select(ssc, tidyselect::all_of(cols))
   total <- rbind(axa, fgj)
-  total <- rbind(total, scc)
+  total <- rbind(total, ssc)
   return(total)
 }
 
