@@ -14,29 +14,29 @@
 mod_graficas_ui <- function(id) {
   ns <- NS(id)
   # Type of plot
-  Mes_dia <- c("Por Mes", "Por Día")
+  Mes_dia <- c("Mensual", "Diaria")
   # Interval of the day
   intervalos <- c("Todo el Día", "Mañana (6AM - 12PM)",
                   "Tarde (1PM - 9PM)", "Noche (10PM - 5AM)")
   # This vector is use to select
-  choices_po <- c("Combinadas", "FGJ", "SSC", "AXA")
+  choices_po <- c("Todas", "FGJ", "SSC", "AXA")
   ## the data and is updated in the server function   #print(ns("fuentes_graf"))
   tabsetPanel(
     ### Graph by month
-    tabPanel(title = "Gráficas por Totales",
-             selectInput(inputId = ns("Datos_grafica"), # Name to reference in the input
-                         label = "Datos a Graficar", # Label show in th UI
-                         choices = choices_po, # This is the vector that is updated
-                         selected = "Combinadas" # Selected by default
+    tabPanel(title = "Gráficas de conteos",
+             selectInput(inputId = ns("Datos_grafica"),
+                         label = "Base de Datos",
+                         choices = choices_po,
+                         selected = "Todas"
                          ),
              fluidRow(column(9,
-                             radioButtons(inputId = ns("tiempo_grafica") , # Name to reference in the input
-                                          label = "Temporalidad a Graficar", # Label show in the UI
-                                          inline = TRUE, 
-                                          choices = Mes_dia , # Vector of choices
-                                          selected = "Por Mes" # Default selected
-                                          )
-                             )
+                        radioButtons(inputId = ns("tiempo_grafica"),
+                                    label = "Agregación de los datos",
+                                    inline = TRUE,
+                                    choices = Mes_dia,
+                                    selected = "Mensual"
+                                    )
+                      )
                       # column(2, offset = 1,
                       #        actionButton(
                       #                     inputId = ns("boton_zoom_grafica"),  # Name to reference in the input
@@ -61,11 +61,11 @@ mod_graficas_ui <- function(id) {
                 style = "font-size: 80%; width: 100%; margin: auto;")
         ),
     tabPanel(### Graph by day of the week and time
-             title = "Gráficas por Día y Hora",
+             title = "Agregador por día de la semana",
              selectInput(inputId = ns("tipo_grafica2"),
                          label = "Datos a Graficar",
                          choices = choices_po,
-                         selected = "Combinadas"                         ),
+                         selected = "Todas"                         ),
              fluidRow(
                       column(9,
                           radioButtons(
@@ -116,11 +116,11 @@ mod_graficas_ui <- function(id) {
 #'@returns The render plot selected in the UI
 mes_dia_graf <- function(dataframe_rec_in, input) {
   renderPlot({
-    if (input$tiempo_grafica == "Por Mes") {
-      ############## Por Mes####################
+    if (input$tiempo_grafica == "Mensual") {
+      ############## Mensual####################
       datos <- dataframe_rec_in()
       ########### Agrupar###################
-      if (input$Datos_grafica != "Combinadas") {
+      if (input$Datos_grafica != "Todas") {
         datos <- datos[datos$fuente == input$Datos_grafica, ]
       }
       count_months_year <- dplyr::count(datos,
@@ -186,10 +186,10 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                                        name = "Fuente"
           )
     }
-    else if (input$tiempo_grafica == "Por Día") {
+    else if (input$tiempo_grafica == "Diaria") {
       ############## Por DIA####################
       datos <- dataframe_rec_in()
-      if (input$Datos_grafica != "Combinadas") {
+      if (input$Datos_grafica != "Todas") {
         datos <- datos[datos$fuente == input$Datos_grafica, ]
       }
       ########### Agrupar###################
@@ -275,7 +275,7 @@ horas_graf <- function(dataframe_rec_in, input) {
   renderPlot({
     datos <- dataframe_rec_in()
     paleta_colores <- c(FGJ = "#952800", SSC = "#043A5F", AXA = "#5E0061")
-    if (input$tipo_grafica2 != "Combinadas") {
+    if (input$tipo_grafica2 != "Todas") {
       datos <- datos[datos$fuente == input$tipo_grafica2, ]
     }
     if(input$tiempo_grafica2 == "Mañana (6AM - 12PM)") {
@@ -340,17 +340,17 @@ mod_graficas_server <- function(input, output, session, dataframe_rec) {
   observeEvent(dataframe_rec(), ignoreNULL = FALSE, {
     data_f <- dataframe_rec()
     val_fue <- unique(data_f$fuente)
-    val_fue <- append(val_fue, "Combinadas")
+    val_fue <- append(val_fue, "Todas")
     opciones <- as.character(val_fue)
     updateSelectInput(session, inputId = "Datos_grafica",
                       label = "Datos a Graficar",
                       choices = opciones,
-                      selected = "Combinadas"
+                      selected = "Todas"
                       )
     updateSelectInput(session , inputId = "tipo_grafica2",
                       label = "Datos a Graficar",
                       choices = opciones,
-                      selected = "Combinadas"
+                      selected = "Todas"
     )
   })
   output$grafica_sp <- mes_dia_graf(dataframe_rec, input)
