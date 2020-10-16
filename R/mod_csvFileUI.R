@@ -52,9 +52,9 @@ mod_csvFileUI_server <- function(input, output, session) {
         delim = ","
       )
       ##### Validates if the file is from FGJ
-      validate(need(try(preprocesa_pgj(df)), "El archivo no es de la FGJ"))
+      validate(need(try(df <- preprocesa_pgj_origin(df)), "El archivo no es de la FGJ"))
       shinyjs::toggleState("save")
-      df <- preprocesa_pgj(df)
+      df
     } else if (input$database == "ssc") {
       df <- readr::read_delim(userFile()$datapath,
         col_names = TRUE,
@@ -73,12 +73,13 @@ mod_csvFileUI_server <- function(input, output, session) {
       df <- readr::read_delim(userFile()$datapath,
         col_names = TRUE,
         quote = "\"",
-        delim = ";"
+        delim = ","
       )
       ##### Validates if the file is from AXA
-      validate(need(try(preprocesa_axa(df)), "El archivo no es de AXA"))
+      validate(need(try(df<- preprocesa_axa_origin(df)), "El archivo no es de AXA"))
       shinyjs::toggleState("save")
-      df <- preprocesa_axa(df)
+      #df <- preprocesa_axa(df)
+      df 
     }
   })
 

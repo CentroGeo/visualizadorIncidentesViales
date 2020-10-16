@@ -28,6 +28,42 @@ preprocesa_pgj <- function(pgj) {
   return(pgj)
 }
 
+#' Preprocesa archivo csv de Fiscalía
+#'
+#' Lee el rds original y permite incorporar los nuevos datos usando la fecha 
+#'
+#' @param fgj_new tabla con los datos de fiscalía leídos de csv
+#'
+#' @return Tabla con los datos preprocesados listos para utilizarse 
+#' en la plataforma.
+#' 
+#'
+preprocesa_pgj_origin <- function(fgj_new){
+  df_old <- readRDS("./data-raw/fgj.rds")
+  max_date_fgj<- max(df_old$fecha_hechos)
+  fgj_new$fecha_hechos <- lubridate::as_datetime(fgj_new$fecha_hechos)
+  fgj_red_pre <-preprocesa_pgj(fgj_new)
+  fgj_red_pre <- fgj_red_pre[fgj_red_pre$fecha_hechos > max_date_fgj,]
+  ##### esto se debe de cambiar pero es la solucion facil 
+  df_old$fecha_hechos <- as.character(df_old$fecha_hechos)
+  fgj_red_pre$fecha_hechos<- as.character(fgj_red_pre$fecha_hechos)
+  df_old$timestamp <- as.character(df_old$timestamp)
+  fgj_red_pre$timestamp<- as.character(fgj_red_pre$timestamp)
+  df_old$fecha_inicio <- as.character(df_old$fecha_inicio)
+  fgj_red_pre$fecha_inicio<- as.character(fgj_red_pre$fecha_inicio)
+  ####
+  fgj_all <-rbind(df_old, fgj_red_pre)
+  ##### regresar como se debe
+  fgj_all$fecha_hechos <- lubridate::as_datetime(fgj_all$fecha_hechos)
+  fgj_all$fecha_inicio <- lubridate::as_date(fgj_all$fecha_inicio)
+  fgj_all$timestamp <- lubridate::as_datetime(fgj_all$timestamp)
+  return(fgj_all)
+}
+
+
+
+
+
 #' Preprocesa archivo csv de Secretaría de Seguridad Ciudadana
 #'
 #' @param ssc Tabla con los datos de SSC leídos de csv
@@ -76,6 +112,63 @@ preprocesa_ssc <- function(ssc) {
   ), 32614)
   return(ssc)
 }
+
+######Nio hay para SSC por que sus datos estan iguales 
+
+
+#' Preprocesa los datos de AXA
+#' 
+#'Preprocess the data from the tables in the AXA site  
+#' 
+#' 
+preprocesa_axa_origin<- function(axa_new){
+  
+  ### axa is the new and should have the corresponding column names
+  #print(head(axa_new))
+  #### Read old axa
+  df_old <- readr::read_delim("./data-raw/AXA.csv",
+                          col_names = TRUE,
+                          quote = "\"",
+                          delim = ";"
+  )
+  
+  
+  ##### Va a tener que ser harcodeado 
+  name_look<-c( "LATITUD","LONGITUD","CAUSA SINIESTRO", "TIPO VEHICULO",
+     "NIVEL DAÑO VEHICULO" , "PUNTO DE IMPACTO", "AÑO","MES" ,"DÍA NUMERO",
+     "HORA","LESIONADOS","RELACION LESIONADOS", "NIVEL LESIONADO",  
+     "HOSPITALIZADO","FALLECIDO")
+  axa_new<- axa_new[, name_look]
+  ##### remove berofore pass 
+  axa_new<- axa_new[!(axa_new$LATITUD == '\\N' | axa_new$LATITUD == '0'), ] 
+  axa_new<- axa_new[!(axa_new$LONGITUD == '\\N' | axa_new$LONGITUD == '0'), ]
+  names(axa_new) <- names(df_old) 
+  axa_new$latitud <- as.double(axa_new$latitud)
+  axa_new$longitud <- as.double(axa_new$longitud)
+  
+  axa_rds_loc <- preprocesa_axa(df_old)
+  max_year_axa<- max(axa_rds_loc$ao)
+  axa_rds_loc_y<- axa_rds_loc[axa_rds_loc$ao==max_year_axa,]
+  max_month_axa <- max(axa_rds_loc_y$mes)
+  axa_rds_loc_y_m <- axa_rds_loc_y[axa_rds_loc_y$mes== max_month_axa,]
+  max_day_axa <- max(axa_rds_loc_y_m$dia_numero)
+  axa_red_pre <-preprocesa_axa(axa_new)
+  #axa_red_pre$mes<- as.integer(axa_red_pre$mes)
+  axa_red_pre <- axa_red_pre[axa_red_pre$ao >= max_year_axa,]
+  axa_red_pre <- axa_red_pre[axa_red_pre$mes >= max_month_axa,]
+  
+  axa_red_pre <-axa_red_pre[axa_red_pre$mes== max_month_axa &
+    axa_red_pre$dia_numero >= max_day_axa |
+    axa_red_pre$mes >max_month_axa, ]
+  
+  #axa_red_pre$timestamp <-as.chron(axa_red_pre$timestamp)
+  axa_all <-rbind(axa_rds_loc, axa_red_pre)
+  return(axa_all)
+}
+
+
+
+
 
 #' Preprocesa archivo csv de AXA
 #'
@@ -201,3 +294,5 @@ une_tablas <- function() {
   total <- rbind(total, scc)
   return(total)
 }
+
+

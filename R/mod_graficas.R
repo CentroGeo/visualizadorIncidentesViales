@@ -24,38 +24,26 @@ mod_graficas_ui <- function(id) {
   tabsetPanel(
     ### Graph by month
     tabPanel(title = "Gráficas por Totales",
-        # Name to reference in the input
-
-        selectInput(inputId = ns("Datos_grafica"),
-                    label = "Datos a Graficar",
-                    choices = choices_po,
-                    selected = "Combinadas"
-                    ),
-        fluidRow(column(9,
-                        radioButtons(inputId = ns("tiempo_grafica"),
-                                    label = "Temporalidad a Graficar",
-                                    inline = TRUE,
-                                    choices = Mes_dia,
-                                    selected = "Por Mes"
-                                    )
-                        ),
-                column(2, offset = 1,
-                        actionButton(
-                                    inputId = ns("boton_zoom_grafica"),
-                                    label = NULL,
-                                    icon = icon("search-plus"),
-                                    style = "font-size:150%")
-                        )
-                ),
-        shinycssloaders::withSpinner(
-                            plotOutput(outputId = ns("grafica_sp"),
-                                        height = "350px",
-                                        click = clickOpts(id = ns("plot_click"))
-                                        ),
-                            type = 3,
-                            color = "#00A65A",
-                            size = 1,
-                            color.background = "#FFFFFF"
+             selectInput(inputId = ns("Datos_grafica"), # Name to reference in the input
+                         label = "Datos a Graficar", # Label show in th UI
+                         choices = choices_po, # This is the vector that is updated
+                         selected = "Combinadas" # Selected by default
+                         ),
+             fluidRow(column(9,
+                             radioButtons(inputId = ns("tiempo_grafica") , # Name to reference in the input
+                                          label = "Temporalidad a Graficar", # Label show in the UI
+                                          inline = TRUE, 
+                                          choices = Mes_dia , # Vector of choices
+                                          selected = "Por Mes" # Default selected
+                                          )
+                             )
+                      # column(2, offset = 1,
+                      #        actionButton(
+                      #                     inputId = ns("boton_zoom_grafica"),  # Name to reference in the input
+                      #                     label = NULL , 
+                      #                     icon = icon("search-plus"),
+                      #                     style = "font-size:150%")
+                      #        )
                       ),
         uiOutput(outputId = ns("click_info")),
         tags$div(id = "div_grafica_a"),
@@ -77,15 +65,15 @@ mod_graficas_ui <- function(id) {
                                   choices = intervalos,
                                   selected = "Todo el Día"
                                   )
-                      ),
-                      column(2,
-                             offset = 1,
-                             actionButton(inputId = ns("boton_zoom_grafica2"),
-                                          label = NULL,
-                                          icon = icon("search-plus"),
-                                          style = "font-size:150%")
-                             )
-                      ),
+                      )#,
+                      # column(2, 
+                      #        offset = 1,
+                      #        actionButton(inputId = ns('boton_zoom_grafica2'), # Name to reference the type of graphic
+                      #                     label = NULL , 
+                      #                     icon = icon('search-plus'),
+                      #                     style = 'font-size:150%')
+                      #        )
+                       ),
              shinycssloaders::withSpinner(
                                     plotOutput(outputId = ns("grafica_horas"),
                                                height = "350px",
