@@ -45,6 +45,16 @@ mod_graficas_ui <- function(id) {
                       #                     style = "font-size:150%")
                       #        )
                       ),
+        shinycssloaders::withSpinner(
+                    plotOutput(outputId = ns("grafica_sp"), ## Name to reference in the input
+                                height = "350px",
+                                click = clickOpts(id = ns("plot_click"))
+                                ),
+                    type = 3 ,
+                    color = '#00A65A' ,
+                    size = 1 , 
+                    color.background = '#FFFFFF'
+        ),
         uiOutput(outputId = ns("click_info")),
         tags$div(id = "div_grafica_a"),
         tags$div(tableOutput(outputId = ns("tabla_totales")),
