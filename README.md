@@ -4,7 +4,7 @@ Este repositorio contiene una implementación en [Shiny](https://shiny.rstudio.c
 
 * [Fiscalía General de Justicia](https://datos.cdmx.gob.mx/explore/dataset/carpetas-de-investigacion-pgj-de-la-ciudad-de-mexico/information/?disjunctive.ao_hechos&disjunctive.delito)
 * [Secretaría de Seguridad Ciudadana](https://datos.cdmx.gob.mx/explore/dataset/hechos-de-transito-reportados-por-ssc-base-comparativa/information/)
-* [Seguros AXA](https://i2ds.org/datos-abiertos/)
+* [AXA Seguros](https://i2ds.org/datos-abiertos/)
 
 ## Instrucciones de instalación
 
