@@ -18,6 +18,7 @@ mod_csvFileUI_ui <- function(id, label = "Selecciona el archivo") {
     selectInput(ns("database"), "Fuente de Datos", c(
       "Fiscalía" = "fgj",
       "Seguridad Ciudadana" = "ssc",
+      "C5" = "c5",
       "AXA" = "axa"
     )),
     actionButton(ns("save"), "Guardar")
@@ -69,6 +70,17 @@ mod_csvFileUI_server <- function(input, output, session) {
       validate(need(try(preprocesa_ssc(df)), "El archivo no es de la SSC"))
       shinyjs::toggleState("save")
       df <- preprocesa_ssc(df)
+    } else if (input$database == "c5") {
+      df <- readr::read_delim(userFile()$datapath,
+                              col_names = TRUE,
+                              quote = "\"",
+                              delim = ","
+      )
+      ##### Validates if the file is from AXA
+      validate(need(try(df<- preprocesa_C5_origin(df)), "El archivo no es del C5"))
+      shinyjs::toggleState("save")
+      #df <- preprocesa_axa(df)
+      df 
     } else if (input$database == "axa") {
       df <- readr::read_delim(userFile()$datapath,
         col_names = TRUE,

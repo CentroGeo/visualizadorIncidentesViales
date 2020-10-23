@@ -5,7 +5,7 @@
 #' @return Tabla con los datos preprocesados listos para utilizarse 
 #' en la plataforma.
 #' 
-#'
+#'jJ 
 preprocesa_pgj <- function(pgj) {
   pgj['timestamp'] <- lubridate::parse_date_time(
                        pgj$fecha_hechos,
@@ -169,7 +169,6 @@ preprocesa_axa_origin<- function(axa_new){
 
 
 
-
 #' Preprocesa archivo csv de AXA
 #'
 #' @param axa Tabla con los datos de AXA leídos de csv
@@ -222,6 +221,123 @@ preprocesa_axa <- function(axa) {
                           )
   return(axa)
 }
+
+
+#' Preprocesa archivo csv de AXA
+#'
+#' @param df_abierto Tabla con los datos del C5 leídos de un csv
+#'
+#' @return Tabla con los datos preprocesados listos para utilizarse 
+#' en la plataforma.
+#' 
+#'
+#' 
+preprocesa_C5<- function(df_abierto){
+  
+  #Se eliminan falsas alarmas y delitos 
+  df_abierto <-df_abierto[df_abierto$clas_con_f_alarma != "Falsa Alarma" |
+                            df_abierto$clas_con_f_alarma != "Delito",
+  ]
+  # Se eliminan los incidentes falsos
+  df_abierto <- df_abierto [
+    df_abierto$codigo_cierre == "(A) La unidad de atención a emergencias fue despachada, llegó al lugar de los hechos y confirmó la emergencia reportada" |
+      df$codigo_cierre == "(I) El incidente reportado es afirmativo y se añade información adicional al evento",
+  ]
+  
+  ##Lesionados
+  incidente_c4_lesionados <- c("accidente-choque con lesionados",
+                               "accidente-choque con prensados",
+                               "accidente-persona atrapada / desbarrancada",
+                               "accidente-vehiculo atrapado",
+                               "accidente-vehículo atrapado-varado",
+                               "accidente-vehiculo desbarrancado",
+                               "accidente-volcadura",
+                               "detención ciudadana-atropellado", 
+                               "lesionado-accidente automovilístico",
+                               "lesionado-atropellado"
+  )
+  ###Accidente
+  incidente_c4_accidente <-c( "accidente-choque sin lesionados",
+                              "detención ciudadana-accidente automovilístico",
+                              "accidente-ciclista",
+                              "accidente-ferroviario", 
+                              "accidente-monopatín",
+                              "accidente-motociclista",
+                              "accidente-otros"
+  )
+  
+  ### Decesos 
+  incidente_c4_decesos <- c("cadáver-accidente automovilístico",
+                            "cadáver-atropellado"
+  )
+  ####Se les da la etiqueta correspondiente
+  df_abierto <- dplyr::mutate(
+    df_abierto,
+    tipo_incidente =
+      ifelse(df_abierto$incidente_c4 %in% incidente_c4_decesos, "DECESO",
+             ifelse(df_abierto$incidente_c4 %in% incidente_c4_lesionados ,
+                    "LESIONADO",
+                    ifelse(df_abierto$incidente_c4 %in% incidente_c4_accidente,
+                           "ACCIDENTE",
+                           NA
+                    ))
+      )
+  )
+  
+  
+  ### obtenemos el timestamp
+  df_abierto$fecha_creacion <- lubridate::as_date( df_abierto$fecha_creacion,
+                                                   format= "%d/%m/%Y")
+  df_abierto$hora_creacion <- lubridate::hms( df_abierto$hora_creacion)  
+  df_abierto$timestamp <- with(
+    df_abierto,
+    df_abierto$fecha_creacion + df_abierto$hora_creacion
+  )
+  df_abierto <- dplyr::filter(df_abierto, !is.na(latitud) & !is.na(longitud))
+  df_abierto <- dplyr::filter(df_abierto, !is.na(timestamp))
+  #obtenemos los puntos
+  df_abierto <- sf::st_transform(
+    sf::st_as_sf(df_abierto,
+                 coords = c('longitud','latitud'),
+                 crs = 4326), 32614
+  )
+  return(df_abierto)
+}
+
+#' Preprocesa archivo csv del C5
+#'
+#' Lee el rds original y permite incorporar los nuevos datos usando la fecha 
+#'
+#' @param c5_new tabla con los datos de fiscalía leídos de csv
+#'
+#' @return Tabla con los datos preprocesados listos para utilizarse 
+#' en la plataforma.
+#' 
+#'
+preprocesa_C5_origin <- function(c5_new) {
+  df_old <- readRDS("./data-raw/c5.rds")
+  max_date_c5 <- max(df_old$ffecha_creacion)
+  c5_red_pre <- preprocesa_C5(c5_new)
+  c5_red_pre <- c5_red_pre[c5_red_pre$fecha_creacion > max_date_c5, ]
+  ##### esto se debe de cambiar pero es la solucion facil
+  # df_old$fecha_creacion <- as.character(df_old$fecha_creacion)
+  # c5_red_pre$fecha_creacion <- as.character(c5_red_pre$fecha_creacion)
+  # df_old$timestamp <- as.character(df_old$timestamp)
+  # c5_red_pre$timestamp <- as.character(c5_red_pre$timestamp)
+  # df_old$hora_creacion <- as.character(df_old$hora_creacion)
+  # c5_red_pre$hora_creacion <- as.character(c5_red_pre$hora_creacion)
+  ####
+  #sf::st_crs(df_old) <- 32614
+  c5_all <- rbind(df_old, c5_red_pre)
+  ##### regresar como se debe
+  # c5_all$fecha_hechos <- lubridate::as_datetime(c5_all$fecha_hechos)
+  # c5_all$fecha_inicio <- lubridate::as_date(c5_all$fecha_inicio)
+  # fgj_all$timestamp <- lubridate::as_datetime(fgj_all$timestamp)
+  return(c5_all)
+}
+
+
+
 
 
 #' Joins the tables
