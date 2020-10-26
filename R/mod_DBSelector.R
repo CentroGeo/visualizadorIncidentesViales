@@ -20,7 +20,7 @@ mod_DBSelector_ui <- function(id) {
   )
   ## Vector with the accident types
   tipo_incidentes <- c("ACCIDENTE", "LESIONADO", "DECESO")
-  bases <- c("FGJ", "SSC", "AXA")
+  bases <- c("FGJ", "SSC", "C5", "AXA")
   fluidPage(
     selectInput(
       inputId = ns("filtro_lugar"), ## Name to reference in the input
@@ -73,6 +73,7 @@ mod_DBSelector_server <- function(input, output, session, interval_ba_rea) {
   datafram_re <- reactive({
     ## Read the resulting dataframe from the mod_csvFileUI
     dataframe_fil <- readRDS("./data-raw/fuentes_unidas.rds")
+    ######  
     dataframe_fil <- dataframe_fil[dataframe_fil$fuente %in% input$filtro_bd, ]
     ## filter by type of accident
     dataframe_fil <- dataframe_fil[dataframe_fil$tipo_incidente %in%

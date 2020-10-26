@@ -19,7 +19,7 @@ mod_graficas_ui <- function(id) {
   intervalos <- c("Todo el Día", "Mañana (6AM - 12PM)",
                   "Tarde (1PM - 9PM)", "Noche (10PM - 5AM)")
   # This vector is use to select
-  choices_po <- c("Todas", "FGJ", "SSC", "AXA")
+  choices_po <- c("Todas", "FGJ", "SSC", "C5", "AXA")
   ## the data and is updated in the server function   #print(ns("fuentes_graf"))
   tabsetPanel(
     ### Graph by month
@@ -94,8 +94,8 @@ mod_graficas_ui <- function(id) {
                                     color = "#00A65A",
                                     size = 1,
                                     color.background = "#FFFFFF"
-                    ),
-             plotOutput(outputId = ns("grafica_pastel"), height = "50px")
+                    )#,
+             #plotOutput(outputId = ns("grafica_pastel"), height = "50px")
              )
   )
 }
@@ -160,7 +160,10 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
         )
       }
 
-      paleta_colores <- c(FGJ = "#952800", SSC = "#043A5F", AXA = "#5E0061")
+      paleta_colores <- c(FGJ = "#952800",
+                          SSC = "#043A5F",
+                          C5 =  "#956F00",
+                          AXA = "#5E0061")
       p <- p +
           ggplot2::geom_line() +
 
@@ -227,7 +230,10 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
           ggplot2::aes(x = dmy, y = n, group = 1, colour = fuente)
         )
       }
-      paleta_colores <- c(FGJ = "#952800", SSC = "#043A5F", AXA = "#5E0061")
+      paleta_colores <- c(FGJ = "#952800",
+                          SSC = "#043A5F",
+                          C5 =  "#956F00",
+                          AXA = "#5E0061")
       p <- p +
           ggplot2::geom_line() +
           ggplot2::geom_smooth(
@@ -274,7 +280,11 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 horas_graf <- function(dataframe_rec_in, input) {
   renderPlot({
     datos <- dataframe_rec_in()
-    paleta_colores <- c(FGJ = "#952800", SSC = "#043A5F", AXA = "#5E0061")
+    paleta_colores <- c(FGJ = "#952800",
+                        SSC = "#043A5F",
+                        C5 =  "#956F00",
+                        AXA = "#5E0061")
+    
     if (input$tipo_grafica2 != "Todas") {
       datos <- datos[datos$fuente == input$tipo_grafica2, ]
     }

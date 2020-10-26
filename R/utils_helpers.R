@@ -139,7 +139,7 @@ preprocesa_axa_origin<- function(axa_new){
      "HORA","LESIONADOS","RELACION LESIONADOS", "NIVEL LESIONADO",  
      "HOSPITALIZADO","FALLECIDO")
   axa_new<- axa_new[, name_look]
-  ##### remove berofore pass 
+  ##### remove before pass 
   axa_new<- axa_new[!(axa_new$LATITUD == '\\N' | axa_new$LATITUD == '0'), ] 
   axa_new<- axa_new[!(axa_new$LONGITUD == '\\N' | axa_new$LONGITUD == '0'), ]
   names(axa_new) <- names(df_old) 
@@ -237,25 +237,18 @@ preprocesa_C5<- function(df_abierto){
   #Se eliminan falsas alarmas y delitos 
   df_abierto <-df_abierto[df_abierto$clas_con_f_alarma != "Falsa Alarma" |
                             df_abierto$clas_con_f_alarma != "Delito",
-  ]
+                          ]
   # Se eliminan los incidentes falsos
-  df_abierto <- df_abierto [
-    df_abierto$codigo_cierre == "(A) La unidad de atención a emergencias fue despachada, llegó al lugar de los hechos y confirmó la emergencia reportada" |
-      df$codigo_cierre == "(I) El incidente reportado es afirmativo y se añade información adicional al evento",
-  ]
+  Confirmacion1 <-  df_abierto$codigo_cierre == "(A) La unidad de atención a emergencias fue despachada, llegó al lugar de los hechos y confirmó la emergencia reportada"
+  Confirmacion2 <- df_abierto$codigo_cierre == "(I) El incidente reportado es afirmativo y se añade información adicional al evento"
+  df_abierto <- df_abierto[ Confirmacion1 | Confirmacion2 , ]
   
   ##Lesionados
   incidente_c4_lesionados <- c("accidente-choque con lesionados",
-                               "accidente-choque con prensados",
-                               "accidente-persona atrapada / desbarrancada",
-                               "accidente-vehiculo atrapado",
-                               "accidente-vehículo atrapado-varado",
-                               "accidente-vehiculo desbarrancado",
-                               "accidente-volcadura",
                                "detención ciudadana-atropellado", 
                                "lesionado-accidente automovilístico",
                                "lesionado-atropellado"
-  )
+                              )
   ###Accidente
   incidente_c4_accidente <-c( "accidente-choque sin lesionados",
                               "detención ciudadana-accidente automovilístico",
@@ -263,13 +256,19 @@ preprocesa_C5<- function(df_abierto){
                               "accidente-ferroviario", 
                               "accidente-monopatín",
                               "accidente-motociclista",
-                              "accidente-otros"
-  )
+                              "accidente-otros", 
+                              "accidente-choque con prensados",
+                              "accidente-persona atrapada / desbarrancada",
+                              "accidente-vehiculo atrapado",
+                              "accidente-vehículo atrapado-varado",
+                              "accidente-vehiculo desbarrancado",
+                              "accidente-volcadura"
+                              )
   
   ### Decesos 
   incidente_c4_decesos <- c("cadáver-accidente automovilístico",
                             "cadáver-atropellado"
-  )
+                            )
   ####Se les da la etiqueta correspondiente
   df_abierto <- dplyr::mutate(
     df_abierto,
@@ -316,9 +315,11 @@ preprocesa_C5<- function(df_abierto){
 #'
 preprocesa_C5_origin <- function(c5_new) {
   df_old <- readRDS("./data-raw/c5.rds")
-  max_date_c5 <- max(df_old$ffecha_creacion)
+  max_date_c5 <- max(df_old$fecha_creacion)  
   c5_red_pre <- preprocesa_C5(c5_new)
   c5_red_pre <- c5_red_pre[c5_red_pre$fecha_creacion > max_date_c5, ]
+  print("Se une el archivo al ya subido para hacer un nuevo rds")
+  c5_all <- rbind(df_old, c5_red_pre)
   ##### esto se debe de cambiar pero es la solucion facil
   # df_old$fecha_creacion <- as.character(df_old$fecha_creacion)
   # c5_red_pre$fecha_creacion <- as.character(c5_red_pre$fecha_creacion)
@@ -328,7 +329,7 @@ preprocesa_C5_origin <- function(c5_new) {
   # c5_red_pre$hora_creacion <- as.character(c5_red_pre$hora_creacion)
   ####
   #sf::st_crs(df_old) <- 32614
-  c5_all <- rbind(df_old, c5_red_pre)
+  
   ##### regresar como se debe
   # c5_all$fecha_hechos <- lubridate::as_datetime(c5_all$fecha_hechos)
   # c5_all$fecha_inicio <- lubridate::as_date(c5_all$fecha_inicio)
@@ -350,12 +351,15 @@ une_tablas <- function() {
   axa <- readRDS("./data-raw/axa.rds")
   fgj <- readRDS("./data-raw/fgj.rds")
   ssc <- readRDS("./data-raw/ssc.rds")
+  c5 <- readRDS("./data-raw/c5.rds")
   fgj_cols <- c("delito", "geometry", "timestamp")
   ssc_cols <- c("total_occisos", "geometry", "timestamp", "total_lesionados")
   axa_cols <- c("fallecido", "geometry", "timestamp", "lesionados")
+  c5_cols <- c("geometry", "timestamp", "tipo_incidente")
   axa <- dplyr::select(axa, tidyselect::all_of(axa_cols))
   fgj <- dplyr::select(fgj, tidyselect::all_of(fgj_cols))
   ssc <- dplyr::select(ssc, tidyselect::all_of(ssc_cols))
+  c5 <- dplyr::select(c5, tidyselect::all_of(c5_cols))
   fgj <- dplyr::mutate(
     fgj,
     tipo_incidente =
@@ -401,6 +405,7 @@ une_tablas <- function() {
         ))
       )
   )
+  c5$fuente <- "C5"
   axa$fuente <- "AXA"
   cols <- c("geometry", "timestamp", "tipo_incidente", "fuente")
   axa <- dplyr::select(axa, tidyselect::all_of(cols))
@@ -408,6 +413,7 @@ une_tablas <- function() {
   ssc <- dplyr::select(ssc, tidyselect::all_of(cols))
   total <- rbind(axa, fgj)
   total <- rbind(total, ssc)
+  total <- rbind(total, c5)
   return(total)
 }
 
