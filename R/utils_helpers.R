@@ -284,13 +284,20 @@ preprocesa_C5<- function(df_abierto){
   )
   
   
-  ### obtenemos el timestamp
-  df_abierto$fecha_creacion <- lubridate::as_date( df_abierto$fecha_creacion,
-                                                   format= "%d/%m/%Y")
-  df_abierto$hora_creacion <- lubridate::hms( df_abierto$hora_creacion)  
+  ### obtenemos el timestamp como estan en dos formatos distintos 
+  ## vamos a tener que hacer moidificaciones
+  df_abierto$fecha_creacion_2 <- ifelse(nchar(df_abierto$fecha_creacion)>8 ,
+                     lubridate::as_date( df_abierto$fecha_creacion,
+                                         format= "%d/%m/%Y"),
+                     lubridate::as_date(df_abierto$fecha_creacion,
+                                        format= "%d/%m/%y") 
+                     )
+  # df_abierto$fecha_creacion_2 <- lubridate::as_date( df_abierto$fecha_creacion,
+  #                                                  format= "%d/%m/%Y")
+  df_abierto$hora_creacion_2 <- lubridate::hms( df_abierto$hora_creacion)  
   df_abierto$timestamp <- with(
     df_abierto,
-    df_abierto$fecha_creacion + df_abierto$hora_creacion
+    lubridate::as_date(df_abierto$fecha_creacion_2) + df_abierto$hora_creacion_2
   )
   df_abierto <- dplyr::filter(df_abierto, !is.na(latitud) & !is.na(longitud))
   df_abierto <- dplyr::filter(df_abierto, !is.na(timestamp))
