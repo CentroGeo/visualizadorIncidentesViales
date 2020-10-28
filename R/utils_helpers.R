@@ -294,10 +294,11 @@ preprocesa_C5<- function(df_abierto){
                      )
   # df_abierto$fecha_creacion_2 <- lubridate::as_date( df_abierto$fecha_creacion,
   #                                                  format= "%d/%m/%Y")
+  df_abierto$fecha_creacion_2 <- lubridate::as_date(df_abierto$fecha_creacion_2)
   df_abierto$hora_creacion_2 <- lubridate::hms( df_abierto$hora_creacion)  
   df_abierto$timestamp <- with(
     df_abierto,
-    lubridate::as_date(df_abierto$fecha_creacion_2) + df_abierto$hora_creacion_2
+    df_abierto$fecha_creacion_2 + df_abierto$hora_creacion_2
   )
   df_abierto <- dplyr::filter(df_abierto, !is.na(latitud) & !is.na(longitud))
   df_abierto <- dplyr::filter(df_abierto, !is.na(timestamp))
@@ -322,9 +323,9 @@ preprocesa_C5<- function(df_abierto){
 #'
 preprocesa_C5_origin <- function(c5_new) {
   df_old <- readRDS("./data-raw/c5.rds")
-  max_date_c5 <- max(df_old$fecha_creacion)  
+  max_date_c5 <- max(df_old$fecha_creacion_2)  
   c5_red_pre <- preprocesa_C5(c5_new)
-  c5_red_pre <- c5_red_pre[c5_red_pre$fecha_creacion > max_date_c5, ]
+  c5_red_pre <- c5_red_pre[c5_red_pre$fecha_creacion_2 > max_date_c5, ]
   print("Se une el archivo al ya subido para hacer un nuevo rds")
   c5_all <- rbind(df_old, c5_red_pre)
   ##### esto se debe de cambiar pero es la solucion facil
