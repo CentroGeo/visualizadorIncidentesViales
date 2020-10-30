@@ -61,7 +61,7 @@ mod_graficas_ui <- function(id) {
                 style = "font-size: 80%; width: 100%; margin: auto;")
         ),
     tabPanel(### Graph by day of the week and time
-             title = "Agregador por día de la semana",
+             title = "Agregados por día de la semana",
              selectInput(inputId = ns("tipo_grafica2"),
                          label = "Datos a Graficar",
                          choices = choices_po,
