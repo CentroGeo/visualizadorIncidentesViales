@@ -51,9 +51,9 @@ mod_graficas_ui <- function(id) {
                                 click = clickOpts(id = ns("plot_click"))
                                 ),
                     type = 3 ,
-                    color = '#00A65A' ,
-                    size = 1 , 
-                    color.background = '#FFFFFF'
+                    color = "#00A65A",
+                    size = 1,
+                    color.background = "#FFFFFF"
         ),
         uiOutput(outputId = ns("click_info")),
         tags$div(id = "div_grafica_a"),
@@ -65,7 +65,7 @@ mod_graficas_ui <- function(id) {
              selectInput(inputId = ns("tipo_grafica2"),
                          label = "Datos a Graficar",
                          choices = choices_po,
-                         selected = "Todas"                         ),
+                         selected = "Todas"),
             #  fluidRow(
             #           column(9,
             #               radioButtons(
@@ -268,7 +268,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 
 #' Grafica Horas Function
 #'
-#' Generates the graph of the "Incidentes viales" by the selected interval day 
+#' Generates the graph of the "Incidentes viales" by the selected interval day
 #'
 #'@param input shiny parameter where the inputs from the UI are store
 #'and the month or day graph is selected
@@ -280,19 +280,52 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 horas_graf <- function(dataframe_rec_in, input) {
   renderPlot({
     datos <- dataframe_rec_in()
+    colores_fgj <- list(start = "#ffffcc", end = "#b10026")
+    colores_ssc <- list(start = "#fff7fb", end = "#034e7b")
+    colores_c5 <-  list(start = "#ffffe5", end = "#8c2d04")
+    colores_axa <- list(start = "#fff7f3", end = "#7a0177")
+    colores_todas <- list(start = "#fff5f0", end = "#99000d")
+    paleta <- list(
+      colores_fgj = colores_fgj,
+      colores_ssc = colores_ssc,
+      colores_c5 = colores_c5,
+      colores_axa = colores_axa,
+      colores_todas = colores_todas
+    )
+    if (input$tipo_grafica2 == "FGJ") {
+      colores <- paleta$colores_fgj
+    }else if (input$tipo_grafica2 == "AXA") {
+      colores <- paleta$colores_axa
+    }else if (input$tipo_grafica2 == "C5") {
+      colores <- paleta$colores_c5
+    }else if (input$tipo_grafica2 == "SSC") {
+      colores <- paleta$colores_ssc
+    }else{
+      colores <- paleta$colores_todas
+    }
+    print(input$tipo_grafica2)
+    print(colores)
     cuentas <- dplyr::count(
       datos,
-      weekdays(timestamp),
+      lubridate::wday(timestamp),
       lubridate::hour(timestamp)
     )
-      names(cuentas) <- c("Dia", "Hora", "Incidentes", "geometry")
-  cuentas <- tidyr::drop_na(cuentas)
-  p <- ggplot2::ggplot(
-    cuentas,
-    ggplot2::aes(x = Dia, y = Hora, fill = Incidentes)
-  ) +
+    names(cuentas) <- c("Dia", "hora", "Incidentes", "geometry")
+    cuentas$Dia <- as.character(cuentas$Dia)
+    day_labels <- c(
+      "1" = "Domingo", "2" = "Lunes", "3" = "Martes",
+      "4" = "Miércoles",
+      "5" = "Jueves", "6" = "Viernes", "7" = "Sábado"
+    )
+    cuentas <- tidyr::drop_na(cuentas)
+    cuentas <- dplyr::mutate(cuentas, Hora = sprintf("%02d:00", hora))
+    p <- ggplot2::ggplot(
+      cuentas,
+      ggplot2::aes(x = Dia, y = Hora, fill = Incidentes)
+    ) +
     ggplot2::geom_tile() +
-    ggplot2::scale_fill_gradient(low = "white", high = "steelblue") +
+    ggplot2::scale_x_discrete(labels = day_labels) +
+    ggplot2::scale_fill_gradient(low = colores$start, high = colores$end) +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.line = ggplot2::element_blank(),
     panel.grid.major = ggplot2::element_blank(),
@@ -301,57 +334,6 @@ horas_graf <- function(dataframe_rec_in, input) {
     )
     return(p)
   })
-
-  # renderPlot({
-  #   datos <- dataframe_rec_in()
-  #   paleta_colores <- c(FGJ = "#952800",
-  #                       SSC = "#043A5F",
-  #                       C5 =  "#956F00",
-  #                       AXA = "#5E0061")
-    
-  #   if (input$tipo_grafica2 != "Todas") {
-  #     datos <- datos[datos$fuente == input$tipo_grafica2, ]
-  #   }
-  #   if(input$tiempo_grafica2 == "Mañana (6AM - 12PM)") {
-  #     datos <- datos[lubridate::hour(datos$timestamp) >= 6 &
-  #                  lubridate::hour(datos$timestamp) < 13, ]
-  #   }
-  #   else if (input$tiempo_grafica2 == "Tarde (1PM - 9PM)") {
-  #     datos <- datos[lubridate::hour(datos$timestamp) >= 13 &
-  #                  lubridate::hour(datos$timestamp) < 22, ]
-  #   }
-  #   else if (input$tiempo_grafica2 == "Noche (10PM - 5AM)") {
-  #     datos <- datos[lubridate::hour(datos$timestamp) >= 22 |
-  #                  lubridate::hour(datos$timestamp) < 6,]
-  #   }
-  #   count_dia_c <- dplyr::count(
-  #     datos,
-  #     lubridate::wday(datos$timestamp),
-  #     fuente
-  #   )
-  #   names(count_dia_c) <- c("dia", "fuente", "n", "geometry")
-  #   count_dia_c$fuente <- as.factor(count_dia_c$fuente)
-  #   count_dia_c$dia <- as.character(count_dia_c$dia)
-  #   day_labels <- c("1" = "Domingo", "2" = "Lunes", "3" = "Martes",
-  #    "4" = "Miércoles",
-  #    "5" = "Jueves", "6" = "Viernes", "7" = "Sábado")
-  #   p <- ggplot2::ggplot(
-  #       data = count_dia_c,
-  #       ggplot2::aes(x = dia, y = n, fill = fuente)
-  #     ) +
-  #     ggplot2::scale_x_discrete(labels = day_labels) +
-  #     ggplot2::geom_col(position = "dodge") +
-  #     ggplot2::labs(
-  #                 x = "Día de la Semana",
-  #                 y = "Número de Incidentes",
-  #                 title = "Número de Incidentes por Día de la Semana"
-  #             ) +
-  #     ggplot2::scale_fill_manual(values = paleta_colores,
-  #                                  limits = unique(count_dia_c$fuente),
-  #                                  name = "Fuente de Datos"
-  #             )
-  #   return(p)
-  # })
 }
 #' graficas Server Function
 #'
