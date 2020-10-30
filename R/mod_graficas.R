@@ -66,24 +66,24 @@ mod_graficas_ui <- function(id) {
                          label = "Datos a Graficar",
                          choices = choices_po,
                          selected = "Todas"                         ),
-             fluidRow(
-                      column(9,
-                          radioButtons(
-                                  inputId = ns("tiempo_grafica2"),
-                                  label = "Temporalidad a Graficar",
-                                  inline = TRUE,
-                                  choices = intervalos,
-                                  selected = "Todo el Día"
-                                  )
-                      )#,
-                      # column(2, 
-                      #        offset = 1,
-                      #        actionButton(inputId = ns('boton_zoom_grafica2'), # Name to reference the type of graphic
-                      #                     label = NULL , 
-                      #                     icon = icon('search-plus'),
-                      #                     style = 'font-size:150%')
-                      #        )
-                       ),
+            #  fluidRow(
+            #           column(9,
+            #               radioButtons(
+            #                       inputId = ns("tiempo_grafica2"),
+            #                       label = "Temporalidad a Graficar",
+            #                       inline = TRUE,
+            #                       choices = intervalos,
+            #                       selected = "Todo el Día"
+            #                       )
+            #           )#,
+            #           # column(2, 
+            #           #        offset = 1,
+            #           #        actionButton(inputId = ns('boton_zoom_grafica2'), # Name to reference the type of graphic
+            #           #                     label = NULL , 
+            #           #                     icon = icon('search-plus'),
+            #           #                     style = 'font-size:150%')
+            #           #        )
+            #            ),
              shinycssloaders::withSpinner(
                                     plotOutput(outputId = ns("grafica_horas"),
                                                height = "350px",
@@ -259,7 +259,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
           ggplot2::scale_colour_manual(values = paleta_colores,
                                      limits = unique(count_months_year$fuente),
                                      name = "Fuente"
-          )
+          ) 
 
     }
     return(p)
@@ -280,54 +280,78 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 horas_graf <- function(dataframe_rec_in, input) {
   renderPlot({
     datos <- dataframe_rec_in()
-    paleta_colores <- c(FGJ = "#952800",
-                        SSC = "#043A5F",
-                        C5 =  "#956F00",
-                        AXA = "#5E0061")
-    
-    if (input$tipo_grafica2 != "Todas") {
-      datos <- datos[datos$fuente == input$tipo_grafica2, ]
-    }
-    if(input$tiempo_grafica2 == "Mañana (6AM - 12PM)") {
-      datos <- datos[lubridate::hour(datos$timestamp) >= 6 &
-                   lubridate::hour(datos$timestamp) < 13, ]
-    }
-    else if (input$tiempo_grafica2 == "Tarde (1PM - 9PM)") {
-      datos <- datos[lubridate::hour(datos$timestamp) >= 13 &
-                   lubridate::hour(datos$timestamp) < 22, ]
-    }
-    else if (input$tiempo_grafica2 == "Noche (10PM - 5AM)") {
-      datos <- datos[lubridate::hour(datos$timestamp) >= 22 |
-                   lubridate::hour(datos$timestamp) < 6,]
-    }
-    count_dia_c <- dplyr::count(
+    cuentas <- dplyr::count(
       datos,
-      lubridate::wday(datos$timestamp),
-      fuente
+      weekdays(timestamp),
+      lubridate::hour(timestamp)
     )
-    names(count_dia_c) <- c("dia", "fuente", "n", "geometry")
-    count_dia_c$fuente <- as.factor(count_dia_c$fuente)
-    count_dia_c$dia <- as.character(count_dia_c$dia)
-    day_labels <- c("1" = "Domingo", "2" = "Lunes", "3" = "Martes",
-     "4" = "Miércoles",
-     "5" = "Jueves", "6" = "Viernes", "7" = "Sábado")
-    p <- ggplot2::ggplot(
-        data = count_dia_c,
-        ggplot2::aes(x = dia, y = n, fill = fuente)
-      ) +
-      ggplot2::scale_x_discrete(labels = day_labels) +
-      ggplot2::geom_col(position = "dodge") +
-      ggplot2::labs(
-                  x = "Día de la Semana",
-                  y = "Número de Incidentes",
-                  title = "Número de Incidentes por Día de la Semana"
-              ) +
-      ggplot2::scale_fill_manual(values = paleta_colores,
-                                   limits = unique(count_dia_c$fuente),
-                                   name = "Fuente de Datos"
-              )
+      names(cuentas) <- c("Dia", "Hora", "Incidentes", "geometry")
+  cuentas <- tidyr::drop_na(cuentas)
+  p <- ggplot2::ggplot(
+    cuentas,
+    ggplot2::aes(x = Dia, y = Hora, fill = Incidentes)
+  ) +
+    ggplot2::geom_tile() +
+    ggplot2::scale_fill_gradient(low = "white", high = "steelblue") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.line = ggplot2::element_blank(),
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    panel.border = ggplot2::element_blank()
+    )
     return(p)
   })
+
+  # renderPlot({
+  #   datos <- dataframe_rec_in()
+  #   paleta_colores <- c(FGJ = "#952800",
+  #                       SSC = "#043A5F",
+  #                       C5 =  "#956F00",
+  #                       AXA = "#5E0061")
+    
+  #   if (input$tipo_grafica2 != "Todas") {
+  #     datos <- datos[datos$fuente == input$tipo_grafica2, ]
+  #   }
+  #   if(input$tiempo_grafica2 == "Mañana (6AM - 12PM)") {
+  #     datos <- datos[lubridate::hour(datos$timestamp) >= 6 &
+  #                  lubridate::hour(datos$timestamp) < 13, ]
+  #   }
+  #   else if (input$tiempo_grafica2 == "Tarde (1PM - 9PM)") {
+  #     datos <- datos[lubridate::hour(datos$timestamp) >= 13 &
+  #                  lubridate::hour(datos$timestamp) < 22, ]
+  #   }
+  #   else if (input$tiempo_grafica2 == "Noche (10PM - 5AM)") {
+  #     datos <- datos[lubridate::hour(datos$timestamp) >= 22 |
+  #                  lubridate::hour(datos$timestamp) < 6,]
+  #   }
+  #   count_dia_c <- dplyr::count(
+  #     datos,
+  #     lubridate::wday(datos$timestamp),
+  #     fuente
+  #   )
+  #   names(count_dia_c) <- c("dia", "fuente", "n", "geometry")
+  #   count_dia_c$fuente <- as.factor(count_dia_c$fuente)
+  #   count_dia_c$dia <- as.character(count_dia_c$dia)
+  #   day_labels <- c("1" = "Domingo", "2" = "Lunes", "3" = "Martes",
+  #    "4" = "Miércoles",
+  #    "5" = "Jueves", "6" = "Viernes", "7" = "Sábado")
+  #   p <- ggplot2::ggplot(
+  #       data = count_dia_c,
+  #       ggplot2::aes(x = dia, y = n, fill = fuente)
+  #     ) +
+  #     ggplot2::scale_x_discrete(labels = day_labels) +
+  #     ggplot2::geom_col(position = "dodge") +
+  #     ggplot2::labs(
+  #                 x = "Día de la Semana",
+  #                 y = "Número de Incidentes",
+  #                 title = "Número de Incidentes por Día de la Semana"
+  #             ) +
+  #     ggplot2::scale_fill_manual(values = paleta_colores,
+  #                                  limits = unique(count_dia_c$fuente),
+  #                                  name = "Fuente de Datos"
+  #             )
+  #   return(p)
+  # })
 }
 #' graficas Server Function
 #'
@@ -357,7 +381,7 @@ mod_graficas_server <- function(input, output, session, dataframe_rec) {
                       choices = opciones,
                       selected = "Todas"
                       )
-    updateSelectInput(session , inputId = "tipo_grafica2",
+    updateSelectInput(session, inputId = "tipo_grafica2",
                       label = "Datos a Graficar",
                       choices = opciones,
                       selected = "Todas"
