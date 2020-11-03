@@ -239,13 +239,12 @@ preprocesa_C5<- function(df_abierto){
                             df_abierto$clas_con_f_alarma != "Delito",
                           ]
   # Se eliminan los incidentes falsos
-  Confirmacion1 <-  df_abierto$codigo_cierre == "(A) La unidad de atención a emergencias fue despachada, llegó al lugar de los hechos y confirmó la emergencia reportada"
+  Confirmacion1 <- df_abierto$codigo_cierre == "(A) La unidad de atención a emergencias fue despachada, llegó al lugar de los hechos y confirmó la emergencia reportada"
   Confirmacion2 <- df_abierto$codigo_cierre == "(I) El incidente reportado es afirmativo y se añade información adicional al evento"
-  df_abierto <- df_abierto[ Confirmacion1 | Confirmacion2 , ]
-  
+  df_abierto <- df_abierto[Confirmacion1 | Confirmacion2, ]
   ##Lesionados
   incidente_c4_lesionados <- c("accidente-choque con lesionados",
-                               "detención ciudadana-atropellado", 
+                               "detención ciudadana-atropellado",
                                "lesionado-accidente automovilístico",
                                "lesionado-atropellado"
                               )
@@ -253,10 +252,10 @@ preprocesa_C5<- function(df_abierto){
   incidente_c4_accidente <-c( "accidente-choque sin lesionados",
                               "detención ciudadana-accidente automovilístico",
                               "accidente-ciclista",
-                              "accidente-ferroviario", 
+                              "accidente-ferroviario",
                               "accidente-monopatín",
                               "accidente-motociclista",
-                              "accidente-otros", 
+                              "accidente-otros",
                               "accidente-choque con prensados",
                               "accidente-persona atrapada / desbarrancada",
                               "accidente-vehiculo atrapado",
@@ -274,7 +273,7 @@ preprocesa_C5<- function(df_abierto){
     df_abierto,
     tipo_incidente =
       ifelse(df_abierto$incidente_c4 %in% incidente_c4_decesos, "DECESO",
-             ifelse(df_abierto$incidente_c4 %in% incidente_c4_lesionados ,
+             ifelse(df_abierto$incidente_c4 %in% incidente_c4_lesionados,
                     "LESIONADO",
                     ifelse(df_abierto$incidente_c4 %in% incidente_c4_accidente,
                            "ACCIDENTE",
@@ -284,18 +283,18 @@ preprocesa_C5<- function(df_abierto){
   )
   
   
-  ### obtenemos el timestamp como estan en dos formatos distintos 
+  ### obtenemos el timestamp como estan en dos formatos distintos
   ## vamos a tener que hacer moidificaciones
-  df_abierto$fecha_creacion_2 <- ifelse(nchar(df_abierto$fecha_creacion)>8 ,
-                     lubridate::as_date( df_abierto$fecha_creacion,
-                                         format= "%d/%m/%Y"),
+  df_abierto$fecha_creacion_2 <- ifelse(nchar(df_abierto$fecha_creacion) > 8,
                      lubridate::as_date(df_abierto$fecha_creacion,
-                                        format= "%d/%m/%y") 
+                                         format = "%d/%m/%Y"),
+                     lubridate::as_date(df_abierto$fecha_creacion,
+                                        format = "%d/%m/%y")
                      )
   # df_abierto$fecha_creacion_2 <- lubridate::as_date( df_abierto$fecha_creacion,
   #                                                  format= "%d/%m/%Y")
   df_abierto$fecha_creacion_2 <- lubridate::as_date(df_abierto$fecha_creacion_2)
-  df_abierto$hora_creacion_2 <- lubridate::hms( df_abierto$hora_creacion)  
+  df_abierto$hora_creacion_2 <- lubridate::hms(df_abierto$hora_creacion)
   df_abierto$timestamp <- with(
     df_abierto,
     df_abierto$fecha_creacion_2 + df_abierto$hora_creacion_2
@@ -313,17 +312,17 @@ preprocesa_C5<- function(df_abierto){
 
 #' Preprocesa archivo csv del C5
 #'
-#' Lee el rds original y permite incorporar los nuevos datos usando la fecha 
+#' Lee el rds original y permite incorporar los nuevos datos usando la fecha
 #'
 #' @param c5_new tabla con los datos de fiscalía leídos de csv
 #'
-#' @return Tabla con los datos preprocesados listos para utilizarse 
+#' @return Tabla con los datos preprocesados listos para utilizarse
 #' en la plataforma.
 #' 
 #'
 preprocesa_C5_origin <- function(c5_new) {
   df_old <- readRDS("./data-raw/c5.rds")
-  max_date_c5 <- max(df_old$fecha_creacion_2)  
+  max_date_c5 <- max(df_old$fecha_creacion_2)
   c5_red_pre <- preprocesa_C5(c5_new)
   c5_red_pre <- c5_red_pre[c5_red_pre$fecha_creacion_2 > max_date_c5, ]
   print("Se une el archivo al ya subido para hacer un nuevo rds")
@@ -350,10 +349,10 @@ preprocesa_C5_origin <- function(c5_new) {
 
 
 #' Joins the tables
-#' 
+#'
 #'  Modifies the tables to joint in to a single table
-#'  
-#'@returns The table concatenation 
+#'
+#'@returns The table concatenation
 #'
 une_tablas <- function() {
   axa <- readRDS("./data-raw/axa.rds")
@@ -424,5 +423,3 @@ une_tablas <- function() {
   total <- rbind(total, c5)
   return(total)
 }
-
-

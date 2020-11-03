@@ -1,10 +1,9 @@
 # Set options here
-options(golem.app.prod = FALSE) # TRUE = production mode, FALSE = development mode
-##options(shiny.maxRequestSize=150*1024^2)
-########To set new upload file size
-options(shiny.maxRequestSize=510*1024^2)
+# TRUE = production mode, FALSE = development mode
+options(golem.app.prod = FALSE)
+options(shiny.maxRequestSize = 510 * 1024^2)
 
-options( "Actualizar_datos" = FALSE)
+options("Actualizar_datos" = TRUE)
 # Detach all loaded packages and clean your environment
 golem::detach_all_attached()
 # rm(list=ls(all.names = TRUE))
