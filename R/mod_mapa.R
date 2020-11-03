@@ -63,7 +63,11 @@ mod_mapa_server <- function(input, output, session, datos) {
   # Observamos los cambios en input de usuario
   observeEvent(datos[[1]](), ignoreNULL = FALSE, {
     # transformamos a coordenadas geográficas
-    datos_4326 <- sf::st_transform(datos[[1]](), "+init=epsg:4326")
+    datos_4326 <- sf::st_transform(datos[[1]](), "+init=epsg:4326") %>%
+      dplyr::mutate(
+        latitud = sf::st_coordinates(geometry)[, 2],
+        longitud = sf::st_coordinates(geometry)[, 1]
+      )
     # columna para saber qué icono usar
     datos_4326 <- dplyr::mutate(datos_4326,
       icon_class = paste(tipo_incidente, fuente, sep = "_")
@@ -77,17 +81,20 @@ mod_mapa_server <- function(input, output, session, datos) {
     }
     # Agragamos la capa de markers con los
     # incidentes seleccionados por el usuario
-    leaflet::leafletProxy("myMap") %>%
+    leaflet::leafletProxy("myMap", session, data = datos_4326) %>%
       leaflet::clearMarkers() %>%
       leaflet::clearMarkerClusters() %>%
       leaflet::addMarkers(
-        data = datos_4326,
         clusterOptions = leaflet::markerClusterOptions(),
         icon = ~icons[icon_class],
         popup = paste("Fuente: ", datos_4326$fuente, "<br>",
                       "Tipo de incidente: ", datos_4326$tipo_incidente, "<br>",
                       "Fecha y Hora: ", datos_4326$timestamp)
       ) %>%
+      leaflet.extras::clearHeatmap() %>%
+      leaflet.extras::addHeatmap(lng = ~longitud,
+        lat = ~latitud,
+        radius = 7) %>%
       leaflet::setView(lng = lon, lat = lat, zoom = zoom)
   })
 }

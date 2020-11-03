@@ -35,6 +35,8 @@ usethis::use_package("sp")
 usethis::use_package("rgdal")
 usethis::use_package("DT")
 usethis::use_package("tidyr")
+usethis::use_package("leaflet.extras")
+
 
 ## Add modules ----
 ## Create a module infrastructure in R/
