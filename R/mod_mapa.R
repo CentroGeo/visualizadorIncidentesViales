@@ -40,13 +40,15 @@ mod_mapa_server <- function(input, output, session, datos) {
   zoom <- 10
   map <-  leaflet::leaflet(data = cdmx) %>%
             leaflet::addTiles(
-              urlTemplate = '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+              urlTemplate = "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              group = "OSM (default)"
               ) %>%
             leaflet::setView(lng = lon, lat = lat, zoom = zoom) %>%
             leaflet::addPolygons(fillColor = "#00A65A",
               fillOpacity = 0.10,
               color = "#006738",
-              opacity = 0.75)
+              opacity = 0.75,
+              group = "Alcaldías")
   output$myMap <- leaflet::renderLeaflet({map})
   # Íconos para los incidentes
   icons <- leaflet::iconList(
@@ -89,13 +91,20 @@ mod_mapa_server <- function(input, output, session, datos) {
         icon = ~icons[icon_class],
         popup = paste("Fuente: ", datos_4326$fuente, "<br>",
                       "Tipo de incidente: ", datos_4326$tipo_incidente, "<br>",
-                      "Fecha y Hora: ", datos_4326$timestamp)
+                      "Fecha y Hora: ", datos_4326$timestamp),
+        group = "Incidentes"
       ) %>%
       leaflet.extras::clearHeatmap() %>%
       leaflet.extras::addHeatmap(lng = ~longitud,
         lat = ~latitud,
-        radius = 7) %>%
-      leaflet::setView(lng = lon, lat = lat, zoom = zoom)
+        radius = 7,
+        group = "Mapa de Calor") %>%
+      leaflet::setView(lng = lon, lat = lat, zoom = zoom) %>%
+      leaflet::addLayersControl(
+        baseGroups = c("OSM (default)"),
+        overlayGroups = c("Alcaldías", "Incidentes", "Mapa de Calor"),
+        options = leaflet::layersControlOptions(collapsed = FALSE)
+      )
   })
 }
 
