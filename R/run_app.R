@@ -12,7 +12,7 @@ run_app <- function(
     app = shinyApp(
       ui = app_ui, 
       server = app_server
-    ), 
+    ),
     golem_opts = list(...)
   )
 }
