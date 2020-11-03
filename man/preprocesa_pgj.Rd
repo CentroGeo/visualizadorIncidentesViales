@@ -12,6 +12,8 @@ preprocesa_pgj(pgj)
 \value{
 Tabla con los datos preprocesados listos para utilizarse 
 en la plataforma.
+
+jJ
 }
 \description{
 Preprocesa archivo csv de Fiscalía

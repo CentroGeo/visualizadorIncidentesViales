@@ -6,8 +6,10 @@
 #' @noRd
 app_server <- function(input, output, session) {
   ########To set new upload file size
-  options(shiny.maxRequestSize=510*1024^2)
-  
+  #options(shiny.maxRequestSize=510*1024^2)
+  print("App Server")
+  actualizar<- getOption("Actualizar_datos")
+  print(actualizar)
   output$menu <- shinydashboard::renderMenu({
     shinydashboard::sidebarMenu(id = "tabs",
                 shinydashboard::menuItem(
@@ -25,11 +27,13 @@ app_server <- function(input, output, session) {
                   icon = icon("globe"),
                   tabName = "visualizador"
                 ),
-                shinydashboard::menuItem(
-                  "Actualización de Datos",
-                  icon = icon("globe"),
-                  tabName = "actualiza"
-                )
+                if(actualizar){
+                  shinydashboard::menuItem(
+                    "Actualización de Datos",
+                    icon = icon("globe"),
+                    tabName = "actualiza"
+                  )
+                }
     )
   })
   ##### Módulos de UI ######
