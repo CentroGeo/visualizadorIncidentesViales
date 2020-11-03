@@ -42,8 +42,10 @@ app_server <- function(input, output, session) {
   # Info de BD
   callModule(mod_infoBdUI_server, "infoBdUI_ui_1", parent = session)
   # Actualización de datos
-  data <- callModule(mod_csvFileUI_server, "csvFileUI_ui")
-  output$tabla <- DT::renderDataTable({data()})
+  if (actualizar){
+    data <- callModule(mod_csvFileUI_server, "csvFileUI_ui")
+    output$tabla <- DT::renderDataTable({data()})
+  }
 
   ##### Módulos del servidor #####
   # Time slider
