@@ -15,7 +15,12 @@ Utilizando [devtools](https://cran.r-project.org/web/packages/devtools/index.htm
 > library(visualizadorIncidentesViales)
 > visualizadorIncidentesViales::run_app()
 ````
+Para correr la aplicción sin el módulo de actualización de datos:
 
+````R
+> options("Actualizar_datos" = FALSE)
+> visualizadorIncidentesViales::run_app()
+````
 
 
 ## Desarrollo
