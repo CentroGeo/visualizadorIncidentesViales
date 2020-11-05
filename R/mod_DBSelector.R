@@ -89,14 +89,9 @@ mod_DBSelector_server <- function(input, output, session, interval_ba_rea) {
     )
     ### Filter by location (Alcaldias)
     if (input$filtro_lugar != "Total Ciudad de México") {
-      tmp_contains <- sf::st_contains(
-        sf::st_transform(
-          cdmx[cdmx$nom_mun == input$filtro_lugar, ],
-          32614
-        ),
-        dataframe_fil
-      )
-      dataframe_fil <- dataframe_fil[tmp_contains[[1]], ]
+      
+      dataframe_fil <- dataframe_fil[
+                              dataframe_fil$nom_mun == input$filtro_lugar, ]
     }
     return(dataframe_fil)
   })
