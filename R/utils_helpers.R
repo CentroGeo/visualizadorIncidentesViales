@@ -327,20 +327,6 @@ preprocesa_C5_origin <- function(c5_new) {
   c5_red_pre <- c5_red_pre[c5_red_pre$fecha_creacion_2 > max_date_c5, ]
   print("Se une el archivo al ya subido para hacer un nuevo rds")
   c5_all <- rbind(df_old, c5_red_pre)
-  ##### esto se debe de cambiar pero es la solucion facil
-  # df_old$fecha_creacion <- as.character(df_old$fecha_creacion)
-  # c5_red_pre$fecha_creacion <- as.character(c5_red_pre$fecha_creacion)
-  # df_old$timestamp <- as.character(df_old$timestamp)
-  # c5_red_pre$timestamp <- as.character(c5_red_pre$timestamp)
-  # df_old$hora_creacion <- as.character(df_old$hora_creacion)
-  # c5_red_pre$hora_creacion <- as.character(c5_red_pre$hora_creacion)
-  ####
-  #sf::st_crs(df_old) <- 32614
-  
-  ##### regresar como se debe
-  # c5_all$fecha_hechos <- lubridate::as_datetime(c5_all$fecha_hechos)
-  # c5_all$fecha_inicio <- lubridate::as_date(c5_all$fecha_inicio)
-  # fgj_all$timestamp <- lubridate::as_datetime(fgj_all$timestamp)
   return(c5_all)
 }
 
@@ -421,5 +407,12 @@ une_tablas <- function() {
   total <- rbind(axa, fgj)
   total <- rbind(total, ssc)
   total <- rbind(total, c5)
+  cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
+  cdmx$geometry<- sf::st_transform(
+     cdmx$geometry,
+     32614
+  )
+  sf::st_crs(cdmx) <- sf::st_crs(total)
+  total<-sf::st_join(total,  cdmx["nom_mun"], left=TRUE)
   return(total)
 }
