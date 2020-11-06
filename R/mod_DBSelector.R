@@ -74,10 +74,8 @@ interval_ba_rea, dataframe_fil) {
   #### Read
   datafram_re <- reactive({
     ######
-    dataframe_fil <- dataframe_fil[dataframe_fil$fuente %in% input$filtro_bd, ]
-    ## filter by type of accident
-    dataframe_fil <- dataframe_fil[dataframe_fil$tipo_incidente %in%
-                                   input$filtro_incidente, ]
+    dataframe_fil <- dplyr::filter(dataframe_fil, fuente %in% input$filtro_bd) %>%
+      dplyr::filter(tipo_incidente %in% input$filtro_incidente)
     #### filtro fecha
     interval_bar <- interval_ba_rea() ## Get the interbal from the time bar
     dataframe_fil <- dplyr::filter(
@@ -88,8 +86,8 @@ interval_ba_rea, dataframe_fil) {
     )
     ### Filter by location (Alcaldias)
     if (input$filtro_lugar != "Total Ciudad de México") {
-      dataframe_fil <- dataframe_fil[
-                              dataframe_fil$nom_mun == input$filtro_lugar, ]
+      dataframe_fil <- dplyr::filter(dataframe_fil,
+        nom_mun == input$filtro_lugar)
     }
     return(dataframe_fil)
   })
