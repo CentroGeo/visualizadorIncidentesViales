@@ -19,7 +19,9 @@ mod_DBSelector_ui <- function(id) {
     "Tlalpan", "Tláhuac", "Venustiano Carranza", "Xochimilco"
   )
   ## Vector with the accident types
-  tipo_incidentes <- c("ACCIDENTE", "LESIONADO", "DECESO")
+  tipo_incidentes <- c("Sin víctimas" = "ACCIDENTE",
+                       "Lesionado" = "LESIONADO",
+                       "Deceso" = "DECESO")
   bases <- c("FGJ", "SSC", "C5", "AXA")
   fluidPage(
     selectInput(
