@@ -88,13 +88,14 @@ mod_introPageUI_ui <- function(id) {
           )
         ),
         tags$div(
-          style = "margin: auto; width: 90%;",
+          style = "margin: auto; width: 100%;",
           fluidRow(
             column(3, tags$img(src = "www/logo_semovi.png", style = "height: 45px;")),
-            column(2, tags$img(src = "www/axa.png", style = "height: 50px;")),
-            column(2, tags$img(src = "www/conacyt.png", style = "height: 50px;")),
-            column(2, tags$img(src = "www/centrogeo.png", style = "height: 50px;")),
-            column(3, tags$img(src = "www/datalab.png", style = "height: 30px;"))
+            column(1, tags$img(src = "www/axa.png", style = "height: 50px;")),
+            column(1, tags$img(src = "www/conacyt.png", style = "height: 50px;")),
+            column(1, tags$img(src = "www/centrogeo.png", style = "height: 50px;")),
+            column(2, tags$img(src = "www/GeoInt-Logo-High.png", style = "height: 50px;")),
+            column(1, tags$img(src = "www/datalab.png", style = "height: 30px;"))
           )
         )
       )
