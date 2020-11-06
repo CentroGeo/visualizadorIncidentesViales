@@ -39,19 +39,22 @@ app_server <- function(input, output, session) {
   callModule(mod_introPageUI_server, "introPageUI_ui_1", parent = session)
   # Info de BD
   callModule(mod_infoBdUI_server, "infoBdUI_ui_1", parent = session)
-  # Actualización de datos
-  if (actualizar){
-    data <- callModule(mod_csvFileUI_server, "csvFileUI_ui")
-    output$tabla <- DT::renderDataTable({data()})
-  }
-
   ##### Módulos del servidor #####
   # Time slider
   inter_bar_call <- callModule(mod_bar_server, "bar_ui_1")
+  # Actualización de datos
+  if (actualizar) {
+    data <- callModule(mod_csvFileUI_server, "csvFileUI_ui")
+    output$tabla <- DT::renderDataTable({data()})
+  }
+  # Leemos todos los datos completos una sola vez
+  dataframe_fil <- readRDS("./data-raw/fuentes_unidas.rds")
   # Selector de bases de datos
   data_out <- callModule(mod_DBSelector_server,
     "DBSelector_ui_1",
-    inter_bar_call)
+    inter_bar_call,
+    dataframe_fil
+  )
   # Gráficas
   callModule(mod_graficas_server, "graficas_ui_1", data_out[[1]])
   # Mapa

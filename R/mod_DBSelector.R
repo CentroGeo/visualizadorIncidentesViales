@@ -68,14 +68,12 @@ mod_DBSelector_ui <- function(id) {
 #' interval to select data
 #' @return reactive function that returns a filtered dataframe
 #'  using the inputs from the UI
-mod_DBSelector_server <- function(input, output, session, interval_ba_rea) {
+mod_DBSelector_server <- function(input, output, session,
+interval_ba_rea, dataframe_fil) {
   ns <- session$ns
   #### Read
-  cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
   datafram_re <- reactive({
-    ## Read the resulting dataframe from the mod_csvFileUI
-    dataframe_fil <- readRDS("./data-raw/fuentes_unidas.rds")
-    ######  
+    ######
     dataframe_fil <- dataframe_fil[dataframe_fil$fuente %in% input$filtro_bd, ]
     ## filter by type of accident
     dataframe_fil <- dataframe_fil[dataframe_fil$tipo_incidente %in%
@@ -91,12 +89,12 @@ mod_DBSelector_server <- function(input, output, session, interval_ba_rea) {
     )
     ### Filter by location (Alcaldias)
     if (input$filtro_lugar != "Total Ciudad de México") {
-      
       dataframe_fil <- dataframe_fil[
                               dataframe_fil$nom_mun == input$filtro_lugar, ]
     }
     return(dataframe_fil)
   })
+  #datafram_re <- datafram_re %>% shiny::debounce(100)
   seleccion_lugar <- reactive({
     input$filtro_lugar
   })
