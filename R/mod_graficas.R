@@ -303,8 +303,6 @@ horas_graf <- function(dataframe_rec_in, input) {
     }else{
       colores <- paleta$colores_todas
     }
-    print(input$tipo_grafica2)
-    print(colores)
     cuentas <- dplyr::count(
       datos,
       lubridate::wday(timestamp),

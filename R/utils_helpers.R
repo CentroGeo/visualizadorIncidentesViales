@@ -113,56 +113,55 @@ preprocesa_ssc <- function(ssc) {
   return(ssc)
 }
 
-######Nio hay para SSC por que sus datos estan iguales 
+######Nio hay para SSC por que sus datos estan iguales
 
 
 #' Preprocesa los datos de AXA
-#' 
-#'Preprocess the data from the tables in the AXA site  
-#' 
-#' 
-preprocesa_axa_origin<- function(axa_new){
-  
+#'
+#'Preprocess the data from the tables in the AXA site
+#'
+#'
+preprocesa_axa_origin<- function(axa_new) {
+
   ### axa is the new and should have the corresponding column names
-  #print(head(axa_new))
   #### Read old axa
   df_old <- readr::read_delim("./data-raw/AXA.csv",
                           col_names = TRUE,
                           quote = "\"",
                           delim = ";"
   )
-  
-  
-  ##### Va a tener que ser harcodeado 
-  name_look<-c( "LATITUD","LONGITUD","CAUSA SINIESTRO", "TIPO VEHICULO",
-     "NIVEL DAÑO VEHICULO" , "PUNTO DE IMPACTO", "AÑO","MES" ,"DÍA NUMERO",
-     "HORA","LESIONADOS","RELACION LESIONADOS", "NIVEL LESIONADO",  
-     "HOSPITALIZADO","FALLECIDO")
-  axa_new<- axa_new[, name_look]
+
+
+  ##### Va a tener que ser harcodeado
+  name_look <- c("LATITUD", "LONGITUD", "CAUSA SINIESTRO", "TIPO VEHICULO",
+     "NIVEL DAÑO VEHICULO", "PUNTO DE IMPACTO", "AÑO", "MES", "DÍA NUMERO",
+     "HORA", "LESIONADOS", "RELACION LESIONADOS", "NIVEL LESIONADO",
+     "HOSPITALIZADO", "FALLECIDO")
+  axa_new <- axa_new[, name_look]
   ##### remove before pass 
-  axa_new<- axa_new[!(axa_new$LATITUD == '\\N' | axa_new$LATITUD == '0'), ] 
-  axa_new<- axa_new[!(axa_new$LONGITUD == '\\N' | axa_new$LONGITUD == '0'), ]
-  names(axa_new) <- names(df_old) 
+  axa_new <- axa_new[!(axa_new$LATITUD == '\\N' | axa_new$LATITUD == '0'), ]
+  axa_new <- axa_new[!(axa_new$LONGITUD == '\\N' | axa_new$LONGITUD == '0'), ]
+  names(axa_new) <- names(df_old)
   axa_new$latitud <- as.double(axa_new$latitud)
   axa_new$longitud <- as.double(axa_new$longitud)
-  
+
   axa_rds_loc <- preprocesa_axa(df_old)
-  max_year_axa<- max(axa_rds_loc$ao)
-  axa_rds_loc_y<- axa_rds_loc[axa_rds_loc$ao==max_year_axa,]
+  max_year_axa <- max(axa_rds_loc$ao)
+  axa_rds_loc_y <- axa_rds_loc[axa_rds_loc$ao == max_year_axa, ]
   max_month_axa <- max(axa_rds_loc_y$mes)
-  axa_rds_loc_y_m <- axa_rds_loc_y[axa_rds_loc_y$mes== max_month_axa,]
+  axa_rds_loc_y_m <- axa_rds_loc_y[axa_rds_loc_y$mes == max_month_axa, ]
   max_day_axa <- max(axa_rds_loc_y_m$dia_numero)
-  axa_red_pre <-preprocesa_axa(axa_new)
+  axa_red_pre <- preprocesa_axa(axa_new)
   #axa_red_pre$mes<- as.integer(axa_red_pre$mes)
-  axa_red_pre <- axa_red_pre[axa_red_pre$ao >= max_year_axa,]
-  axa_red_pre <- axa_red_pre[axa_red_pre$mes >= max_month_axa,]
-  
-  axa_red_pre <-axa_red_pre[axa_red_pre$mes== max_month_axa &
+  axa_red_pre <- axa_red_pre[axa_red_pre$ao >= max_year_axa, ]
+  axa_red_pre <- axa_red_pre[axa_red_pre$mes >= max_month_axa, ]
+
+  axa_red_pre <- axa_red_pre[axa_red_pre$mes == max_month_axa &
     axa_red_pre$dia_numero >= max_day_axa |
-    axa_red_pre$mes >max_month_axa, ]
-  
+    axa_red_pre$mes > max_month_axa, ]
+
   #axa_red_pre$timestamp <-as.chron(axa_red_pre$timestamp)
-  axa_all <-rbind(axa_rds_loc, axa_red_pre)
+  axa_all <- rbind(axa_rds_loc, axa_red_pre)
   return(axa_all)
 }
 
@@ -229,13 +228,13 @@ preprocesa_axa <- function(axa) {
 #'
 #' @return Tabla con los datos preprocesados listos para utilizarse 
 #' en la plataforma.
-#' 
 #'
-#' 
-preprocesa_C5<- function(df_abierto){
-  
+#'
+#'
+preprocesa_C5<- function(df_abierto) {
+
   #Se eliminan falsas alarmas y delitos 
-  df_abierto <-df_abierto[df_abierto$clas_con_f_alarma != "Falsa Alarma" |
+  df_abierto <- df_abierto[df_abierto$clas_con_f_alarma != "Falsa Alarma" |
                             df_abierto$clas_con_f_alarma != "Delito",
                           ]
   # Se eliminan los incidentes falsos
@@ -249,7 +248,7 @@ preprocesa_C5<- function(df_abierto){
                                "lesionado-atropellado"
                               )
   ###Accidente
-  incidente_c4_accidente <-c( "accidente-choque sin lesionados",
+  incidente_c4_accidente <- c("accidente-choque sin lesionados",
                               "detención ciudadana-accidente automovilístico",
                               "accidente-ciclista",
                               "accidente-ferroviario",
@@ -263,8 +262,8 @@ preprocesa_C5<- function(df_abierto){
                               "accidente-vehiculo desbarrancado",
                               "accidente-volcadura"
                               )
-  
-  ### Decesos 
+
+  ### Decesos
   incidente_c4_decesos <- c("cadáver-accidente automovilístico",
                             "cadáver-atropellado"
                             )
@@ -413,6 +412,6 @@ une_tablas <- function() {
      32614
   )
   sf::st_crs(cdmx) <- sf::st_crs(total)
-  total<-sf::st_join(total,  cdmx["nom_mun"], left=TRUE)
+  total <- sf::st_join(total,  cdmx["nom_mun"], left = TRUE)
   return(total)
 }

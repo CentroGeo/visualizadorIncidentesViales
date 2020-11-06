@@ -7,9 +7,7 @@
 app_server <- function(input, output, session) {
   ########To set new upload file size
   #options(shiny.maxRequestSize=510*1024^2)
-  print("App Server")
-  actualizar<- getOption("Actualizar_datos")
-  print(actualizar)
+  actualizar <- getOption("Actualizar_datos")
   output$menu <- shinydashboard::renderMenu({
     shinydashboard::sidebarMenu(id = "tabs",
                 shinydashboard::menuItem(
@@ -27,7 +25,7 @@ app_server <- function(input, output, session) {
                   icon = icon("globe"),
                   tabName = "visualizador"
                 ),
-                if(actualizar){
+                if (actualizar) {
                   shinydashboard::menuItem(
                     "Actualización de Datos",
                     icon = icon("globe"),
