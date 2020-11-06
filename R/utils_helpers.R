@@ -415,5 +415,10 @@ une_tablas <- function() {
   sf::st_crs(cdmx) <- sf::st_crs(total)
   total <- sf::st_join(total, cdmx["nom_mun"], left = FALSE)
   total <- total[!is.na(total$tipo_incidente), ]
+  total <- sf::st_transform(total, "+init=epsg:4326") %>%
+    dplyr::mutate(
+      latitud = sf::st_coordinates(geometry)[, 2],
+      longitud = sf::st_coordinates(geometry)[, 1]
+    )
   return(total)
 }

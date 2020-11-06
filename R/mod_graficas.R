@@ -174,19 +174,19 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
             by = "1 month")
           ) +
           ggplot2::labs(
-                      x = "Mes",
-                      y = "Número de Incidentes",
-                      title = "Número de Incidentes por Mes"
+            x = "Mes",
+            y = "Número de Incidentes",
+            title = "Número de Incidentes por Mes"
           ) +
           ggplot2::theme(
-                      axis.text.x = ggplot2::element_text(
-                                      angle = 45,
-                                      vjust = 0.5
-                                    )
+            axis.text.x = ggplot2::element_text(
+                            angle = 45,
+                            vjust = 0.5
+                          )
           ) +
           ggplot2::scale_colour_manual(values = paleta_colores,
-                                       limits = unique(count_months_year$fuente),
-                                       name = "Fuente"
+            limits = unique(count_months_year$fuente),
+            name = "Fuente"
           )
     }
     else if (input$tiempo_grafica == "Diaria") {

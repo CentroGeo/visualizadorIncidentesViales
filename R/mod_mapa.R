@@ -65,12 +65,13 @@ mod_mapa_server <- function(input, output, session, datos) {
   # Observamos los cambios en input de usuario
   observeEvent(datos[[1]](), ignoreNULL = FALSE, {
     # transformamos a coordenadas geográficas
-    datos_4326 <- sf::st_transform(datos[[1]](), "+init=epsg:4326") %>%
-      dplyr::mutate(
-        latitud = sf::st_coordinates(geometry)[, 2],
-        longitud = sf::st_coordinates(geometry)[, 1]
-      )
+    # datos_4326 <- sf::st_transform(datos[[1]](), "+init=epsg:4326") %>%
+    #   dplyr::mutate(
+    #     latitud = sf::st_coordinates(geometry)[, 2],
+    #     longitud = sf::st_coordinates(geometry)[, 1]
+    #   )
     # columna para saber qué icono usar
+    datos_4326 <- datos[[1]]()
     datos_4326 <- dplyr::mutate(datos_4326,
       icon_class = paste(tipo_incidente, fuente, sep = "_")
     )
