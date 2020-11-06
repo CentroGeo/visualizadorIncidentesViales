@@ -55,8 +55,8 @@ app_server <- function(input, output, session) {
     inter_bar_call,
     dataframe_fil
   )
-  # Gráficas
-  callModule(mod_graficas_server, "graficas_ui_1", data_out[[1]])
   # Mapa
   callModule(mod_mapa_server, "mapa_ui_1", data_out)
+  # Gráficas
+  callModule(mod_graficas_server, "graficas_ui_1", data_out[[1]])
 }

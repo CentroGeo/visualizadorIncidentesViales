@@ -405,13 +405,15 @@ une_tablas <- function() {
   ssc <- dplyr::select(ssc, tidyselect::all_of(cols))
   total <- rbind(axa, fgj)
   total <- rbind(total, ssc)
+  sf::st_crs(c5) <- sf::st_crs(total)
   total <- rbind(total, c5)
   cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
-  cdmx$geometry<- sf::st_transform(
+  cdmx$geometry <- sf::st_transform(
      cdmx$geometry,
      32614
   )
   sf::st_crs(cdmx) <- sf::st_crs(total)
-  total <- sf::st_join(total,  cdmx["nom_mun"], left = TRUE)
+  total <- sf::st_join(total, cdmx["nom_mun"], left = FALSE)
+  total <- total[!is.na(total$tipo_incidente), ]
   return(total)
 }

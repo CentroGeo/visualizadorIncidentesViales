@@ -78,7 +78,6 @@ interval_ba_rea, dataframe_fil) {
     ## filter by type of accident
     dataframe_fil <- dataframe_fil[dataframe_fil$tipo_incidente %in%
                                    input$filtro_incidente, ]
-    dataframe_fil <- dataframe_fil[!is.na(dataframe_fil$tipo_incidente), ]
     #### filtro fecha
     interval_bar <- interval_ba_rea() ## Get the interbal from the time bar
     dataframe_fil <- dplyr::filter(
