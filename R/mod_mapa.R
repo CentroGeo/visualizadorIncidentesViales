@@ -83,6 +83,7 @@ mod_mapa_server <- function(input, output, session, datos) {
     }
     # Agragamos la capa de markers con los
     # incidentes seleccionados por el usuario
+    if (nrow(datos_4326) != 0) {
     leaflet::leafletProxy("myMap", session, data = datos_4326) %>%
       leaflet::clearMarkers() %>%
       leaflet::clearMarkerClusters() %>%
@@ -105,6 +106,13 @@ mod_mapa_server <- function(input, output, session, datos) {
         overlayGroups = c("Alcaldías", "Incidentes", "Mapa de Calor"),
         options = leaflet::layersControlOptions(collapsed = FALSE)
       )
+    } else{
+      leaflet::leafletProxy("myMap", session, data = datos_4326) %>%
+      leaflet::clearMarkers() %>%
+      leaflet::clearMarkerClusters() %>%
+      leaflet.extras::clearHeatmap() %>%
+      leaflet::setView(lng = lon, lat = lat, zoom = zoom)
+    }
   })
 }
 
