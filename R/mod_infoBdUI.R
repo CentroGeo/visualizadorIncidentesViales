@@ -305,11 +305,146 @@ mod_infoBdUI_ui <- function (id) {
                         class = "diccionario"
                 )
               )
-              # =====
             )
           )
         ),
-        
+        tabPanel(
+            title = "C5",
+            fluidRow(
+              column(
+                6,
+                tags$div(style = "height: 15px;"),
+                tags$div(
+                  style = "font-size: 18pt; color: #848888; text-align: left;",
+                  tags$p(
+                    tags$img(src = "www/c5.png", style = "height: 85px; float: right;"),
+                    strong("Centro de Comando, Control, Cómputo, Comunicaciones y Contacto Ciudadano de la Ciudad de México (C5)")
+                  )
+                ),
+                tags$div(style = "height: 15px;"),
+                tags$p(strong("Objetivo de la Base de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li("Entre las atribuciones que tiene son las de proveer información a la Jefa de Gobierno para la oportuna e inmediata toma de decisiones, a través de video monitoreo de la ciudad, la administración del Servicio de Atención de llamadas de emergencia 9-1-1 CDMX, así como Denuncia Anónima 089 y LOCATEL."),
+                    tags$li("La información que se tiene corresponde a los reportes hechos por la ciudadanía directamente, por lo cual la información que puede ser pública es la fecha y hora, ubicación, la clasificación interna que se realiza. Existe una alta probabilidad de que esta institución tenga más reportes que las otras, debido a que algunos de estos, no tienen continuidad ante la policía o la PGJ, claro está, cuando no hay personas fallecidas o lesionadas."),
+                    tags$li("La integración de C5, ayuda a reducir la brecha de reportes, ya que suele ser el primer contacto no físico con alguna autoridad ante un accidente vial."),
+                    tags$li("Para ello, las y los operadores de C5 toman la información directa de la ciudadanía y realizan una clasificación de los eventos.")
+                  ),
+                  tags$p(
+                    style = "font-size: 10pt;",
+                    strong("Referencia"), " – ", tags$a("Manual Administrativo del C5", href = "https://www.c5.cdmx.gob.mx/storage/app/uploads/public/5be/b2e/318/5beb2e31874de742733714.pdf")
+                  )
+                ),
+                tags$div(style = "height: 15px;"),
+                tags$p(strong("Información de la Base de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(strong("Fuente"), " – ", tags$a("Datos Abiertos de la CDMX", href = "https://datos.cdmx.gob.mx/explore/dataset/incidentes-viales-c5")),
+                    tags$li(strong("Número de Registros"), " – ", textOutput(outputId = "c5_cuantos", inline = TRUE)),
+                    tags$li(strong("Periodo Temporal"), " – ", textOutput(outputId = "c5_cuando1", inline = TRUE), " a ", textOutput(outputId = "c5_cuando2", inline = TRUE))
+                  )
+                ),
+                tags$div(style = "height: 15px;")
+              ),
+              column(
+                6,
+                tags$div(style = "height: 15px;"),
+                tags$p(strong("Diccionario de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
+                # ===== Tabla C5 =====
+                tags$table(
+                  style = "width: 100%; font-size: 10pt;", class = "diccionario",
+                  tags$col(width = "17%"), tags$col(width = "58%"), tags$col(width = "25%"),
+                  tags$tr(
+                    class = "diccionario dicc_header",
+                    tags$th("Nombre de la Variable", class = "diccionario dicc_center"), tags$th("Descripción", class = "diccionario dicc_center"), tags$th("Tipo o Categorías", class = "diccionario dicc_center")
+                  ),
+                  tags$tr(tags$td("folio", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Código único alfa numérico que se la asigna a cada uno de los incidentes, compuesto por dos iniciales del Centro que recibió la emergencia, fecha en formato AA/MM/DD y número consecutivo de ingreso", class = "diccionario"),
+                    tags$td("Texto Alfanumérico Variable", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("fecha_creacion", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Fecha de apertura del folio del evento", class = "diccionario"),
+                    tags$td('Fecha en formato "aaaa-mm-dd"', class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("hora_creacion", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Hora de apertura del folio del evento", class = "diccionario"),
+                    tags$td('Hora en formato "hh:mm:ss"', class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("dia_semana", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Día de apertura del folio", class = "diccionario"),
+                    tags$td("7 días", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("fecha_cierre", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Fecha de cierre del folio del evento", class = "diccionario"),
+                    tags$td('Fecha en formato "aaaa-mm-dd"', class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("año_cierre", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Año de cierre del folio del evento", class = "diccionario"),
+                    tags$td("Número Entero", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("mes_cierre", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Mes de cierre del folio del evento", class = "diccionario"),
+                    tags$td("12 meses", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("hora_cierre", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Hora de cierre del folio del evento", class = "diccionario"),
+                    tags$td('Hora en formato "hh:mm:ss"', class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("delegacion_inicio", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Alcaldía donde inicialmente se reportó el incidente", class = "diccionario"),
+                    tags$td("16 alcaldías", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("incidente_c4", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Tipo de incidente", class = "diccionario"),
+                    tags$td("21 Incidentes Posibles (", tags$span(id = "bd_incidentes-c5", tags$u("Ver"), style = "color: #00AA5A;"), ")", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("latitud", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Coordenada Y", class = "diccionario"),
+                    tags$td("Numérico", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("longitud", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Coordenada X", class = "diccionario"),
+                    tags$td("Numérico", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("codigo_cierre", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Código que fue asignado al incidente en el cierre", class = "diccionario"),
+                    tags$td("Texto, 2 Categorías (", tags$span(id = "bd_cierre-c5", tags$u("Ver"), style = "color: #00AA5A;"), ")", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("clas_con_f_alarma", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Clasificación del Incidente", class = "diccionario"),
+                    tags$td("Texto, 4 Categorías (", tags$span(id = "bd_clas-c5", tags$u("Ver"), style = "color: #00AA5A;"), ")", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("tipo_entrada", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Medio por el cual se dio aviso del incidente", class = "diccionario"),
+                    tags$td("Texto, 6 Categorías (", tags$span(id = "bd_entrada-c5", tags$u("Ver"), style = "color: #00AA5A;"), ")", class = "diccionario"),
+                    class = "diccionario"
+                  ),
+                  tags$tr(tags$td("delegacion_cierre", class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Alcaldía donde cierra el folio del incidente", class = "diccionario"),
+                    tags$td("16 alcaldías", class = "diccionario"),
+                    class = "diccionario"
+                  )
+                )
+                # =====
+              )
+            )
+          ),
         tabPanel(
           title = "AXA",
           fluidRow(
