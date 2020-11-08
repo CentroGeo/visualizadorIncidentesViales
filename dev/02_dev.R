@@ -66,6 +66,7 @@ golem::add_css_file("custom")
 usethis::use_data_raw(name = "fgj", open = FALSE)
 usethis::use_data_raw(name = "ssc", open = FALSE)
 usethis::use_data_raw(name = "axa", open = FALSE)
+usethis::use_data_raw(name = "fuentes_unidas", open = FALSE)
 
 
 ## Tests ----
