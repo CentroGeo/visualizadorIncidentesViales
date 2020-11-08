@@ -43,10 +43,10 @@ usethis::use_package("leaflet.extras")
 golem::add_module(name = "introPageUI") # Página de inicio
 golem::add_module(name = "csvFileUI") # Interfase de actualización de bases de datos
 golem::add_module(name = "infoBdUI") # Ifo de las bases de datos
-golem::add_module( name = "mapa" ) # Visualizador
-golem::add_module( name = "bar" ) # Visualizador
-golem::add_module( name = "DBSelector" ) # Visualizador
-golem::add_module( name = "graficas" ) # Visualizador
+golem::add_module(name = "mapa") # Visualizador
+golem::add_module(name = "bar") # Visualizador
+golem::add_module(name = "DBSelector") # Visualizador
+golem::add_module(name = "graficas") # Visualizador
 
 
 
