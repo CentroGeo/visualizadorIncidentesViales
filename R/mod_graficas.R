@@ -317,10 +317,15 @@ horas_graf <- function(dataframe_rec_in, input) {
     )
     cuentas <- tidyr::drop_na(cuentas)
     cuentas <- dplyr::mutate(cuentas, Hora = sprintf("%02d:00", hora))
+    cuentas$Dia <- factor( cuentas$Dia, levels = c("2","3","4","5","6","7","1"))
+    
     p <- ggplot2::ggplot(
-      cuentas,
-      ggplot2::aes(x = Dia, y = Hora, fill = Incidentes)
-    ) +
+          cuentas,
+          ggplot2::aes(x = Dia,
+                    y = Hora, 
+                    fill = Incidentes
+                   )
+          ) +
     ggplot2::geom_tile() +
     ggplot2::scale_x_discrete(labels = day_labels) +
     ggplot2::scale_fill_gradient(low = colores$start, high = colores$end) +
