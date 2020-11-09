@@ -286,7 +286,8 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 #'
 #'@returns The render plot selected in the UI
 horas_graf <- function(dataframe_rec_in, input) {
-  renderPlot({
+  # renderPlot({
+  renderCachedPlot({
     datos <- dataframe_rec_in()
     colores_fgj <- list(start = "#ffffcc", end = "#b10026")
     colores_ssc <- list(start = "#fff7fb", end = "#034e7b")
@@ -344,7 +345,11 @@ horas_graf <- function(dataframe_rec_in, input) {
     panel.border = ggplot2::element_blank()
     )
     return(p)
-  })
+  }, 
+  cacheKeyExpr =  list(input$tipo_grafica2,
+                       dataframe_rec_in()
+                      )
+  )
 }
 #' graficas Server Function
 #'
