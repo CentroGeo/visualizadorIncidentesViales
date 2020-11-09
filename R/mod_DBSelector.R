@@ -53,6 +53,32 @@ mod_DBSelector_ui <- function(id) {
 }
 
 
+filtra_datos <- function(dataframe_fil,
+                         filtro_incidente,
+                         filtro_bd,
+                         filtro_intervalo,
+                         filtro_lugar) {
+  mem_data <- dplyr::filter(dataframe_fil,
+    fuente %in% filtro_bd) %>%
+    dplyr::filter(tipo_incidente %in% filtro_incidente)
+  #### filtro fecha
+  mem_data <- dplyr::filter(
+    mem_data,
+    (mem_data$timestamp > lubridate::ymd(filtro_intervalo[1])
+    &
+    mem_data$timestamp < lubridate::ymd(filtro_intervalo[2])
+    )
+  )
+  ### Filter by location (Alcaldias)
+  if (filtro_lugar != "Total Ciudad de México") {
+    mem_data <- dplyr::filter(mem_data,
+      nom_mun == filtro_lugar)
+  }
+  return(mem_data)
+}
+
+mem_filtra_datos <- memoise::memoise(filtra_datos)
+
 #' DBSelector Server Function
 #'
 #' Using the filters selected in the UI the function returns a reactive function that returns
@@ -69,34 +95,24 @@ mod_DBSelector_ui <- function(id) {
 #' @return reactive function that returns a filtered dataframe
 #'  using the inputs from the UI
 mod_DBSelector_server <- function(input, output, session,
-interval_ba_rea, dataframe_fil) {
-  ns <- session$ns
-  #### Read
-  datafram_re <- reactive({
-    ######
-    dataframe_fil <- dplyr::filter(dataframe_fil, fuente %in% input$filtro_bd) %>%
-      dplyr::filter(tipo_incidente %in% input$filtro_incidente)
-    #### filtro fecha
-    interval_bar <- interval_ba_rea() ## Get the interbal from the time bar
-    dataframe_fil <- dplyr::filter(
-      dataframe_fil,
-      (dataframe_fil$timestamp > lubridate::ymd(interval_bar[1])
-      &
-        dataframe_fil$timestamp < lubridate::ymd(interval_bar[2]))
-    )
-    ### Filter by location (Alcaldias)
-    if (input$filtro_lugar != "Total Ciudad de México") {
-      dataframe_fil <- dplyr::filter(dataframe_fil,
-        nom_mun == input$filtro_lugar)
-    }
-    return(dataframe_fil)
-  })
-  #datafram_re <- datafram_re %>% shiny::debounce(100)
-  seleccion_lugar <- reactive({
-    input$filtro_lugar
-  })
-  return(c(datafram_re, seleccion_lugar))
-}
+  interval_ba_rea, dataframe_fil) {
+    ns <- session$ns
+    #### Read
+    datafram_re <- reactive({
+      filtro_incidente <- input$filtro_incidente
+      filtro_bd <- input$filtro_bd
+      filtro_intervalo <- interval_ba_rea()
+      filtro_lugar <- input$filtro_lugar
+      dataframe_fil <- mem_filtra_datos(dataframe_fil, filtro_incidente,
+        filtro_bd, filtro_intervalo, filtro_lugar)
+      return(dataframe_fil)
+    })
+    #datafram_re <- datafram_re %>% shiny::debounce(100)
+    seleccion_lugar <- reactive({
+      input$filtro_lugar
+    })
+    return(c(datafram_re, seleccion_lugar))
+  }
 
 
 
