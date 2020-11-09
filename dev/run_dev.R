@@ -2,6 +2,7 @@
 # TRUE = production mode, FALSE = development mode
 options(golem.app.prod = FALSE)
 options(shiny.maxRequestSize = 510 * 1024^2)
+shinyOptions(cache = memoryCache(size = 20e7))
 
 options("Actualizar_datos" = TRUE)
 # Detach all loaded packages and clean your environment

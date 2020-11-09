@@ -115,7 +115,8 @@ mod_graficas_ui <- function(id) {
 #'
 #'@returns The render plot selected in the UI
 mes_dia_graf <- function(dataframe_rec_in, input) {
-  renderPlot({
+  # renderPlot({
+  renderCachedPlot({
     if (input$tiempo_grafica == "Mensual") {
       ############## Mensual####################
       datos <- dataframe_rec_in()
@@ -259,11 +260,16 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
           ggplot2::scale_colour_manual(values = paleta_colores,
                                      limits = unique(count_months_year$fuente),
                                      name = "Fuente"
-          ) 
+          )
 
     }
     return(p)
-  })
+  },
+  cacheKeyExpr =  list(input$Datos_grafica,
+                       input$tiempo_grafica,
+                       dataframe_rec_in()
+                       )
+  )
 }
 
 #' Grafica Horas Function
@@ -278,7 +284,8 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 #'
 #'@returns The render plot selected in the UI
 horas_graf <- function(dataframe_rec_in, input) {
-  renderPlot({
+  # renderPlot({
+  renderCachedPlot({
     datos <- dataframe_rec_in()
     colores_fgj <- list(start = "#ffffcc", end = "#b10026")
     colores_ssc <- list(start = "#fff7fb", end = "#034e7b")
@@ -336,7 +343,11 @@ horas_graf <- function(dataframe_rec_in, input) {
     panel.border = ggplot2::element_blank()
     )
     return(p)
-  })
+  }, 
+  cacheKeyExpr =  list(input$tipo_grafica2,
+                       dataframe_rec_in()
+                      )
+  )
 }
 #' graficas Server Function
 #'
