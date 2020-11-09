@@ -15,7 +15,7 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libudunits2-dev \
     libgdal-dev \
     build-essential
- #   libcurl4-gnutls-dev
+ #   libcurl4-gnutls-de
 
 ## update system libraries
 RUN apt-get update && \
@@ -28,5 +28,13 @@ RUN R -e "devtools::install_github('CentroGeo/visualizadorIncidentesViales', for
 EXPOSE 3838
 
 # run app on container start
-CMD ["R", "-e", "options('shiny.port'=3838,shiny.host='0.0.0.0'); options('Actualizar_datos' = TRUE); visualizadorIncidentesViales::run_app()"]
-#CMD R -e "options('shiny.port'=1234,shiny.host='0.0.0.0', 'golem.pkg.name' = 'aaa');aaaa::run_app( 'runApp' )" 
+CMD ["R", "-e", \
+    "options('shiny.port'=3838,shiny.host='0.0.0.0'); \
+    options('Actualizar_datos' = TRUE); \
+    library(visualizadorIncidentesViales); \
+    visualizadorIncidentesViales::run_app()"]
+# CMD ["R", "-e", \
+#     "devtools::install_github('CentroGeo/visualizadorIncidentesViales', force=TRUE); \
+#     options('shiny.port'=3838,shiny.host='0.0.0.0'); \
+#     options('Actualizar_datos' = TRUE); \
+#     visualizadorIncidentesViales::run_app()"]
