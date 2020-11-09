@@ -1,5 +1,5 @@
 # Base image https://hub.docker.com/u/rocker/
-FROM rocker/shiny:latest
+FROM rocker/shiny:3.6.3
 
 # system libraries of general use
 ## install debian packages
@@ -23,7 +23,7 @@ RUN apt-get update && \
     apt-get clean
 
 RUN R -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
-RUN R -e "devtools::install_github('CentroGeo/visualizadorIncidentesViales')"
+RUN R -e "devtools::install_github('CentroGeo/visualizadorIncidentesViales', force=TRUE)"
 # expose port
 EXPOSE 3838
 
