@@ -30,7 +30,7 @@ mod_mapa_ui <- function(id) {
 #'
 #' @param datos reactive dataframe with data filterd by user parameters
 mod_mapa_server <- function(input, output, session, datos) {
-  cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
+  #cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
   centroides <- sf::st_transform(cdmx, 32614) %>%
     sf::st_centroid(.) %>%
     sf::st_transform(., "+proj=longlat +ellps=GRS80 +no_defs")

@@ -48,7 +48,7 @@ app_server <- function(input, output, session) {
     output$tabla <- DT::renderDataTable({data()})
   }
   # Leemos todos los datos completos una sola vez
-  dataframe_fil <- readRDS("./data-raw/fuentes_unidas.rds")
+  dataframe_fil <- fuentes_unidas
   # Selector de bases de datos
   data_out <- callModule(mod_DBSelector_server,
     "DBSelector_ui_1",

@@ -20,6 +20,7 @@ usethis::use_package("sf")
 usethis::use_package("dplyr")
 usethis::use_package("plyr")
 usethis::use_package("readr")
+usethis::use_package("magrittr")
 usethis::use_package("chron")
 usethis::use_package("lubridate")
 usethis::use_package("readxl")
@@ -36,6 +37,7 @@ usethis::use_package("rgdal")
 usethis::use_package("DT")
 usethis::use_package("tidyr")
 usethis::use_package("leaflet.extras")
+usethis::use_pipe()
 
 
 ## Add modules ----
@@ -66,8 +68,10 @@ golem::add_css_file("custom")
 usethis::use_data_raw(name = "fgj", open = FALSE)
 usethis::use_data_raw(name = "ssc", open = FALSE)
 usethis::use_data_raw(name = "axa", open = FALSE)
+usethis::use_data_raw(name = "cdmx", open = FALSE)
 usethis::use_data_raw(name = "fuentes_unidas", open = FALSE)
-
+usethis::use_data(fuentes_unidas, overwrite = TRUE)
+usethis::use_data(cdmx, overwrite = TRUE)
 
 ## Tests ----
 ## Add one line by test you want to create
