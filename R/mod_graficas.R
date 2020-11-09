@@ -260,17 +260,15 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
           ggplot2::scale_colour_manual(values = paleta_colores,
                                      limits = unique(count_months_year$fuente),
                                      name = "Fuente"
-          ) 
+          )
 
     }
-    
     return(p)
-  }, 
+  },
   cacheKeyExpr =  list(input$Datos_grafica,
-                       input$tiempo_grafica, 
+                       input$tiempo_grafica,
                        dataframe_rec_in()
                        )
-                       
   )
 }
 
