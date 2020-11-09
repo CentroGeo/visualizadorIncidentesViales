@@ -115,7 +115,8 @@ mod_graficas_ui <- function(id) {
 #'
 #'@returns The render plot selected in the UI
 mes_dia_graf <- function(dataframe_rec_in, input) {
-  renderPlot({
+  # renderPlot({
+  renderCachedPlot({
     if (input$tiempo_grafica == "Mensual") {
       ############## Mensual####################
       datos <- dataframe_rec_in()
@@ -262,8 +263,15 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
           ) 
 
     }
+    
     return(p)
-  })
+  }, 
+  cacheKeyExpr =  list(input$Datos_grafica,
+                       input$tiempo_grafica, 
+                       dataframe_rec_in()
+                       )
+                       
+  )
 }
 
 #' Grafica Horas Function
