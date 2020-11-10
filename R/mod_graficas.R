@@ -287,6 +287,17 @@ horas_graf <- function(dataframe_rec_in, input) {
   # renderPlot({
   renderCachedPlot({
     datos <- dataframe_rec_in()
+    if(nrow(datos)==0){
+      ## Grafica vacia 
+      p <- ggplot2::ggplot()
+      p <- p+ ggplot2::labs(x= "Dia") + 
+        ggplot2::labs(y = "Hora") 
+
+        
+        
+      return(p)
+      
+    }
     colores_fgj <- list(start = "#ffffcc", end = "#b10026")
     colores_ssc <- list(start = "#fff7fb", end = "#034e7b")
     colores_c5 <-  list(start = "#ffffe5", end = "#8c2d04")
