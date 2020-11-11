@@ -4,7 +4,7 @@
 \alias{mod_DBSelector_server}
 \title{DBSelector Server Function}
 \usage{
-mod_DBSelector_server(input, output, session, interval_ba_rea)
+mod_DBSelector_server(input, output, session, interval_ba_rea, dataframe_fil)
 }
 \arguments{
 \item{input}{shiny internal}

@@ -1,3 +1,26 @@
+
+lis_intro<- list(
+              panorama_general = "Uno de los compromisos de la Secretaría \ 
+              de Movilidad de la Ciudad de México (SEMOVI) es generar \
+              estrategias de seguridad vial basadas en evidencia. \ 
+              Para ello es fundamental entender las características de los hechos \
+              de tránsito que se suscitan en la ciudad. Por lo que a partir de la \
+              liberación de distintas fuentes de datos oficiales, la SEMOVI en \
+              colaboración con el Laboratorio de Datos Geoespaciales (DataLab) del \
+              Centro de Ciencias de Información Geoespacial (CentroGeo) y la \
+              Aseguradora AXA, se dieron a la tarea de desarrollar herramientas de \
+              visualización y manejo de información para entender la dinámica \
+              espacial que siguen los hechos de tránsito.", 
+
+
+              herramienta_geovisualizacion=
+              "Esta herramienta permite a los usuarios explorar y analizar de \
+               forma interactiva, los datos disponibles de la Secretaría de \
+               Seguridad Ciudadana (SSC), la Fiscalía General de Justicia \
+               (FGJ) y la aseguradora AXA."
+)
+
+
 #' introPageUI UI Function
 #'
 #' @description A shiny Module.
@@ -22,9 +45,7 @@ mod_introPageUI_ui <- function(id) {
             column(
               9,
               tags$p(strong("Panorama General"), style = "font-size: 18pt; color: #848888; text-align: left;"),
-              tags$p(
-                "Uno de los compromisos de la Secretaría de Movilidad de la Ciudad de México (SEMOVI) es generar estrategias de seguridad vial basadas en evidencia. Para ello es fundamental entender las características de los hechos de tránsito que se suscitan en la ciudad. Por lo que a partir de la liberación de distintas fuentes de datos oficiales, la SEMOVI en colaboración con el Laboratorio de Datos Geoespaciales (DataLab) del Centro de Ciencias de Información Geoespacial (CentroGeo) y la Aseguradora AXA, se dieron a la tarea de desarrollar herramientas de visualización y manejo de información para entender la dinámica espacial que siguen los hechos de tránsito."
-              )
+              tags$p(lis_intro$panorama_general)
             ),
             column(
               3,
@@ -40,9 +61,7 @@ mod_introPageUI_ui <- function(id) {
             column(
               9,
               tags$p(strong("Herramienta de Geovisualización"), style = "font-size: 18pt; color: #848888; text-align: left;"),
-              tags$p(
-                "Esta herramienta permite a los usuarios explorar y analizar de forma interactiva, los datos disponibles de la Secretaría de Seguridad Ciudadana (SSC), la Fiscalía General de Justicia (FGJ) y la aseguradora AXA."
-              ),
+              tags$p(lis_intro$herramienta_geovisualizacion),
               tags$div(
                 style = "font-size: 24pt; text-align: right;",
                 actionButton(
