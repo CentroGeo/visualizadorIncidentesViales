@@ -540,10 +540,6 @@ mod_infoBdUI_ui <- function (id) {
                   tags$li(lista_textos$objetivo_base_datos_AXA_2),
                   tags$li(lista_textos$objetivo_base_datos_AXA_3),
                   tags$li(lista_textos$objetivo_base_datos_AXA_4)
-                #  tags$li("Es una aseguradora multirramo de origen francés con presencia en 64 países"),
-                #  tags$li("Esta fuente, contiene información referente a sus clientes asegurados, sobre los datos generales, así como un desglose sobre causas y entorno que intervino en el accidente"),
-                #  tags$li("A través de “Fundación Axa” se suman generando un convenio de colaboración para la integración de su información, cuidando como siempre, la protección de datos personales de sus clientes"),
-                #  tags$li("El personal que atiende a sus asegurados, se recopila la información la cual es capturada en un sistema de registro")
                 )
               ),
               tags$div(style = "height: 15px;"),
