@@ -1,3 +1,72 @@
+lista_textos<- list(
+  bases_de_datos= "A continuación, encontrará información detallada sobre \
+  las Bases de Datos utilizadas en esta aplicación, a modo de conocer más \
+  a fondo su función original en el organismo generador y su utilidad para \
+  los objetivos de la SEMOVI.",
+  objetivo_base_datos_FGJ_1 = "A través del Ministerio Público, tiene las \
+  atribuciones de investigar los delitos de orden común, y perseguir a \
+  los imputados. Promoviendo la pronta, expedita y debida procuración de \
+  Justicia.",
+  objetivo_base_datos_FGJ_2 = "Esta fuente recaba una gran parte de \
+  información que se complementa en el lugar de investigación como cada \
+  uno de los campos pertenecientes a su base de datos.",
+  objetivo_base_datos_FGJ_3 = "Esta fuente se considera fundamental debido a \
+  que un accidente vial puede resultar en la comisión de delitos como \
+  daños, lesiones o incluso homicidio (no intencional). Por lo cual le \
+  corresponderá a la FGJ tomar la investigación y con ello la \
+  recopilación de información.",
+  objetivo_base_datos_FGJ_4 = "Para lo anterior, el Ministerio Público quien \
+  coordina la investigación, recaba información de las entrevistas a \
+  víctimas o imputados, las policías o bien de los peritos.",
+  objetivo_base_datos_SSC_1 = "Sus atribuciones en la Ciudad de México, \
+  encaminan las acciones dirigidas a salvaguardar la integridad y \
+  patrimonio de las personas, prevenir la comisión de delitos e \
+  infracciones a las disposiciones gubernativas y de policía, así como a \
+  preservar las libertades, el orden y la paz públicos.",
+  objetivo_base_datos_SSC_2 = "La información que tiene la SSC está en \
+  función a la atención que se brinda a través de la policía, por lo cual \
+  pueden allegarse de información que sólamente es posible recuperar \
+  cuando el incidente vial es atendido en campo.",
+  objetivo_base_datos_SSC_3 = "En la cadena de operaciones, son el primer \
+  contacto físico con la ciudadanía que se encuentre involucrada en un \
+  accidente vial, por lo cual tienen la facilidad de recabar información \
+  casi al momento del evento.",
+  objetivo_base_datos_SSC_4 = "A través de esta atención que brindan, los \
+  policías, obtienen información del accidente, la cual se pasa a través \
+  de formatos homologados a las áreas correspondientes de captura.",
+  objetivo_base_datos_C5_1 = "Entre las atribuciones que tiene son las de \
+  proveer información a la Jefa de Gobierno para la oportuna e inmediata \
+  toma de decisiones, a través de video monitoreo de la ciudad, la \
+  administración del Servicio de Atención de llamadas de emergencia 9-1-1 \
+  CDMX, así como Denuncia Anónima 089 y LOCATEL.",
+  objetivo_base_datos_C5_2 = "La información que se tiene corresponde a los \
+  reportes hechos por la ciudadanía directamente, por lo cual la \
+  información que puede ser pública es la fecha y hora, ubicación, la \
+  clasificación interna que se realiza. Existe una alta probabilidad de \
+  que esta institución tenga más reportes que las otras, debido a que \
+  algunos de estos, no tienen continuidad ante la policía o la PGJ, claro \
+  está, cuando no hay personas fallecidas o lesionadas.",
+  objetivo_base_datos_C5_3 = "La integración de C5, ayuda a reducir la \
+  brecha de reportes, ya que suele ser el primer contacto no físico con \
+  alguna autoridad ante un accidente vial.",
+  objetivo_base_datos_C5_4 = "Para ello, las y los operadores de C5 \
+  toman la información directa de la ciudadanía y realizan una \
+  clasificación de los eventos.",
+  objetivo_base_datos_AXA_1 = "Es una aseguradora multirramo de origen \
+  francés con presencia en 64 países",
+  objetivo_base_datos_AXA_2 = "Esta fuente, contiene información \
+  referente a sus clientes asegurados, sobre los datos generales, así \
+  como un desglose sobre causas y entorno que intervino en el accidente",
+  objetivo_base_datos_AXA_3 = "A través de “Fundación Axa” se suman \
+  generando un convenio de colaboración para la integración de su \
+  información, cuidando como siempre, la protección de datos personales \
+  de sus clientes",
+  objetivo_base_datos_AXA_4 = "El personal que atiende a sus \
+  asegurados, se recopila la información la cual es capturada en un \
+  sistema de registro"
+
+) 
+
 #' infoBdUI UI Function
 #'
 #' @description Function that generates the user interface (UI) where the 
@@ -17,7 +86,7 @@ mod_infoBdUI_ui <- function (id) {
       tags$div(
         style = "text-align: justify; font-size: 12pt; color: #697070;",
         tags$p(strong("Bases de Datos"), style = "font-size: 18pt; color: #848888; text-align: left;"),
-        tags$p("A continuación, encontrará información detallada sobre las Bases de Datos utilizadas en esta aplicación, a modo de conocer más a fondo su función original en el organismo generador y su utilidad para los objetivos de la SEMOVI.")
+        tags$p(lista_textos$bases_de_datos)
       ),
       tabsetPanel(
         tabPanel(
@@ -38,10 +107,10 @@ mod_infoBdUI_ui <- function (id) {
               tags$div(
                 style = "text-align: justify; font-size: 12pt; color: #697070;",
                 tags$ul(
-                  tags$li("A través del Ministerio Público, tiene las atribuciones de investigar los delitos de orden común, y perseguir a los imputados. Promoviendo la pronta, expedita y debida procuración de Justicia. "),
-                  tags$li("Esta fuente recaba una gran parte de información que se complementa en el lugar de investigación como cada uno de los campos pertenecientes a su base de datos."),
-                  tags$li("Esta fuente se considera fundamental debido a que un accidente vial puede resultar en la comisión de delitos como daños, lesiones o incluso homicidio (no intencional). Por lo cual le corresponderá a la FGJ tomar la investigación y con ello la recopilación de información."),
-                  tags$li("Para lo anterior, el Ministerio Público quien coordina la investigación, recaba información de las entrevistas a víctimas o imputados, las policías o bien de los peritos.")
+                  tags$li(lista_textos$objetivo_base_datos_FGJ_1),
+                  tags$li(lista_textos$objetivo_base_datos_FGJ_2),
+                  tags$li(lista_textos$objetivo_base_datos_FGJ_3),
+                  tags$li(lista_textos$objetivo_base_datos_FGJ_4)
                 ),
                 tags$p(
                   style = "font-size: 10pt;",
@@ -180,10 +249,10 @@ mod_infoBdUI_ui <- function (id) {
               tags$div(
                 style = "text-align: justify; font-size: 12pt; color: #697070;",
                 tags$ul(
-                  tags$li("Sus atribuciones en la Ciudad de México, encaminan las acciones dirigidas a salvaguardar la integridad y patrimonio de las personas, prevenir la comisión de delitos e infracciones a las disposiciones gubernativas y de policía, así como a preservar las libertades, el orden y la paz públicos."),
-                  tags$li("La información que tiene la SSC está en función a la atención que se brinda a través de la policía, por lo cual pueden allegarse de información que sólamente es posible recuperar cuando el incidente vial es atendido en campo."),
-                  tags$li("En la cadena de operaciones, son el primer contacto físico con la ciudadanía que se encuentre involucrada en un accidente vial, por lo cual tienen la facilidad de recabar información casi al momento del evento."),
-                  tags$li("A través de esta atención que brindan, los policías, obtienen información del accidente, la cual se pasa a través de formatos homologados a las áreas correspondientes de captura.")
+                  tags$li(lista_textos$objetivo_base_datos_SSC_1),
+                  tags$li(lista_textos$objetivo_base_datos_SSC_2),
+                  tags$li(lista_textos$objetivo_base_datos_SSC_3),
+                  tags$li(lista_textos$objetivo_base_datos_SSC_4)
                 ),
                 tags$p(
                   style = "font-size: 10pt;",
@@ -326,10 +395,14 @@ mod_infoBdUI_ui <- function (id) {
                 tags$div(
                   style = "text-align: justify; font-size: 12pt; color: #697070;",
                   tags$ul(
-                    tags$li("Entre las atribuciones que tiene son las de proveer información a la Jefa de Gobierno para la oportuna e inmediata toma de decisiones, a través de video monitoreo de la ciudad, la administración del Servicio de Atención de llamadas de emergencia 9-1-1 CDMX, así como Denuncia Anónima 089 y LOCATEL."),
-                    tags$li("La información que se tiene corresponde a los reportes hechos por la ciudadanía directamente, por lo cual la información que puede ser pública es la fecha y hora, ubicación, la clasificación interna que se realiza. Existe una alta probabilidad de que esta institución tenga más reportes que las otras, debido a que algunos de estos, no tienen continuidad ante la policía o la PGJ, claro está, cuando no hay personas fallecidas o lesionadas."),
-                    tags$li("La integración de C5, ayuda a reducir la brecha de reportes, ya que suele ser el primer contacto no físico con alguna autoridad ante un accidente vial."),
-                    tags$li("Para ello, las y los operadores de C5 toman la información directa de la ciudadanía y realizan una clasificación de los eventos.")
+                    tags$li(lista_textos$objetivo_base_datos_C5_1),
+                    tags$li(lista_textos$objetivo_base_datos_C5_2),
+                    tags$li(lista_textos$objetivo_base_datos_C5_3),
+                    tags$li(lista_textos$objetivo_base_datos_C5_4)
+                  #  tags$li("Entre las atribuciones que tiene son las de proveer información a la Jefa de Gobierno para la oportuna e inmediata toma de decisiones, a través de video monitoreo de la ciudad, la administración del Servicio de Atención de llamadas de emergencia 9-1-1 CDMX, así como Denuncia Anónima 089 y LOCATEL."),
+                  #  tags$li("La información que se tiene corresponde a los reportes hechos por la ciudadanía directamente, por lo cual la información que puede ser pública es la fecha y hora, ubicación, la clasificación interna que se realiza. Existe una alta probabilidad de que esta institución tenga más reportes que las otras, debido a que algunos de estos, no tienen continuidad ante la policía o la PGJ, claro está, cuando no hay personas fallecidas o lesionadas."),
+                  #  tags$li("La integración de C5, ayuda a reducir la brecha de reportes, ya que suele ser el primer contacto no físico con alguna autoridad ante un accidente vial."),
+                  #  tags$li("Para ello, las y los operadores de C5 toman la información directa de la ciudadanía y realizan una clasificación de los eventos.")
                   ),
                   tags$p(
                     style = "font-size: 10pt;",
@@ -463,10 +536,14 @@ mod_infoBdUI_ui <- function (id) {
               tags$div(
                 style = "text-align: justify; font-size: 12pt; color: #697070;",
                 tags$ul(
-                  tags$li("Es una aseguradora multirramo de origen francés con presencia en 64 países"),
-                  tags$li("Esta fuente, contiene información referente a sus clientes asegurados, sobre los datos generales, así como un desglose sobre causas y entorno que intervino en el accidente"),
-                  tags$li("A través de “Fundación Axa” se suman generando un convenio de colaboración para la integración de su información, cuidando como siempre, la protección de datos personales de sus clientes"),
-                  tags$li("El personal que atiende a sus asegurados, se recopila la información la cual es capturada en un sistema de registro")
+                  tags$li(lista_textos$objetivo_base_datos_AXA_1),
+                  tags$li(lista_textos$objetivo_base_datos_AXA_2),
+                  tags$li(lista_textos$objetivo_base_datos_AXA_3),
+                  tags$li(lista_textos$objetivo_base_datos_AXA_4)
+                #  tags$li("Es una aseguradora multirramo de origen francés con presencia en 64 países"),
+                #  tags$li("Esta fuente, contiene información referente a sus clientes asegurados, sobre los datos generales, así como un desglose sobre causas y entorno que intervino en el accidente"),
+                #  tags$li("A través de “Fundación Axa” se suman generando un convenio de colaboración para la integración de su información, cuidando como siempre, la protección de datos personales de sus clientes"),
+                #  tags$li("El personal que atiende a sus asegurados, se recopila la información la cual es capturada en un sistema de registro")
                 )
               ),
               tags$div(style = "height: 15px;"),
