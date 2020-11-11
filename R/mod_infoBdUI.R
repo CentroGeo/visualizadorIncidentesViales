@@ -399,10 +399,6 @@ mod_infoBdUI_ui <- function (id) {
                     tags$li(lista_textos$objetivo_base_datos_C5_2),
                     tags$li(lista_textos$objetivo_base_datos_C5_3),
                     tags$li(lista_textos$objetivo_base_datos_C5_4)
-                  #  tags$li("Entre las atribuciones que tiene son las de proveer información a la Jefa de Gobierno para la oportuna e inmediata toma de decisiones, a través de video monitoreo de la ciudad, la administración del Servicio de Atención de llamadas de emergencia 9-1-1 CDMX, así como Denuncia Anónima 089 y LOCATEL."),
-                  #  tags$li("La información que se tiene corresponde a los reportes hechos por la ciudadanía directamente, por lo cual la información que puede ser pública es la fecha y hora, ubicación, la clasificación interna que se realiza. Existe una alta probabilidad de que esta institución tenga más reportes que las otras, debido a que algunos de estos, no tienen continuidad ante la policía o la PGJ, claro está, cuando no hay personas fallecidas o lesionadas."),
-                  #  tags$li("La integración de C5, ayuda a reducir la brecha de reportes, ya que suele ser el primer contacto no físico con alguna autoridad ante un accidente vial."),
-                  #  tags$li("Para ello, las y los operadores de C5 toman la información directa de la ciudadanía y realizan una clasificación de los eventos.")
                   ),
                   tags$p(
                     style = "font-size: 10pt;",
