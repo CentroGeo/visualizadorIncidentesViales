@@ -352,24 +352,38 @@ mod_infoBdUI_ui <- function (id) {
                 tags$tr(
                     tags$td("colonia_hechos",
                         class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Nombre de la colonia del hecho", class = "diccionario"),
+                        tags$td("Nombre de la colonia del hecho",
+                          class = "diccionario"
+                        ),
                         tags$td("1,370 colonias", class = "diccionario"),
                         class = "diccionario"
                 ),
-                tags$tr(tags$td("alcaldia_hechos", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Nombre de la alcaldia del hecho", class = "diccionario"),
-                        tags$td("16 alcaldías", class = "diccionario"),
-                        class = "diccionario"
+                tags$tr(tags$td("alcaldia_hechos",
+                    class = "diccionario dicc_center dicc_rndm"
                 ),
-                tags$tr(tags$td("longitud", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Coordenada X", class = "diccionario"),
-                        tags$td("Numérico", class = "diccionario"),
-                        class = "diccionario"
+                tags$td("Nombre de la alcaldia del hecho",
+                     class = "diccionario"
                 ),
-                tags$tr(tags$td("latitud", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Coordenada Y", class = "diccionario"),
-                        tags$td("Numérico", class = "diccionario"),
-                        class = "diccionario"
+                tags$td("16 alcaldías",
+                    class = "diccionario"
+                ),
+                class = "diccionario"
+                ),
+                tags$tr(
+                    tags$td("longitud",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td("Coordenada X", class = "diccionario"),
+                    tags$td("Numérico", class = "diccionario"),
+                    class = "diccionario"
+                ),
+                tags$tr(
+                  tags$td("latitud",
+                      class = "diccionario dicc_center dicc_rndm"
+                  ),
+                  tags$td("Coordenada Y", class = "diccionario"),
+                  tags$td("Numérico", class = "diccionario"),
+                  class = "diccionario"
                 )
               )
               # =====
@@ -385,12 +399,16 @@ mod_infoBdUI_ui <- function (id) {
               tags$div(
                 style = "font-size: 18pt; color: #848888; text-align: left;",
                 tags$p(
-                  tags$img(src = "www/ssc.png", style = "height: 85px; float: right;"),
+                  tags$img(src = "www/ssc.png",
+                      style = "height: 85px; float: right;"
+                  ),
                   strong("Secretaría de Seguridad Ciudadana (SSC)")
                 )
               ),
               tags$div(style = "height: 15px;"),
-              tags$p(strong("Objetivo de la Base de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
+              tags$p(strong("Objetivo de la Base de Datos"),
+                  style = "font-size: 14pt; color: #848888; text-align: left;"
+              ),
               tags$div(
                 style = "text-align: justify; font-size: 12pt; color: #697070;",
                 tags$ul(
@@ -401,17 +419,45 @@ mod_infoBdUI_ui <- function (id) {
                 ),
                 tags$p(
                   style = "font-size: 10pt;",
-                  strong("Referencia"), " – ", tags$a("Ley Orgánica de la Secretaría de Seguridad Pública del Distrito Federal", href = "http://data.consejeria.cdmx.gob.mx/images/leyes/leyes/LEY_ORGANICA_DE_LA_SECRETARIA_DE_SEGURIDAD_PUBLICA_DEL_DF_1.pdf")
+                  strong("Referencia"),
+                  " – ",
+                  tags$a("Ley Orgánica de la Secretaría de Seguridad Pública del Distrito Federal",
+                      href = "http://data.consejeria.cdmx.gob.mx/images/leyes/leyes/LEY_ORGANICA_DE_LA_SECRETARIA_DE_SEGURIDAD_PUBLICA_DEL_DF_1.pdf"
+                  )
                 )
               ),
               tags$div(style = "height: 15px;"),
-              tags$p(strong("Información de la Base de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
+              tags$p(strong("Información de la Base de Datos"),
+                  style = "font-size: 14pt; color: #848888; text-align: left;"
+              ),
               tags$div(
                 style = "text-align: justify; font-size: 12pt; color: #697070;",
                 tags$ul(
-                  tags$li(strong("Fuente"), " – ", tags$a("Datos Abiertos de la CDMX", href = "https://datos.cdmx.gob.mx/explore/dataset/hechos-de-transito-registrados-por-la-ssc-serie-para-comparaciones-interanuales-")),
-                  tags$li(strong("Número de Registros"), " – ", textOutput(outputId = "ssc_cuantos", inline = TRUE)),
-                  tags$li(strong("Periodo Temporal"), " – ", textOutput(outputId = "ssc_cuando1", inline = TRUE), " a ", textOutput(outputId = "ssc_cuando2", inline = TRUE))
+                  tags$li(strong("Fuente"),
+                      " – ",
+                      tags$a("Datos Abiertos de la CDMX",
+                          href = "https://datos.cdmx.gob.mx/explore/dataset/hechos-de-transito-registrados-por-la-ssc-serie-para-comparaciones-interanuales-"
+                      )
+                  ),
+                  tags$li(
+                      strong("Número de Registros"),
+                      " – ",
+                      textOutput(outputId = "ssc_cuantos",
+                           inline = TRUE
+                      )
+                  ),
+                  tags$li(
+                    strong("Periodo Temporal"),
+                    " – ",
+                    textOutput(
+                      outputId = "ssc_cuando1",
+                      inline = TRUE),
+                      " a ",
+                      textOutput(
+                          outputId = "ssc_cuando2",
+                          inline = TRUE
+                      )
+                  )
                 )
               ),
               tags$div(style = "height: 15px;")
@@ -842,17 +888,28 @@ mod_infoBdUI_ui <- function (id) {
                         tags$td("Booleano", class = "diccionario"),
                         class = "diccionario"
                 ),
-                tags$tr(tags$td("Variables Booleanas", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Conjunto de datos que describren a detalle las variables involucradas en el incidente", class = "diccionario"),
-                        tags$td("18 Variables (", tags$span(id = "bd_boolean-axa", tags$u("Ver"), style = "color: #00AA5A;"), ")", class = "diccionario"),
+                tags$tr(
+                    tags$td("Variables Booleanas",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td(
+                        "Conjunto de datos que describren a detalle las variables involucradas en el incidente",
                         class = "diccionario"
+                    ),
+                    tags$td("18 Variables (",
+                        tags$span(id = "bd_boolean-axa",
+                            tags$u("Ver"),
+                            style = "color: #00AA5A;"
+                        ),
+                       ")",
+                       class = "diccionario"
+                    ),
+                    class = "diccionario"
                 )
-              )
-              # =====
+              )              
             )
           )
         )
-        
       )
     )
   )
