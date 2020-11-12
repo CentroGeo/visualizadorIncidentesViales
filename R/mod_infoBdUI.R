@@ -1,5 +1,5 @@
 lista_textos<- list(
-  bases_de_datos= "A continuación, encontrará información detallada sobre \
+  bases_de_datos = "A continuación, encontrará información detallada sobre \
   las Bases de Datos utilizadas en esta aplicación, a modo de conocer más \
   a fondo su función original en el organismo generador y su utilidad para \
   los objetivos de la SEMOVI.",
@@ -65,12 +65,12 @@ lista_textos<- list(
   asegurados, se recopila la información la cual es capturada en un \
   sistema de registro"
 
-) 
+)
 
 #' infoBdUI UI Function
 #'
 #' @description Function that generates the user interface (UI) where the 
-#' information about data sources is display  
+#' information about data sources is display
 #'
 #'
 #'
@@ -79,13 +79,23 @@ lista_textos<- list(
 mod_infoBdUI_ui <- function (id) {
   ns <- NS(id)
   tagList(
-    fluidRow(column(6, actionButton(inputId = ns("boton_ver_visualizador"), label = "Regresar a Visualizador", icon = icon("globe-americas"), style = "background-color: #00AA5A; color: white; border-color: ; font-size: 12pt;"))),
+    fluidRow(
+        column(6,
+          actionButton(inputId = ns("boton_ver_visualizador"
+          ),
+          label = "Regresar a Visualizador",
+          icon = icon("globe-americas"),
+          style = "background-color: #00AA5A; color: white; border-color: ; font-size: 12pt;")
+        )
+    ),
     tags$div(style = "height: 20px;"),
     shinydashboard::box(
       width = 12,
       tags$div(
         style = "text-align: justify; font-size: 12pt; color: #697070;",
-        tags$p(strong("Bases de Datos"), style = "font-size: 18pt; color: #848888; text-align: left;"),
+        tags$p(strong("Bases de Datos"),
+         style = "font-size: 18pt; color: #848888; text-align: left;"
+        ),
         tags$p(lista_textos$bases_de_datos)
       ),
       tabsetPanel(
@@ -98,12 +108,17 @@ mod_infoBdUI_ui <- function (id) {
               tags$div(
                 style = "font-size: 18pt; color: #848888; text-align: left;",
                 tags$p(
-                  tags$img(src = "www/fgj.png", style = "height: 85px; float: right;"),
+                  tags$img(src = "www/fgj.png",
+                          style = "height: 85px; float: right;"
+                  ),
                   strong("Fiscalía General de Justicia (FGJ)")
                 )
               ),
               tags$div(style = "height: 15px;"),
-              tags$p(strong("Objetivo de la Base de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
+              tags$p(
+                    strong("Objetivo de la Base de Datos"),
+                    style = "font-size: 14pt; color: #848888; text-align: left;"
+              ),
               tags$div(
                 style = "text-align: justify; font-size: 12pt; color: #697070;",
                 tags$ul(
@@ -114,17 +129,44 @@ mod_infoBdUI_ui <- function (id) {
                 ),
                 tags$p(
                   style = "font-size: 10pt;",
-                  strong("Referencia"), " – ", tags$a("Ley Orgánica de la Procuraduría General de Justicia del Distrito Federal", href = "http://data.consejeria.cdmx.gob.mx/images/leyes/leyes/LEY_ORGANICA_DE_LA_PROCURADURIA_GRAL_DE_JUSTICIA_DEL_DF_1.pdf")
+                  strong("Referencia"),
+                  " – ",
+                  tags$a(
+                    "Ley Orgánica de la Procuraduría General de Justicia del Distrito Federal",
+                    href = "http://data.consejeria.cdmx.gob.mx/images/leyes/leyes/LEY_ORGANICA_DE_LA_PROCURADURIA_GRAL_DE_JUSTICIA_DEL_DF_1.pdf"
+                  )
                 )
               ),
               tags$div(style = "height: 15px;"),
-              tags$p(strong("Información de la Base de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
-              tags$div(
-                style = "text-align: justify; font-size: 12pt; color: #697070;",
-                tags$ul(
-                  tags$li(strong("Fuente"), " – ", tags$a("Datos Abiertos de la CDMX", href = "https://datos.cdmx.gob.mx/explore/dataset/carpetas-de-investigacion-pgj-de-la-ciudad-de-mexico/")),
-                  tags$li(strong("Número de Registros"), " – ", textOutput(outputId = "pgj_cuantos", inline = TRUE)),
-                  tags$li(strong("Periodo Temporal"), " – ", textOutput(outputId = "pgj_cuando1", inline = TRUE), " a ", textOutput(outputId = "pgj_cuando2", inline = TRUE))
+              tags$p(
+                  strong("Información de la Base de Datos"),
+                  style = "font-size: 14pt; color: #848888; text-align: left;"),
+                  tags$div(
+                    style = "text-align: justify; font-size: 12pt; color: #697070;",
+                    tags$ul(
+                      tags$li(strong("Fuente"),
+                          " – ",
+                          tags$a("Datos Abiertos de la CDMX",
+                              href = "https://datos.cdmx.gob.mx/explore/dataset/carpetas-de-investigacion-pgj-de-la-ciudad-de-mexico/"
+                          )
+                      ),
+                      tags$li(strong("Número de Registros"),
+                          " – ",
+                          textOutput(outputId = "pgj_cuantos",
+                              inline = TRUE
+                          )
+                      ),
+                  tags$li(strong("Periodo Temporal"),
+                  " – ",
+                  textOutput(
+                        outputId = "pgj_cuando1",
+                        inline = TRUE),
+                        " a ",
+                        textOutput(
+                            outputId = "pgj_cuando2",
+                            inline = TRUE
+                        )
+                  )
                 )
               ),
               tags$div(style = "height: 15px;")
@@ -132,81 +174,184 @@ mod_infoBdUI_ui <- function (id) {
             column(
               6,
               tags$div(style = "height: 15px;"),
-              tags$p(strong("Diccionario de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
+              tags$p(
+                    strong("Diccionario de Datos"),
+                    style = "font-size: 14pt; color: #848888; text-align: left;"
+              ),
               # ===== Tabla PGJ =====
               tags$table(
                 style = "width: 100%; font-size: 10pt;", class = "diccionario",
-                tags$col(width = "17%"), tags$col(width = "58%"), tags$col(width = "25%"),
+                tags$col(width = "17%"),
+                      tags$col(width = "58%"),
+                      tags$col(width = "25%"),
+                      tags$tr(
+                        class = "diccionario dicc_header",
+                        tags$th("Nombre de la Variable",
+                            class = "diccionario dicc_center"),
+                            tags$th("Descripción",
+                                class = "diccionario dicc_center"
+                            ),
+                            tags$th("Tipo o Categorías",
+                                class = "diccionario dicc_center"
+                        )
+                      ),
                 tags$tr(
-                  class = "diccionario dicc_header",
-                  tags$th("Nombre de la Variable", class = "diccionario dicc_center"), tags$th("Descripción", class = "diccionario dicc_center"), tags$th("Tipo o Categorías", class = "diccionario dicc_center")
-                ),
-                tags$tr(tags$td("ao_hechos", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Año en que ocurrió el hecho", class = "diccionario"),
-                        tags$td("Entero", class = "diccionario"),
+                    tags$td("ao_hechos",
+                          class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td("Año en que ocurrió el hecho",
                         class = "diccionario"
-                ),
-                tags$tr(tags$td("mes_hechos", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Mes en el que ocurrió el hecho", class = "diccionario"),
-                        tags$td("Texto", class = "diccionario"),
-                        class = "diccionario"
-                ),
-                tags$tr(tags$td("fecha_hechos", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Día, mes, año y hora en el que ocurrió el hecho", class = "diccionario"),
-                        tags$td("Texto, en formato “aaaa-mm-dd hh:mm” (24 hrs)", class = "diccionario"),
-                        class = "diccionario"
+                    ),
+                    tags$td("Entero", class = "diccionario"),
+                    class = "diccionario"
                 ),
                 tags$tr(
-                  tags$td("ao_inicio", class = "diccionario dicc_center dicc_rndm"),
-                  tags$td("Año en el cual se abrió la carpeta de investigación", class = "diccionario"),
-                  tags$td("Entero", class = "diccionario")
-                ),
-                tags$tr(tags$td("mes_inicio", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Mes en el cual se abrió la carpeta de investigación", class = "diccionario"),
-                        tags$td("Texto", class = "diccionario"),
+                    tags$td("mes_hechos",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td(
+                        "Mes en el que ocurrió el hecho",
                         class = "diccionario"
+                    ),
+                    tags$td("Texto", class = "diccionario"),
+                    class = "diccionario"
                 ),
-                tags$tr(tags$td("fecha_inicio", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Día, mes, año y hora en el cual se abrió la carpeta de investigación", class = "diccionario"),
-                        tags$td("Texto, en formato “aaaa-mm-dd hh:mm” (24 hrs)", class = "diccionario"),
+                tags$tr(
+                    tags$td("fecha_hechos",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td(
+                        "Día, mes, año y hora en el que ocurrió el hecho",
                         class = "diccionario"
-                ),
-                tags$tr(tags$td("delito", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Tipo penal con base en Código Penal de la CDMX", class = "diccionario"),
-                        tags$td("8 Tipos Penales (", tags$span(id = "bd_delitos-pgj", tags$u("Ver"), style = "color: #00AA5A;"), ")", class = "diccionario"),
+                    ),
+                    tags$td("Texto, en formato “aaaa-mm-dd hh:mm” (24 hrs)",
                         class = "diccionario"
+                    ),
+                    class = "diccionario"
                 ),
-                tags$tr(tags$td("fiscalia", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Entidad pública encargada de la investigación", class = "diccionario"),
-                        tags$td("24 fiscalías", class = "diccionario"),
+                tags$tr(
+                    tags$td("ao_inicio",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td(
+                        "Año en el cual se abrió la carpeta de investigación",
                         class = "diccionario"
+                    ),
+                    tags$td("Entero", class = "diccionario")
                 ),
-                tags$tr(tags$td("agencia", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Clave de la agencia encargada de la investigación", class = "diccionario"),
-                        tags$td("89 agencias", class = "diccionario"),
+                tags$tr(
+                    tags$td(
+                        "mes_inicio",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td(
+                        "Mes en el cual se abrió la carpeta de investigación",
                         class = "diccionario"
+                    ),
+                    tags$td("Texto", class = "diccionario"),
+                    class = "diccionario"
                 ),
-                tags$tr(tags$td("unidad_investigacion", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Clave con unidad de investigación detallando si existieron detenidos", class = "diccionario"),
-                        tags$td("20 claves", class = "diccionario"),
+                tags$tr(
+                    tags$td("fecha_inicio",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td(
+                        "Día, mes, año y hora en el cual se abrió la carpeta de investigación",
                         class = "diccionario"
-                ),
-                tags$tr(tags$td("categoria_delito", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Categoría del delito con base en Código Penal de la CDMX", class = "diccionario"),
-                        tags$td("1 categoría (Delito de Bajo Impacto)", class = "diccionario"),
+                    ),
+                    tags$td("Texto, en formato “aaaa-mm-dd hh:mm” (24 hrs)",
                         class = "diccionario"
+                    ),
+                    class = "diccionario"
                 ),
-                tags$tr(tags$td("calle_hechos", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Nombre de la calle del hecho", class = "diccionario"),
-                        tags$td("12,336 calles", class = "diccionario"),
+                tags$tr(
+                    tags$td("delito",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td("Tipo penal con base en Código Penal de la CDMX",
                         class = "diccionario"
+                    ),
+                    tags$td(
+                      "8 Tipos Penales (",
+                      tags$span(id = "bd_delitos-pgj",
+                          tags$u("Ver"),
+                          style = "color: #00AA5A;"
+                      ),
+                      ")",
+                      class = "diccionario"
+                    ),
+                    class = "diccionario"
                 ),
-                tags$tr(tags$td("calle_hechos2", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Segunda referencia al lugar donde ocurrieron los hechos", class = "diccionario"),
-                        tags$td("8,581 calles", class = "diccionario"),
+                tags$tr(
+                    tags$td("fiscalia",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td(
+                        "Entidad pública encargada de la investigación",
                         class = "diccionario"
+                    ),
+                    tags$td("24 fiscalías", class = "diccionario"),
+                    class = "diccionario"
                 ),
-                tags$tr(tags$td("colonia_hechos", class = "diccionario dicc_center dicc_rndm"),
+                tags$tr(
+                    tags$td("agencia",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td(
+                        "Clave de la agencia encargada de la investigación",
+                         class = "diccionario"
+                    ),
+                    tags$td("89 agencias", class = "diccionario"),
+                    class = "diccionario"
+                ),
+                tags$tr(
+                  tags$td("unidad_investigacion",
+                      class = "diccionario dicc_center dicc_rndm"
+                  ),
+                  tags$td("Clave con unidad de investigación detallando si existieron detenidos",
+                      class = "diccionario"
+                  ),
+                  tags$td("20 claves",
+                       class = "diccionario"
+                  ),
+                  class = "diccionario"
+                ),
+                tags$tr(
+                    tags$td("categoria_delito",
+                         class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td("Categoría del delito con base en Código Penal de la CDMX",
+                        class = "diccionario"
+                    ),
+                    tags$td("1 categoría (Delito de Bajo Impacto)",
+                        class = "diccionario"
+                    ),
+                    class = "diccionario"
+                ),
+                tags$tr(
+                    tags$td("calle_hechos",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td("Nombre de la calle del hecho",
+                        class = "diccionario"
+                    ),
+                    tags$td("12,336 calles", class = "diccionario"),
+                    class = "diccionario"
+                ),
+                tags$tr(
+                  tags$td("calle_hechos2",
+                      class = "diccionario dicc_center dicc_rndm"
+                  ),
+                  tags$td("Segunda referencia al lugar donde ocurrieron los hechos",
+                      class = "diccionario"
+                  ),
+                  tags$td("8,581 calles",
+                      class = "diccionario"),
+                  class = "diccionario"
+                ),
+                tags$tr(
+                    tags$td("colonia_hechos",
+                        class = "diccionario dicc_center dicc_rndm"),
                         tags$td("Nombre de la colonia del hecho", class = "diccionario"),
                         tags$td("1,370 colonias", class = "diccionario"),
                         class = "diccionario"
@@ -556,21 +701,41 @@ mod_infoBdUI_ui <- function (id) {
               tags$p(strong("Diccionario de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
               # ===== Tabla AXA =====
               tags$table(
-                style = "width: 100%; font-size: 10pt;", class = "diccionario",
-                tags$col(width = "17%"), tags$col(width = "58%"), tags$col(width = "25%"),
+                style = "width: 100%; font-size: 10pt;",
+                class = "diccionario",
+                tags$col(width = "17%"),
+                tags$col(width = "58%"),
+                tags$col(width = "25%"),
                 tags$tr(
                   class = "diccionario dicc_header",
-                  tags$th("Nombre de la Variable", class = "diccionario dicc_center"), tags$th("Descripción", class = "diccionario dicc_center"), tags$th("Tipo o Categorías", class = "diccionario dicc_center")
+                  tags$th("Nombre de la Variable",
+                      class = "diccionario dicc_center"),
+                      tags$th("Descripción",
+                      class = "diccionario dicc_center"
+                      ),
+                  tags$th("Tipo o Categorías",
+                       class = "diccionario dicc_center"
+                  )
                 ),
-                tags$tr(tags$td("siniestro", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Identificador único del percance vial", class = "diccionario"),
-                        tags$td("Entero", class = "diccionario"),
+                tags$tr(
+                    tags$td("siniestro",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td("Identificador único del percance vial",
                         class = "diccionario"
+                    ),
+                    tags$td("Entero", class = "diccionario"),
+                    class = "diccionario"
                 ),
-                tags$tr(tags$td("calle", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Nombre de la calle donde ocurrió el siniestro", class = "diccionario"),
-                        tags$td("Texto", class = "diccionario"),
+                tags$tr(
+                    tags$td("calle",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td("Nombre de la calle donde ocurrió el siniestro",
                         class = "diccionario"
+                    ),
+                    tags$td("Texto", class = "diccionario"),
+                    class = "diccionario"
                 ),
                 tags$tr(tags$td("colonia", class = "diccionario dicc_center dicc_rndm"),
                         tags$td("Nombre de la colonia donde ocurrió el siniestro", class = "diccionario"),
