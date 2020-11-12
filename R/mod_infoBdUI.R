@@ -63,7 +63,56 @@ lista_textos<- list(
   de sus clientes",
   objetivo_base_datos_AXA_4 = "El personal que atiende a sus \
   asegurados, se recopila la información la cual es capturada en un \
-  sistema de registro"
+  sistema de registro", 
+  bases_de_datos_fix_1 = "Para llevar a cabo el análisis y seguimiento de las \
+  tendencias de los hechos de tránsito ocurridos en la Ciudad de México, \
+  la Secretaría de Movilidad (SEMOVI) hace uso de la información de cuatro \
+  fuentes principales: la Secretaría de Seguridad Ciudadana (SSC), el \
+  Centro de Comando, Cómputo, Comunicaciones y Contacto Ciudadano de la \
+  Ciudad de México (C5), la Fiscalía General de Justicia de la Ciudad de \
+  México (FGJ) y AXA Seguros. Es importante subrayar que la SEMOVI no es \
+  responsable de generar los datos provistos, sino que cada una de las \
+  instituciones y dependencias mencionadas, produce su información, \
+  cumpliendo objetivos distintos y haciendo uso de diferentes metodologías, \
+  lo que se refleja en el reporte de cada institución.",
+  bases_de_datos_fix_2 = "Hasta enero de 2020, la información de hechos de \
+  tránsito de la SSC se basaba, principalmente, en los reportes realizados \
+  por un elemento de la policía, a través de la plataforma de Puesto de \
+  Mando, la cual a partir de febrero del mismo año, se incorporó al C5 \
+  para integrar y mejorar la coordinación de atención a los diversos \
+  eventos ocurridos en la Ciudad convirtiendo a esta última en su fuente \
+  de acopio y recolección de información, relacionada con los incidentes \
+  viales. Esta información es comparada con los reportes hechos por \
+  elementos de la Policía mediante frecuencias de radio, analizada y \
+  depurada por la SSC para constituir su base de datos de hechos de \
+  tránsito.",
+  bases_de_datos_fix_3 = "El C5 integra los incidentes reportados, \
+  mediante vía telefónica a través del 911, botones de auxilio y equipos \
+  de radio de policía, principalmente. En lo que respecta a FGJ, sus \
+  datos derivan de las carpetas de investigación abiertas por delitos \
+  relacionados con hechos de tránsito. A su vez, los datos de AXA \
+  responden a los siniestros viales en los que se ven involucrados los \
+  vehículos asegurados por esta compañía.",
+  bases_de_datos_fix_4 = "Las diferencias entre las cifras reportadas por \
+  cada dependencia o institución radican en el objetivo para el cual cada \
+  una de ellas fue creada. En el caso del C5, se registran todos aquellos \
+  incidentes viales reportados a través de sus diferentes canales de \
+  emergencia, sin hacer distinción entre incidentes sin víctimas \
+  (“lamineros”) y aquellos que derivaron en personas lesionadas y/o \
+  fallecidas; sin embargo, son de interés sólo aquellos reportes que \
+  fueron confirmados en el lugar de los hechos por un policía o por las \
+  cámaras del C2 y los reportes afirmativos en los que se incluyó \
+  información adicional al evento. En lo que a la SSC respecta, su base \
+  de datos reporta exclusivamente los hechos de tránsito que derivaron \
+  en personas lesionadas y/o fallecidas. Por su parte, la FGJ reporta \
+  únicamente los incidentes por los cuales se abrió una carpeta de \
+  investigación en las agencias del Ministerio Público por delitos \
+  relacionados con hechos de tránsito. Finalmente, AXA Seguros reporta \
+  todos los incidentes viales en los que se vieron involucrados \
+  vehículos asegurados por la compañía sin importar la gravedad de \
+  los mismos, es decir sin considerar si a consecuencia de estos hubo \
+  personas lesionadas y/o fallecidas; al igual que el C5, registra \
+  también los incidentes comúnmente denominados “lamineros”."
 
 )
 
@@ -465,49 +514,92 @@ mod_infoBdUI_ui <- function (id) {
             column(
               6,
               tags$div(style = "height: 15px;"),
-              tags$p(strong("Diccionario de Datos"), style = "font-size: 14pt; color: #848888; text-align: left;"),
+              tags$p(strong("Diccionario de Datos"),
+                style = "font-size: 14pt; color: #848888; text-align: left;"
+              ),
               # ===== Tabla SSC =====
               tags$table(
                 style = "width: 100%; font-size: 10pt;", class = "diccionario",
-                tags$col(width = "17%"), tags$col(width = "58%"), tags$col(width = "25%"),
+                tags$col(width = "17%"),
+                tags$col(width = "58%"),
+                tags$col(width = "25%"),
                 tags$tr(
                   class = "diccionario dicc_header",
-                  tags$th("Nombre de la Variable", class = "diccionario dicc_center"), tags$th("Descripción", class = "diccionario dicc_center"), tags$th("Tipo o Categorías", class = "diccionario dicc_center")
+                  tags$th("Nombre de la Variable",
+                     class = "diccionario dicc_center"),
+                     tags$th("Descripción",
+                        class = "diccionario dicc_center"),
+                     tags$th("Tipo o Categorías",
+                          class = "diccionario dicc_center"
+                      )
                 ),
-                tags$tr(tags$td("no_folio", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Número de folio único asignado a cada registro", class = "diccionario"),
-                        tags$td("Entero", class = "diccionario"),
+                tags$tr(
+                  tags$td("no_folio",
+                      class = "diccionario dicc_center dicc_rndm"
+                  ),
+                  tags$td("Número de folio único asignado a cada registro",
+                      class = "diccionario"
+                  ),
+                  tags$td("Entero", class = "diccionario"),
                         class = "diccionario"
                 ),
-                tags$tr(tags$td("fecha_evento", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Fecha en la cual ocurrió el incidente vial", class = "diccionario"),
-                        tags$td('Texto en formato "aa-mm-dd"', class = "diccionario"),
-                        class = "diccionario"
+                tags$tr(
+                    tags$td("fecha_evento",
+                        class = "diccionario dicc_center dicc_rndm"),
+                    tags$td("Fecha en la cual ocurrió el incidente vial",
+                        class = "diccionario"),
+                    tags$td('Texto en formato "aa-mm-dd"',
+                        class = "diccionario"),
+                    class = "diccionario"
                 ),
-                tags$tr(tags$td("año_evento", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Año en el cual ocurrió el incidente vial", class = "diccionario"),
-                        tags$td("Entero", class = "diccionario"),
-                        class = "diccionario"
+                tags$tr(
+                    tags$td("año_evento",
+                        class = "diccionario dicc_center dicc_rndm"
+                    ),
+                    tags$td("Año en el cual ocurrió el incidente vial", class = "diccionario"),
+                    tags$td("Entero", class = "diccionario"),
+                    class = "diccionario"
                 ),
-                tags$tr(tags$td("mes_evento", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Mes en el cual ocurrió el incidente vial", class = "diccionario"),
-                        tags$td("12 meses", class = "diccionario"),
-                        class = "diccionario"
+                tags$tr(
+                  tags$td("mes_evento",
+                      class = "diccionario dicc_center dicc_rndm"),
+                  tags$td("Mes en el cual ocurrió el incidente vial",
+                      class = "diccionario"),
+                  tags$td("12 meses", class = "diccionario"),
+                  class = "diccionario"
                 ),
-                tags$tr(tags$td("hora_evento", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Hora en la cual ocurrió el incidente vial", class = "diccionario"),
-                        tags$td('Texto en formato "hh:mm"', class = "diccionario"),
-                        class = "diccionario"
+                tags$tr(
+                  tags$td("hora_evento",
+                      class = "diccionario dicc_center dicc_rndm"),
+                  tags$td("Hora en la cual ocurrió el incidente vial",
+                      class = "diccionario"),
+                  tags$td('Texto en formato "hh:mm"',
+                      class = "diccionario"),
+                  class = "diccionario"
                 ),
-                tags$tr(tags$td("condicion", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Detalla si la víctima principal resultó lesionada o falleció en el incidente", class = "diccionario"),
-                        tags$td("Texto (Lesionado y Occiso)", class = "diccionario"),
-                        class = "diccionario"
+                tags$tr(
+                  tags$td("condicion",
+                    class = "diccionario dicc_center dicc_rndm"),
+                  tags$td("Detalla si la víctima principal resultó lesionada o falleció en el incidente",
+                       class = "diccionario"
+                  ),
+                  tags$td("Texto (Lesionado y Occiso)",
+                     class = "diccionario"),
+                  class = "diccionario"
                 ),
-                tags$tr(tags$td("tipo_evento", class = "diccionario dicc_center dicc_rndm"),
-                        tags$td("Descripción del tipo de incidente vial ocurrido", class = "diccionario"),
-                        tags$td("6 Tipos de Eventos (", tags$span(id = "bd_evento-ssc", tags$u("Ver"), style = "color: #00AA5A;"), ")", class = "diccionario"),
-                        class = "diccionario"
+                tags$tr(
+                  tags$td("tipo_evento",
+                      class = "diccionario dicc_center dicc_rndm"),
+                  tags$td("Descripción del tipo de incidente vial ocurrido",
+                      class = "diccionario"),
+                  tags$td("6 Tipos de Eventos (",
+                      tags$span(id = "bd_evento-ssc",
+                          tags$u("Ver"),
+                          style = "color: #00AA5A;"),
+                          ")",
+                          class = "diccionario"
+                  ),
+                  class = "diccionario"
                 ),
                 tags$tr(tags$td("coordenada_x", class = "diccionario dicc_center dicc_rndm"),
                         tags$td("Longitud del incidente", class = "diccionario"),
