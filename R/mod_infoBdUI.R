@@ -130,11 +130,12 @@ mod_infoBdUI_ui <- function (id) {
   tagList(
     fluidRow(
         column(6,
-          actionButton(inputId = ns("boton_ver_visualizador"
-          ),
-          label = "Regresar a Visualizador",
-          icon = icon("globe-americas"),
-          style = "background-color: #00AA5A; color: white; border-color: ; font-size: 12pt;")
+          actionButton(
+            inputId = ns("boton_ver_visualizador"),
+            label = "Regresar a Visualizador",
+            icon = icon("globe-americas"),
+            style = "background-color: #00AA5A; color: white; border-color: ; font-size: 12pt;"
+          )
         )
     ),
     tags$div(style = "height: 20px;"),
@@ -305,8 +306,8 @@ mod_infoBdUI_ui <- function (id) {
                         class = "diccionario dicc_center dicc_rndm"
                     ),
                     tags$td(
-                        "Día, mes, año y hora en el cual se abrió la carpeta de investigación",
-                        class = "diccionario"
+                      "Día, mes, año y hora en el cual se abrió la carpeta de investigación",
+                      class = "diccionario"
                     ),
                     tags$td("Texto, en formato “aaaa-mm-dd hh:mm” (24 hrs)",
                         class = "diccionario"
@@ -357,8 +358,9 @@ mod_infoBdUI_ui <- function (id) {
                   tags$td("unidad_investigacion",
                       class = "diccionario dicc_center dicc_rndm"
                   ),
-                  tags$td("Clave con unidad de investigación detallando si existieron detenidos",
-                      class = "diccionario"
+                  tags$td(
+                    "Clave con unidad de investigación detallando si existieron detenidos",
+                    class = "diccionario"
                   ),
                   tags$td("20 claves",
                        class = "diccionario"
@@ -369,8 +371,9 @@ mod_infoBdUI_ui <- function (id) {
                     tags$td("categoria_delito",
                          class = "diccionario dicc_center dicc_rndm"
                     ),
-                    tags$td("Categoría del delito con base en Código Penal de la CDMX",
-                        class = "diccionario"
+                    tags$td(
+                      "Categoría del delito con base en Código Penal de la CDMX",
+                      class = "diccionario"
                     ),
                     tags$td("1 categoría (Delito de Bajo Impacto)",
                         class = "diccionario"
@@ -391,8 +394,9 @@ mod_infoBdUI_ui <- function (id) {
                   tags$td("calle_hechos2",
                       class = "diccionario dicc_center dicc_rndm"
                   ),
-                  tags$td("Segunda referencia al lugar donde ocurrieron los hechos",
-                      class = "diccionario"
+                  tags$td(
+                    "Segunda referencia al lugar donde ocurrieron los hechos",
+                    class = "diccionario"
                   ),
                   tags$td("8,581 calles",
                       class = "diccionario"),
@@ -470,8 +474,9 @@ mod_infoBdUI_ui <- function (id) {
                   style = "font-size: 10pt;",
                   strong("Referencia"),
                   " – ",
-                  tags$a("Ley Orgánica de la Secretaría de Seguridad Pública del Distrito Federal",
-                      href = "http://data.consejeria.cdmx.gob.mx/images/leyes/leyes/LEY_ORGANICA_DE_LA_SECRETARIA_DE_SEGURIDAD_PUBLICA_DEL_DF_1.pdf"
+                  tags$a(
+                    "Ley Orgánica de la Secretaría de Seguridad Pública del Distrito Federal",
+                    href = "http://data.consejeria.cdmx.gob.mx/images/leyes/leyes/LEY_ORGANICA_DE_LA_SECRETARIA_DE_SEGURIDAD_PUBLICA_DEL_DF_1.pdf"
                   )
                 )
               ),
@@ -519,7 +524,8 @@ mod_infoBdUI_ui <- function (id) {
               ),
               # ===== Tabla SSC =====
               tags$table(
-                style = "width: 100%; font-size: 10pt;", class = "diccionario",
+                style = "width: 100%; font-size: 10pt;",
+                class = "diccionario",
                 tags$col(width = "17%"),
                 tags$col(width = "58%"),
                 tags$col(width = "25%"),
@@ -556,7 +562,8 @@ mod_infoBdUI_ui <- function (id) {
                     tags$td("año_evento",
                         class = "diccionario dicc_center dicc_rndm"
                     ),
-                    tags$td("Año en el cual ocurrió el incidente vial", class = "diccionario"),
+                    tags$td("Año en el cual ocurrió el incidente vial",
+                        class = "diccionario"),
                     tags$td("Entero", class = "diccionario"),
                     class = "diccionario"
                 ),
@@ -580,8 +587,9 @@ mod_infoBdUI_ui <- function (id) {
                 tags$tr(
                   tags$td("condicion",
                     class = "diccionario dicc_center dicc_rndm"),
-                  tags$td("Detalla si la víctima principal resultó lesionada o falleció en el incidente",
-                       class = "diccionario"
+                  tags$td(
+                    "Detalla si la víctima principal resultó lesionada o falleció en el incidente",
+                    class = "diccionario"
                   ),
                   tags$td("Texto (Lesionado y Occiso)",
                      class = "diccionario"),
@@ -745,7 +753,7 @@ mod_infoBdUI_ui <- function (id) {
                     style = "font-size: 10pt;",
                     strong("Referencia"),
                     " – ",
-                    tags$a("Manual Administrativo del C5", 
+                    tags$a("Manual Administrativo del C5",
                       href = "https://www.c5.cdmx.gob.mx/storage/app/uploads/public/5be/b2e/318/5beb2e31874de742733714.pdf"
                     )
                   )
@@ -828,7 +836,7 @@ mod_infoBdUI_ui <- function (id) {
                       class = "diccionario dicc_center dicc_rndm"),
                     tags$td("Fecha de apertura del folio del evento",
                       class = "diccionario"),
-                    tags$td('Fecha en formato "aaaa-mm-dd"', 
+                    tags$td('Fecha en formato "aaaa-mm-dd"',
                       class = "diccionario"),
                     class = "diccionario"
                   ),
@@ -849,7 +857,7 @@ mod_infoBdUI_ui <- function (id) {
                     class = "diccionario"
                   ),
                   tags$tr(
-                    tags$td("fecha_cierre", 
+                    tags$td("fecha_cierre",
                       class = "diccionario dicc_center dicc_rndm"),
                     tags$td("Fecha de cierre del folio del evento",
                       class = "diccionario"),
@@ -874,7 +882,7 @@ mod_infoBdUI_ui <- function (id) {
                     class = "diccionario"
                   ),
                   tags$tr(
-                    tags$td("hora_cierre", 
+                    tags$td("hora_cierre",
                       class = "diccionario dicc_center dicc_rndm"),
                     tags$td("Hora de cierre del folio del evento",
                       class = "diccionario"),
@@ -1020,7 +1028,7 @@ mod_infoBdUI_ui <- function (id) {
                   tags$li(
                       strong("Fuente"),
                       " – ",
-                      tags$a("Instituto Internacional de Ciencia de Datos", 
+                      tags$a("Instituto Internacional de Ciencia de Datos",
                       href = "http://i2ds.org/datos-abiertos-percances-viales/"
                       )
                   ),
@@ -1029,7 +1037,7 @@ mod_infoBdUI_ui <- function (id) {
                     textOutput(outputId = "axa_cuantos", inline = TRUE)
                   ),
                   tags$li(
-                    strong("Periodo Temporal"), 
+                    strong("Periodo Temporal"),
                     " – ", 
                     textOutput(outputId = "axa_cuando1", inline = TRUE),
                     " a ",
@@ -1085,19 +1093,19 @@ mod_infoBdUI_ui <- function (id) {
                     class = "diccionario"
                 ),
                 tags$tr(
-                  tags$td("colonia", 
+                  tags$td("colonia",
                       class = "diccionario dicc_center dicc_rndm"),
-                  tags$td("Nombre de la colonia donde ocurrió el siniestro", 
+                  tags$td("Nombre de la colonia donde ocurrió el siniestro",
                       class = "diccionario"),
                   tags$td("Texto", class = "diccionario"),
                   class = "diccionario"
                 ),
                 tags$tr(
-                  tags$td("codigo_postal", 
+                  tags$td("codigo_postal",
                       class = "diccionario dicc_center dicc_rndm"),
-                  tags$td("Ubicación postal del percance vial", 
+                  tags$td("Ubicación postal del percance vial",
                       class = "diccionario"),
-                  tags$td("Texto (Número Entero que puede iniciar con cero)", 
+                  tags$td("Texto (Número Entero que puede iniciar con cero)",
                       class = "diccionario"),
                   class = "diccionario"
                 ),
@@ -1231,7 +1239,7 @@ mod_infoBdUI_ui <- function (id) {
                   class = "diccionario"
                 ),
                 tags$tr(
-                  tags$td("relacion_lesionados", 
+                  tags$td("relacion_lesionados",
                       class = "diccionario dicc_center dicc_rndm"),
                   tags$td(
                     "Rol que posee el lesionado del percance, especificando si es asegurado o no",
@@ -1258,7 +1266,7 @@ mod_infoBdUI_ui <- function (id) {
                   tags$td("nivel_lesionado",
                     class = "diccionario dicc_center dicc_rndm"),
                   tags$td("Grado de la lesión sufrida", class = "diccionario"),
-                  tags$td("Texto (Alto, Medio, Bajo y Sin Lesión)", 
+                  tags$td("Texto (Alto, Medio, Bajo y Sin Lesión)",
                     class = "diccionario"),
                   class = "diccionario"
                 ),
@@ -1271,7 +1279,7 @@ mod_infoBdUI_ui <- function (id) {
                   class = "diccionario"
                 ),
                 tags$tr(
-                    tags$td("fallecido", 
+                    tags$td("fallecido",
                         class = "diccionario dicc_center dicc_rndm"),
                     tags$td(
                         "Confirma si cada lesionado falleció o no en el siniestro",
