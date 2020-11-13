@@ -1,23 +1,23 @@
 
-lis_intro<- list(
-              panorama_general = "Uno de los compromisos de la Secretaría \ 
-              de Movilidad de la Ciudad de México (SEMOVI) es generar \
-              estrategias de seguridad vial basadas en evidencia. \ 
-              Para ello es fundamental entender las características de los hechos \
-              de tránsito que se suscitan en la ciudad. Por lo que a partir de la \
-              liberación de distintas fuentes de datos oficiales, la SEMOVI en \
-              colaboración con el Laboratorio de Datos Geoespaciales (DataLab) del \
-              Centro de Ciencias de Información Geoespacial (CentroGeo) y la \
-              Aseguradora AXA, se dieron a la tarea de desarrollar herramientas de \
-              visualización y manejo de información para entender la dinámica \
-              espacial que siguen los hechos de tránsito.", 
+lis_intro <- list(
+    panorama_general = "Uno de los compromisos de la Secretaría \
+      de Movilidad de la Ciudad de México (SEMOVI) es generar \
+      estrategias de seguridad vial basadas en evidencia. \
+      Para ello es fundamental entender las características de los hechos \
+      de tránsito que se suscitan en la ciudad. Por lo que a partir de la \
+      liberación de distintas fuentes de datos oficiales, la SEMOVI en \
+      colaboración con el Laboratorio de Datos Geoespaciales (DataLab) del \
+      Centro de Ciencias de Información Geoespacial (CentroGeo) y la \
+      Aseguradora AXA, se dieron a la tarea de desarrollar herramientas de \
+      visualización y manejo de información para entender la dinámica \
+      espacial que siguen los hechos de tránsito.",
 
 
-              herramienta_geovisualizacion=
-              "Esta herramienta permite a los usuarios explorar y analizar de \
-               forma interactiva, los datos disponibles de la Secretaría de \
-               Seguridad Ciudadana (SSC), la Fiscalía General de Justicia \
-               (FGJ) y la aseguradora AXA."
+    herramienta_geovisualizacion =
+      "Esta herramienta permite a los usuarios explorar y analizar de \
+      forma interactiva, los datos disponibles de la Secretaría de \
+      Seguridad Ciudadana (SSC), la Fiscalía General de Justicia \
+      (FGJ) y la aseguradora AXA."
 )
 
 
@@ -38,13 +38,15 @@ mod_introPageUI_ui <- function(id) {
       tags$div(
         style = "background-color: white; margin: auto; width: 80%; padding: 30px; border-radius: 10px;",
         tags$img(src = "www/logo_semovi.png", style = "height: 100px;"),
-        tags$p(strong("Visualizador de Incidentes Viales"), style = "font-size: 32pt; color: #848888; padding-bottom: 15px;"),
+        tags$p(strong("Visualizador de Incidentes Viales"),
+          style = "font-size: 32pt; color: #848888; padding-bottom: 15px;"),
         tags$div(
           style = "text-align: justify; margin: auto; width: 90%; font-size: 12pt; color: #697070;",
           fluidRow(
             column(
               9,
-              tags$p(strong("Panorama General"), style = "font-size: 18pt; color: #848888; text-align: left;"),
+              tags$p(strong("Panorama General"),
+                style = "font-size: 18pt; color: #848888; text-align: left;"),
               tags$p(lis_intro$panorama_general)
             ),
             column(
@@ -60,7 +62,10 @@ mod_introPageUI_ui <- function(id) {
             ),
             column(
               9,
-              tags$p(strong("Herramienta de Geovisualización"), style = "font-size: 18pt; color: #848888; text-align: left;"),
+              tags$p(
+                strong("Herramienta de Geovisualización"),
+                style = "font-size: 18pt; color: #848888; text-align: left;"
+              ),
               tags$p(lis_intro$herramienta_geovisualizacion),
               tags$div(
                 style = "font-size: 24pt; text-align: right;",
@@ -109,12 +114,24 @@ mod_introPageUI_ui <- function(id) {
         tags$div(
           style = "margin: auto; width: 100%;",
           fluidRow(
-            column(3, tags$img(src = "www/logo_semovi.png", style = "height: 45px;")),
-            column(1, tags$img(src = "www/axa.png", style = "height: 50px;")),
-            column(1, tags$img(src = "www/conacyt.png", style = "height: 50px;")),
-            column(1, tags$img(src = "www/centrogeo.png", style = "height: 50px;")),
-            column(2, tags$img(src = "www/GeoInt-Logo-High.png", style = "height: 50px;")),
-            column(1, tags$img(src = "www/datalab.png", style = "height: 30px;"))
+            column(3,
+              tags$img(src = "www/logo_semovi.png", style = "height: 45px;")
+            ),
+            column(1,
+              tags$img(src = "www/axa.png", style = "height: 50px;")
+            ),
+            column(1,
+              tags$img(src = "www/conacyt.png", style = "height: 50px;")
+            ),
+            column(1,
+              tags$img(src = "www/centrogeo.png", style = "height: 50px;")
+            ),
+            column(2,
+              tags$img(src = "www/GeoInt-Logo-High.png",
+                style = "height: 50px;")
+            ),
+            column(1,
+              tags$img(src = "www/datalab.png", style = "height: 30px;"))
           )
         )
       )

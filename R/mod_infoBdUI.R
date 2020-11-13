@@ -1306,7 +1306,7 @@ mod_infoBdUI_ui <- function (id) {
                     ),
                     class = "diccionario"
                 )
-              )              
+              )
             )
           )
         )

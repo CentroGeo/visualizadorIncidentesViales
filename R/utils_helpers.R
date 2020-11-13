@@ -70,9 +70,9 @@ preprocesa_pgj_origin <- function(fgj_new) {
 #'
 #' @return Tabla con los datos preprocesados listos para utilizarse
 #'  en la plataforma.
-#' 
 #'
-#' 
+#'
+#'
 preprocesa_ssc <- function(ssc) {
   ssc <- janitor::clean_names(ssc, "snake")
   # =
@@ -179,18 +179,18 @@ preprocesa_axa_origin<- function(axa_new) {
 #' 
 preprocesa_axa <- function(axa) {
   axa['hora'] <- lubridate::hms(paste0(axa$hora, ':01:00'))
-  axa$mes[axa$mes == 'ENERO'] <- 1
-  axa$mes[axa$mes == 'FEBRERO'] <- 2
-  axa$mes[axa$mes == 'MARZO'] <- 3
-  axa$mes[axa$mes == 'ABRIL'] <- 4
-  axa$mes[axa$mes == 'MAYO'] <- 5
-  axa$mes[axa$mes == 'JUNIO'] <- 6
-  axa$mes[axa$mes == 'JULIO'] <- 7
-  axa$mes[axa$mes == 'AGOSTO'] <- 8
-  axa$mes[axa$mes == 'SEPTIEMBRE'] <- 9
-  axa$mes[axa$mes == 'OCTUBRE'] <- 10
-  axa$mes[axa$mes == 'NOVIEMBRE'] <- 11
-  axa$mes[axa$mes == 'DICIEMBRE'] <- 12
+  axa$mes[axa$mes == "ENERO"] <- 1
+  axa$mes[axa$mes == "FEBRERO"] <- 2
+  axa$mes[axa$mes == "MARZO"] <- 3
+  axa$mes[axa$mes == "ABRIL"] <- 4
+  axa$mes[axa$mes == "MAYO"] <- 5
+  axa$mes[axa$mes == "JUNIO"] <- 6
+  axa$mes[axa$mes == "JULIO"] <- 7
+  axa$mes[axa$mes == "AGOSTO"] <- 8
+  axa$mes[axa$mes == "SEPTIEMBRE"] <- 9
+  axa$mes[axa$mes == "OCTUBRE"] <- 10
+  axa$mes[axa$mes == "NOVIEMBRE"] <- 11
+  axa$mes[axa$mes == "DICIEMBRE"] <- 12
   axa['fecha'] <- lubridate::date(chron::dates(
                                 paste0(
                                        axa$dia_numero,
@@ -215,7 +215,7 @@ preprocesa_axa <- function(axa) {
   # =
   axa <- sf::st_transform(
                           sf::st_as_sf(axa,
-                                          coords = c('longitud','latitud'),
+                                          coords = c("longitud","latitud"),
                                           crs = 4326), 32614
                           )
   return(axa)
@@ -335,11 +335,13 @@ preprocesa_C5_origin <- function(c5_new) {
 
 #' Joins the tables
 #'
-#'  Modifies the tables to joint in to a single table
+#'  Une tablas para hacer una única tabla y remueve los elementos que no
+#'   deben tomarse en cuenta.
 #'
-#'@returns The table concatenation
+#' @param  Fecha de inicio a tomar en cuenta
+#'@returns La concatenación de la tabla
 #'
-une_tablas <- function() {
+une_tablas <- function(fecha_inicio_todos="01/01/2018") {
   axa <- readRDS("./data-raw/axa.rds")
   fgj <- readRDS("./data-raw/fgj.rds")
   ssc <- readRDS("./data-raw/ssc.rds")
@@ -407,18 +409,25 @@ une_tablas <- function() {
   total <- rbind(total, ssc)
   sf::st_crs(c5) <- sf::st_crs(total)
   total <- rbind(total, c5)
-  cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
+  cdmx <- sf::read_sf(dsn = "./data-raw/cdmx.shp")
   cdmx$geometry <- sf::st_transform(
      cdmx$geometry,
      32614
   )
   sf::st_crs(cdmx) <- sf::st_crs(total)
-  total <- sf::st_join(total, cdmx["nom_mun"], left = FALSE)
+  total <- sf::st_join(total, cdmx["nom_mun"], left = TRUE)
   total <- total[!is.na(total$tipo_incidente), ]
   total <- sf::st_transform(total, "+init=epsg:4326") %>%
     dplyr::mutate(
       latitud = sf::st_coordinates(geometry)[, 2],
       longitud = sf::st_coordinates(geometry)[, 1]
     )
+  ###### Tomar las fechas 
+  total <- total[total$timestamp >=
+               lubridate::as_date(
+                        fecha_inicio_todos,
+                        format = "%d/%m/%Y"
+                ),
+            ]
   return(total)
 }
