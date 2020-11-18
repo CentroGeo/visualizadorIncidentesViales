@@ -116,10 +116,76 @@ lista_textos <- list(
   personas_lesionadas_AXA = "Son todos aquellos registros que cumplen \
   con las siguientes condiciones:",
   replicar_resultados_AXA_1 = "AÑO: corresponda con el año de análisis",
-  replicar_resultados_AXA_2 = "MES → corresponda con el mes o los meses \
+  replicar_resultados_AXA_2 = "MES: corresponda con el mes o los meses \
   de análisis",
   replicar_resultados_AXA_3 = "Tomar en cuenta la sumatoria de \
-  aquellos registros en los que LESIONADOS sea mayor a cero"
+  aquellos registros en los que LESIONADOS sea mayor a cero",
+  personas_lesionadas_c5 = " Son todos aquellos registros \
+  que cumplen con las siguientes condiciones:",
+  replicar_resultados_c5_1 = "Tomar en cuenta todos los hechos de \
+  tránsito, sin importar si la longitud y latitud corresponde con \
+  las de la CDMX (es posible que existan errores en las \
+  coordenadas)",
+  replicar_resultados_c5_2 = "fecha_creación: corresponda con el mes \
+  o los meses y, el año de análisis",
+  replicar_resultados_c5_3 = "codigo_cierre: sea (A) La unidad de atención\
+   a emergencias fue despachada, llegó al lugar de los hechos y \
+   confirmó la emergencia reportada o (I) El incidente reportado es \
+   afirmativo y se añade información adicional al evento",
+  replicar_resultados_c5_4 = "Tomar en cuenta los registros en donde \
+  incidente_c4 corresponda con accidente-choque con lesionados, detención \
+  ciudadana-atropellado y lesionado-atropellado",
+  replicar_resultados_c5_5 = "Incidente_c4 → corresponda con las \
+  siguientes categorías:",
+  categorias_c5_a = "accidente-choque con lesionados",
+  categorias_c5_b = "accidente-choque con prensados",
+  categorias_c5_c = "accidente-choque sin lesionados",
+  categorias_c5_d = "accidente-ciclista",
+  categorias_c5_e = "accidente-motociclista",
+  categorias_c5_f = "accidente-persona atrapada / desbarrancada",
+  categorias_c5_g = "accidente-vehiculo atrapado",
+  categorias_c5_h = "accidente-vehiculo desbarrancado",
+  categorias_c5_i = "accidente-volcadura",
+  categorias_c5_j = "cadáver-accidente automovilístico",
+  categorias_c5_k = "cadáver-atropellado",
+  categorias_c5_l = "detención ciudadana-accidente automovilístico",
+  categorias_c5_m = "detención ciudadana-atropellado",
+  categorias_c5_n = "Lesionado-atropellado",
+  replicar_resultados_c5_6 = "Para la hora de ocurrencia del hecho de \
+  tránsito, tomamos en cuenta el campo hora_creación",
+  hechos_transito_scc = "Son todos aquellos registros que cumplen con \
+  las siguientes condiciones",
+  replicar_scc_hechos_transito_1 = "Tomar en cuenta todos los hechos de \
+  tránsito, sin importar si la longitud y latitud (coordenada) corresponde \
+  con las de la CDMX (es posible que existan errores en las coordenadas)",
+  replicar_scc_hechos_transito_2 = "AÑO_EVENTO: corresponda con el año de \
+  análisis",
+  replicar_scc_hechos_transito_3 = "MES_EVENTO: corresponda con el mes o \
+  los meses de análisis",
+  hechos_decesos_scc = "Son todos aquellos registros que cumplen con las \
+  siguientes condiciones",
+  replicar_scc_eventos_decesos_1 = "Tomar en cuenta todos los hechos de \
+  tránsito, sin importar si la longitud y latitud corresponde con las de \
+  la CDMX (es posible que existan errores en las coordenadas)",
+  replicar_scc_eventos_decesos_2 = "AÑO_EVENTO: corresponda con el \
+  año de análisis",
+  replicar_scc_eventos_decesos_3 = "MES_EVENTO: corresponda con el \
+  mes o los meses de análisis",
+  replicar_scc_eventos_decesos_4 = "Campo TOTAL OCCISOS distinto de 0",
+  hechos_lesionados_scc = "Son todos aquellos registros que cumplen \
+  con las siguientes condiciones:",
+  replicar_scc_personas_lesionadas_1 = "Tomar en cuenta todos los hechos \
+  de tránsito, sin importar si la longitud y latitud (coordenada) \
+  corresponde con las de la CDMX (es posible que existan errores en \
+  las coordenadas)",
+  replicar_scc_personas_lesionadas_2 = "AÑO_EVENTO: corresponda con el \
+  año de análisis",
+  replicar_scc_personas_lesionadas_3 = "MES_EVENTO: corresponda con el \
+  mes o los meses de análisis",
+  replicar_scc_personas_lesionadas_4 = "Campo TOTAL LESIONADOS distinto \
+  de 0",
+  replicar_resultados_scc_4 = "Para la hora de ocurrencia del hecho de \
+  tránsito tomar en cuenta el campo HORA2"
 )
 
 #' infoBdUI UI Function
@@ -453,6 +519,7 @@ mod_infoBdUI_ui <- function(id) {
             )
           )
         ),
+        # ==================SSC=================================
         tabPanel(
           title = "SSC",
           fluidRow(
@@ -499,8 +566,70 @@ mod_infoBdUI_ui <- function(id) {
                       href = "https://datos.cdmx.gob.mx/explore/dataset/hechos-de-transito-registrados-por-la-ssc-serie-para-comparaciones-interanuales-"
                     )
                   )
+                ),
+              ),
+              tags$div(style = "height: 15px;"),
+              tags$p(strong("Replicar estos resultados"),
+                style = "font-size: 20pt; color: #848888; text-align: left;"
+              ),
+              tags$p(strong("Eventos gráfica total de hechos de tránsito"),
+                style = "font-size: 14pt; color: #848888; text-align: left;"
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Base de referencia"),
+                " : ",
+                "Toma como referencia la base de ",
+                tags$a(
+                  "Hechos de tránsito registrados por la SSC (serie para comparaciones interanuales)",
+                  href = "https://datos.cdmx.gob.mx/explore/dataset/hechos-de-transito-reportados-por-ssc-base-comparativa/table/"
                 )
-              )
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Total de hechos de tránsito:"),
+                " : ",
+                lista_textos$hechos_transito_scc,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_scc_hechos_transito_1),
+                    tags$li(lista_textos$replicar_scc_hechos_transito_2),
+                    tags$li(lista_textos$replicar_scc_hechos_transito_3)
+                  )
+                )
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Total de hechos con lesionados"),
+                " : ",
+                lista_textos$hechos_lesionados_scc,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_scc_personas_lesionadas_1),
+                    tags$li(lista_textos$replicar_scc_personas_lesionadas_2),
+                    tags$li(lista_textos$replicar_scc_personas_lesionadas_3),
+                    tags$li(lista_textos$replicar_scc_personas_lesionadas_4)
+                  )
+                )
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Total de hechos con decesos:"),
+                " : ",
+                lista_textos$hechos_lesionados_scc,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_scc_eventos_decesos_1),
+                    tags$li(lista_textos$replicar_scc_eventos_decesos_2),
+                    tags$li(lista_textos$replicar_scc_eventos_decesos_3),
+                    tags$li(lista_textos$replicar_scc_eventos_decesos_4)
+                  )
+                )
+              ),
+              tags$div(style = "height: 15px;")
             ),
             column(
               6,
@@ -790,8 +919,59 @@ mod_infoBdUI_ui <- function(id) {
                     "Datos Abiertos de la CDMX",
                     href = "https://datos.cdmx.gob.mx/explore/dataset/incidentes-viales-c5"
                   )
+                ),
+              ),
+                #Aqui va el texto para reproducir los datos
+              tags$div(style = "height: 15px;"),
+              tags$p(strong("Replicar estos resultados"),
+                style = "font-size: 14pt; color: #848888; text-align: left;"
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Base de referencia"),
+                " : ",
+                "Toma como referencia la base de ",
+                "Incidentes viales reportados por C5"
+                #tag$a("Incidentes viales reportados por C5",
+                #  href = "https://datos.cdmx.gob.mx/explore/dataset/incidentes-viales-c5/table/?disjunctive.incidente_c4"
+                #)
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Total de personas lesionadas"),
+                " : ",
+                lista_textos$personas_lesionadas_c5,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_resultados_c5_1),
+                    tags$li(lista_textos$replicar_resultados_c5_2),
+                    tags$li(lista_textos$replicar_resultados_c5_3),
+                    tags$li(lista_textos$replicar_resultados_c5_4),
+                    tags$li(
+                      lista_textos$replicar_resultados_c5_5,
+                      tags$ul(
+                        tags$li(lista_textos$categorias_c5_a),
+                        tags$li(lista_textos$categorias_c5_b),
+                        tags$li(lista_textos$categorias_c5_c),
+                        tags$li(lista_textos$categorias_c5_d),
+                        tags$li(lista_textos$categorias_c5_e),
+                        tags$li(lista_textos$categorias_c5_f),
+                        tags$li(lista_textos$categorias_c5_g),
+                        tags$li(lista_textos$categorias_c5_h),
+                        tags$li(lista_textos$categorias_c5_i),
+                        tags$li(lista_textos$categorias_c5_j),
+                        tags$li(lista_textos$categorias_c5_k),
+                        tags$li(lista_textos$categorias_c5_l),
+                        tags$li(lista_textos$categorias_c5_m),
+                        tags$li(lista_textos$categorias_c5_n)
+                      )
+                    ),
+                    tags$li(lista_textos$replicar_resultados_c5_6)
+                  )
                 )
-              ),#Aqui va el texto para reproducir los datos
+              ),
+              tags$div(style = "height: 15px;")
             ),
             column(
               6,
