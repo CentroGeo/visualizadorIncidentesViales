@@ -64,6 +64,7 @@ lista_textos <- list(
   objetivo_base_datos_AXA_4 = "El personal que atiende a sus \
   asegurados, se recopila la información la cual es capturada en un \
   sistema de registro",
+  ## ==============Introduccion ==========================
   bases_de_datos_fix_1 = "Para llevar a cabo el análisis y seguimiento de las \
   tendencias de los hechos de tránsito ocurridos en la Ciudad de México, \
   la Secretaría de Movilidad (SEMOVI) hace uso de la información de cuatro \
@@ -113,46 +114,201 @@ lista_textos <- list(
   los mismos, es decir sin considerar si a consecuencia de estos hubo \
   personas lesionadas y/o fallecidas; al igual que el C5, registra \
   también los incidentes comúnmente denominados “lamineros”.",
-  personas_lesionadas_AXA = "Son todos aquellos registros que cumplen \
-  con las siguientes condiciones:",
-  replicar_resultados_AXA_1 = "AÑO: corresponda con el año de análisis",
-  replicar_resultados_AXA_2 = "MES: corresponda con el mes o los meses \
+##### =========== FGJ Replicar ==================================
+  ### FGJ SIN Lesionados
+  hechos_sin_lesionadas_FGJ = "Son todos aquellos registros que cumplen \
+  #con las siguientes condiciones:",
+  replicar_sin_lesionadas_FGJ_1 = "Tomar en cuenta todos los hechos de \
+  tránsito, sin importar si la longitud y latitud corresponde con las de \
+  la CDMX (es posible que existan errores en las coordenadas). No \
+  obstante el campo Alcaldía debe corresponder con las alcaldías de la \
+  CDMX, no tomar en cuenta los registros de un municipio correspondiente \
+  a una entidad distinta de la Ciudad de México.",
+  replicar_sin_lesionadas_FGJ_2 = "idCarpeta → sin duplicados",
+  replicar_sin_lesionadas_FGJ_3 = "Año_hecho: corresponda con el año de \
+  análisis",
+  replicar_sin_lesionadas_FGJ_4 = "Mes_hecho: corresponda con el mes o \
+  los meses de análisis",
+  replicar_sin_lesionadas_FGJ_5 = "Delito: corresponda con las siguientes \
+  categorías:",
+  categoria_FGJ_sin_lesionados_a = "DAÑO EN PROPIEDAD AJENA CULPOSA POR \
+  TRÁNSITO VEHICULAR A AUTOMOVIL",
+  categoria_FGJ_sin_lesionados_b = "DAÑO EN PROPIEDAD AJENA CULPOSA POR \
+  TRÁNSITO VEHICULAR A BIENES INMUEBLES",
+  categoria_FGJ_sin_lesionados_c = "DAÑO EN PROPIEDAD AJENA CULPOSA POR \
+  TRÁNSITO VEHICULAR A VIAS DE COMUNICACION",
+  ### FGJ Decesos
+  hechos_decesos_FGJ = "Son todos aquellos registros que cumplen con las \
+  siguientes condiciones",
+  replicar_decesos_FGJ_1 = "Tomar en cuenta todos los hechos de tránsito, \
+  sin importar si la longitud y latitud corresponde con las de la CDMX (es \
+  posible que existan errores en las coordenadas). No obstante el campo \
+  Alcaldía debe corresponder con las alcaldías de la CDMX, no tomar en \
+  cuenta los registros de un municipio correspondiente a una entidad \
+  distinta de la Ciudad de México",
+  replicar_decesos_FGJ_2 = "Año_hecho: corresponda con el año de análisis",
+  replicar_decesos_FGJ_3 = "Mes_hecho: corresponda con el mes o los \
+  meses de análisis",
+  replicar_decesos_FGJ_4 = "Delito: corresponda con las siguientes categorías:",
+  categoria_FGJ_decesos_a = "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR",
+  categoria_FGJ_decesos_b = "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR \
+  (ATROPELLADO)",
+  categoria_FGJ_decesos_c = "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR \
+  (CAIDA)",
+  categoria_FGJ_decesos_d = "HOMICIDIO CULPOSO POR TRÁNSITO \
+  VEHICULAR (COLISION)",
+  ### FGJ Lesionados
+  hechos_lesionados_FGJ = "Son todos aquellos registros que cumplen con \
+  las siguientes condiciones:",
+  replicar_lesionados_FGJ_1 = "Tomar en cuenta todos los hechos de tránsito, \
+  sin importar si la longitud y latitud corresponde con las de la CDMX (es \
+  posible que existan errores en las coordenadas). No obstante el campo \
+  Alcaldía debe corresponder con las alcaldías de la CDMX, no tomar en cuenta \
+  los registros de un municipio correspondiente a una entidad distinta de \
+  la Ciudad de México.",
+  replicar_lesionados_FGJ_2 = "Año_hecho: corresponda con el año de análisis",
+  replicar_lesionados_FGJ_3 = "Mes_hecho: corresponda con el mes o los meses \
   de análisis",
-  replicar_resultados_AXA_3 = "Tomar en cuenta la sumatoria de \
-  aquellos registros en los que LESIONADOS sea mayor a cero",
-  personas_lesionadas_c5 = " Son todos aquellos registros \
+  replicar_lesionados_FGJ_4 = "Delito: corresponda con las siguientes \
+  categorías:",
+  replicar_lesionados_FGJ_5 = "CalidadJuridica: diferente de CADAVER",
+  categoria_FGJ_lesionados_a = "LESIONES CULPOSAS POR TRANSITO VEHICULAR",
+  categoria_FGJ_lesionados_b = "LESIONES CULPOSAS POR TRANSITO VEHICULAR \
+  EN COLISION",
+  ## FGJ Heat map
+  heatmap_FGJ_día_hora = "Son todos aquellos registros que cumplen con \
+  las siguientes condiciones",
+  replicar_FGJ_heatmap_1 =  "Tomar en cuenta todos los hechos de tránsito, \
+  sin importar si la longitud y latitud corresponde con las de la CDMX (es \
+  posible que existan errores en las coordenadas). No obstante el campo \
+  Alcaldía debe corresponder con las alcaldías de la CDMX, no tomar en cuenta \
+  los registros de un municipio correspondiente a una entidad distinta de \
+  la Ciudad de México.",
+  replicar_FGJ_heatmap_2 = "idCarpeta: sin duplicados",
+  replicar_FGJ_heatmap_3 = "Año_hecho: corresponda con el año de análisis",
+  replicar_FGJ_heatmap_4 = "Mes_hecho: corresponda con el mes o los meses \
+  de análisis",
+  replicar_FGJ_heatmap_5 = "Delito: corresponda con las categorías \
+  correspondientes",
+  replicar_FGJ_heatmap_6 = "Para la hora de ocurrencia del hecho de tránsito, \
+  tomamos en cuenta el campo HoraHecho",
+  ##### =========== AXA Replicar ==================================
+  ### AXA SIN Lesionados
+  personas_sin_lesionadas_AXA = "Son todos aquellos registros que cumplen \
+  con las siguientes condiciones",
+  replicar_sin_lesionadas_AXA_1 = "SINIESTRO: sin duplicados",
+  replicar_sin_lesionadas_AXA_2 = "AÑO: corresponda con el año de análisis",
+  replicar_sin_lesionadas_AXA_3 = "MES: corresponda con el mes o los meses \
+  de análisis",
+  replicar_sin_lesionadas_AXA_4 = "Tomar en cuenta aquellos registros en \
+  los que LESIONADOS igual a cero",
+  ### AXA Decesos
+  hechos_decesos_AXA = " Son todos aquellos registros que cumplen con \
+  las siguientes condiciones:",
+  replicar_decesos_AXA_1 = "AÑO: corresponda con el año de análisis",
+  replicar_decesos_AXA_2 = "MES: corresponda con el mes o los meses \
+  de análisis",
+  replicar_decesos_AXA_3 = "Contabilizar aquellos registros en los que \
+  FALLECIDO sea igual a Sí",
+  ### AXA Lesionados
+  hechos_lesionados_AXA = "Son todos aquellos registros que cumplen con \
+  las siguientes condiciones",
+  replicar_lesionados_AXA_1 = "AÑO: corresponda con el año de análisis",
+  replicar_lesionados_AXA_2 = "MES: corresponda con el mes o los meses \
+  de análisis",
+  replicar_lesionados_AXA_3 = "Tomar en cuenta la sumatoria de aquellos \
+  registros en los que LESIONADOS sea mayor a cero",
+  ## AXA Heat map
+  heatmap_AXA_día_hora = "Son todos aquellos registros que cumplen con \
+  las siguientes condiciones",
+  replicar_AXA_heatmap_1 = "SINIESTRO: sin duplicados",
+  replicar_AXA_heatmap_2 = "AÑO: corresponda con el año de análisis",
+  replicar_AXA_heatmap_3 = "MES: corresponda con el mes o los meses \
+  de análisis",
+  replicar_AXA_heatmap_4 = "Para la hora de ocurrencia del hecho de \
+  tránsito, tomamos en cuenta el campo HORA",
+  
+  ####========================C5 Replicar========================
+  ### C5 Sin Lesioonados
+  hechos_sin_lesionadas_c5 = "Son todos aquellos registros \
   que cumplen con las siguientes condiciones:",
-  replicar_resultados_c5_1 = "Tomar en cuenta todos los hechos de \
-  tránsito, sin importar si la longitud y latitud corresponde con \
-  las de la CDMX (es posible que existan errores en las \
-  coordenadas)",
-  replicar_resultados_c5_2 = "fecha_creación: corresponda con el mes \
+  replicar_sin_lesionadas_c5_1 = "folio: folio no repetido",
+  replicar_sin_lesionadas_c5_2 = "Tomar en cuenta todos los \
+  hechos de tránsito, sin importar si la longitud y latitud \
+  corresponde con las de la CDMX (es posible que existan errores en \
+  las coordenadas)",
+  replicar_sin_lesionadas_c5_3 = "fecha_creación: corresponda con el mes \
   o los meses y, el año de análisis",
-  replicar_resultados_c5_3 = "codigo_cierre: sea (A) La unidad de atención\
+  replicar_sin_lesionadas_c5_4 = "codigo_cierre: sea (A) La unidad de atención\
    a emergencias fue despachada, llegó al lugar de los hechos y \
    confirmó la emergencia reportada o (I) El incidente reportado es \
    afirmativo y se añade información adicional al evento",
-  replicar_resultados_c5_4 = "Tomar en cuenta los registros en donde \
-  incidente_c4 corresponda con accidente-choque con lesionados, detención \
-  ciudadana-atropellado y lesionado-atropellado",
-  replicar_resultados_c5_5 = "Incidente_c4 → corresponda con las \
+  replicar_sin_lesionadas_c5_5 = "Incidente_c4: corresponda con las \
   siguientes categorías:",
-  categorias_c5_a = "accidente-choque con lesionados",
-  categorias_c5_b = "accidente-choque con prensados",
-  categorias_c5_c = "accidente-choque sin lesionados",
-  categorias_c5_d = "accidente-ciclista",
-  categorias_c5_e = "accidente-motociclista",
-  categorias_c5_f = "accidente-persona atrapada / desbarrancada",
-  categorias_c5_g = "accidente-vehiculo atrapado",
-  categorias_c5_h = "accidente-vehiculo desbarrancado",
-  categorias_c5_i = "accidente-volcadura",
-  categorias_c5_j = "cadáver-accidente automovilístico",
-  categorias_c5_k = "cadáver-atropellado",
-  categorias_c5_l = "detención ciudadana-accidente automovilístico",
-  categorias_c5_m = "detención ciudadana-atropellado",
-  categorias_c5_n = "Lesionado-atropellado",
-  replicar_resultados_c5_6 = "Para la hora de ocurrencia del hecho de \
+  categorias_c5_a = "accidente-choque sin lesionados",
+  categorias_c5_b = "detención ciudadana-accidente automovilístico",
+  categorias_c5_c = "accidente-ciclista",
+  categorias_c5_d = "accidente-ferroviario",
+  categorias_c5_e = "accidente-monopatín",
+  categorias_c5_f = "accidente-motociclista",
+  categorias_c5_g = "accidente-otros",
+  categorias_c5_h = "accidente-choque con prensados",
+  categorias_c5_i = "accidente-persona atrapada / desbarrancada",
+  categorias_c5_j = "accidente-vehiculo atrapado",
+  categorias_c5_k = "accidente-vehículo atrapado-varado",
+  categorias_c5_l = "accidente-vehiculo desbarrancado",
+  categorias_c5_m = "accidente-volcadura",
+  ### C5 Decesos
+  hechos_decesos_c5 =  "Son todos aquellos registros que cumplen \
+  con las siguientes condiciones:",
+  replicar_decesos_c5_1 =  "Tomar en cuenta todos los hechos de \
+  tránsito, sin importar si la longitud y latitud corresponde con las \
+  de la CDMX (es posible que existan errores en las coordenadas)",
+  replicar_decesos_c5_2 = "fecha_creación: corresponda con el mes o \
+  los meses y, el año de análisis",
+  replicar_decesos_c5_3 = "codigo_cierre: sea (A) La unidad de atención \
+  a emergencias fue despachada, llegó al lugar de los hechos y confirmó \
+  la emergencia reportada o (I) El incidente reportado es afirmativo y se \
+  añade información adicional al evento",
+  replicar_decesos_c5_4 = "Tomar en cuenta los registros en donde \
+  incidente_c4 corresponda con cadáver-atropellado y cadáver-accidente \
+  automovilístico",
+  ##C5 Lesionados
+  hechos_lesionados_c5 = "Son todos aquellos registros que cumplen con las \
+  siguientes condiciones:",
+  replicar_lesionados_c5_1 = "Tomar en cuenta todos los hechos de \
+  tránsito, sin importar si la longitud y latitud corresponde con las \
+  de la CDMX (es posible que existan errores en las coordenadas)",
+  replicar_lesionados_c5_2 = "fecha_creación: corresponda con el mes o \
+  los meses y, el año de análisis",
+  replicar_lesionados_c5_3 = "codigo_cierre: sea (A) La unidad de \
+  atención a emergencias fue despachada, llegó al lugar de los hechos y \
+  confirmó la emergencia reportada o (I) El incidente reportado es afirmativo \
+  y se añade información adicional al evento",
+  replicar_lesionados_c5_4 = "Tomar en cuenta los registros en donde \
+  incidente_c4 corresponda con accidente-choque con lesionados, detención \
+  ciudadana-atropellado, lesionado-atropellado, y lesionado-accidente \
+  automovilístico",
+  ## C5 Heat map
+  heatmap_c5_día_hora = "Son todos aquellos registros que cumplen con \
+  las siguientes condiciones",
+  replicar_c5_heatmap_1 = "folio: folio no repetido",
+  replicar_c5_heatmap_2 = "Tomar en cuenta todos los hechos de tránsito, \
+  sin importar si la longitud y latitud corresponde con las de la CDMX \
+  (es posible que existan errores en las coordenadas)",
+  replicar_c5_heatmap_3 = "fecha_creación: corresponda con el mes o \
+  los meses y, el año de análisis",
+  replicar_c5_heatmap_4 = "codigo_cierre: sea (A) La unidad de \
+  atención a emergencias fue despachada, llegó al lugar de los hechos y \
+  confirmó la emergencia reportada o (I) El incidente reportado es \
+  afirmativo y se añade información adicional al evento",
+  replicar_c5_heatmap_5 = "Incidente_c4: corresponda con las categorías \
+  correspondientes",
+  replicar_c5_heatmap_6 = "Para la hora de ocurrencia del hecho de \
   tránsito, tomamos en cuenta el campo hora_creación",
+  
+  ### =============== SSC Replicar ================================
+  ### SSC Sin Lesionados
   hechos_transito_scc = "Son todos aquellos registros que cumplen con \
   las siguientes condiciones",
   replicar_scc_hechos_transito_1 = "Tomar en cuenta todos los hechos de \
@@ -162,8 +318,11 @@ lista_textos <- list(
   análisis",
   replicar_scc_hechos_transito_3 = "MES_EVENTO: corresponda con el mes o \
   los meses de análisis",
+  replicar_scc_hechos_transito_4 = "Campo TOTAL OCCISOS igual a cero y \
+  campo TOTAL LESIONADOS igual a cero",
   hechos_decesos_scc = "Son todos aquellos registros que cumplen con las \
   siguientes condiciones",
+  ### SSC Decesos
   replicar_scc_eventos_decesos_1 = "Tomar en cuenta todos los hechos de \
   tránsito, sin importar si la longitud y latitud corresponde con las de \
   la CDMX (es posible que existan errores en las coordenadas)",
@@ -171,7 +330,8 @@ lista_textos <- list(
   año de análisis",
   replicar_scc_eventos_decesos_3 = "MES_EVENTO: corresponda con el \
   mes o los meses de análisis",
-  replicar_scc_eventos_decesos_4 = "Campo TOTAL OCCISOS distinto de 0",
+  replicar_scc_eventos_decesos_4 = "Campo TOTAL OCCISOS distinto de cero",
+  ### SSC Lesionados
   hechos_lesionados_scc = "Son todos aquellos registros que cumplen \
   con las siguientes condiciones:",
   replicar_scc_personas_lesionadas_1 = "Tomar en cuenta todos los hechos \
@@ -183,8 +343,19 @@ lista_textos <- list(
   replicar_scc_personas_lesionadas_3 = "MES_EVENTO: corresponda con el \
   mes o los meses de análisis",
   replicar_scc_personas_lesionadas_4 = "Campo TOTAL LESIONADOS distinto \
-  de 0",
-  replicar_resultados_scc_4 = "Para la hora de ocurrencia del hecho de \
+  de cero",
+  ### SSC Heatmap
+  heatmap_ssc_día_hora = "Son todos aquellos registros que cumplen con \
+  las siguientes condiciones:",
+  replicar_scc_heatmap_1 = "Tomar en cuenta todos los hechos de \
+  tránsito, sin importar si la longitud y latitud (coordenada) \
+  corresponde con las de la CDMX (es posible que existan errores en \
+  las coordenadas)",
+  replicar_scc_heatmap_2 = "AÑO_EVENTO: corresponda con el año de \
+  análisis",
+  replicar_scc_heatmap_3 = "MES_EVENTO: corresponda con el mes o \
+  los meses de análisis",
+  replicar_scc_heatmap_4 = "Para la hora de ocurrencia del hecho de \
   tránsito tomar en cuenta el campo HORA2"
 )
 
@@ -290,8 +461,83 @@ mod_infoBdUI_ui <- function(id) {
                       "Datos Abiertos de la CDMX",
                       href = "https://datos.cdmx.gob.mx/explore/dataset/carpetas-de-investigacion-pgj-de-la-ciudad-de-mexico/"
                     ),
+                ),
+              ),
+              tags$div(style = "height: 15px;"),
+              tags$p(strong("Replicar estos resultados"),
+                style = "font-size: 14pt; color: #848888; text-align: left;"
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Base de referencia"),
+                " : ",
+                "Toma como referencia la base de FGJ"
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Hechos de tránsito sin victimas"),
+                " : ",
+                lista_textos$hechos_sin_lesionadas_FGJ,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_sin_lesionadas_FGJ_1),
+                    tags$li(lista_textos$replicar_sin_lesionadas_FGJ_2),
+                    tags$li(lista_textos$replicar_sin_lesionadas_FGJ_3),
+                    tags$li(lista_textos$replicar_sin_lesionadas_FGJ_4),
+                    tags$li(lista_textos$replicar_sin_lesionadas_FGJ_5)
+                  )
                 )
               ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Hechos de tránsito con decesos"),
+                " : ",
+                lista_textos$hechos_decesos_FGJ,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_decesos_FGJ_1),
+                    tags$li(lista_textos$replicar_decesos_FGJ_2),
+                    tags$li(lista_textos$replicar_decesos_FGJ_3),
+                    tags$li(lista_textos$replicar_decesos_FGJ_4)
+                  )
+                )
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Hechos de tránsito con lesionados"),
+                " : ",
+                lista_textos$hechos_lesionados_FGJ,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_lesionados_FGJ_1),
+                    tags$li(lista_textos$replicar_lesionados_FGJ_2),
+                    tags$li(lista_textos$replicar_lesionados_FGJ_3),
+                    tags$li(lista_textos$replicar_lesionados_FGJ_4),
+                    tags$li(lista_textos$replicar_lesionados_FGJ_5)
+                  )
+                )
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Ocurrencia de hechos de tránsito dia y hora"),
+                " : ",
+                lista_textos$heatmap_FGJ_día_hora,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_FGJ_heatmap_1),
+                    tags$li(lista_textos$replicar_FGJ_heatmap_2),
+                    tags$li(lista_textos$replicar_FGJ_heatmap_3),
+                    tags$li(lista_textos$replicar_FGJ_heatmap_4),
+                    tags$li(lista_textos$replicar_FGJ_heatmap_5),
+                    tags$li(lista_textos$replicar_FGJ_heatmap_6)
+                  )
+                )
+              ),
+              tags$div(style = "height: 15px;")
             ),
             column(
               6,
@@ -587,7 +833,7 @@ mod_infoBdUI_ui <- function(id) {
               ),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
-                strong("Total de hechos de tránsito:"),
+                strong("Hechos de tránsito sin victimas:"),
                 " : ",
                 lista_textos$hechos_transito_scc,
                 tags$div(
@@ -595,13 +841,14 @@ mod_infoBdUI_ui <- function(id) {
                   tags$ul(
                     tags$li(lista_textos$replicar_scc_hechos_transito_1),
                     tags$li(lista_textos$replicar_scc_hechos_transito_2),
-                    tags$li(lista_textos$replicar_scc_hechos_transito_3)
+                    tags$li(lista_textos$replicar_scc_hechos_transito_3),
+                    tags$li(lista_textos$replicar_scc_hechos_transito_4)
                   )
                 )
               ),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
-                strong("Total de hechos con lesionados"),
+                strong("Hechos de tránsito con lesionados"),
                 " : ",
                 lista_textos$hechos_lesionados_scc,
                 tags$div(
@@ -616,9 +863,9 @@ mod_infoBdUI_ui <- function(id) {
               ),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
-                strong("Total de hechos con decesos:"),
+                strong("Hechos de tránsito con decesos:"),
                 " : ",
-                lista_textos$hechos_lesionados_scc,
+                lista_textos$hechos_decesos_scc,
                 tags$div(
                   style = "text-align: justify; font-size: 12pt; color: #697070;",
                   tags$ul(
@@ -626,6 +873,21 @@ mod_infoBdUI_ui <- function(id) {
                     tags$li(lista_textos$replicar_scc_eventos_decesos_2),
                     tags$li(lista_textos$replicar_scc_eventos_decesos_3),
                     tags$li(lista_textos$replicar_scc_eventos_decesos_4)
+                  )
+                )
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Ocurrencia de hechos de tránsito dia y hora:"),
+                " : ",
+                lista_textos$heatmap_ssc_día_hora,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_scc_heatmap_1),
+                    tags$li(lista_textos$replicar_scc_heatmap_2),
+                    tags$li(lista_textos$replicar_scc_heatmap_3),
+                    tags$li(lista_textos$replicar_scc_heatmap_4)
                   )
                 )
               ),
@@ -938,18 +1200,18 @@ mod_infoBdUI_ui <- function(id) {
               ),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
-                strong("Total de personas lesionadas"),
+                strong("Hechos de tránsito sin victimas: "),
                 " : ",
-                lista_textos$personas_lesionadas_c5,
+                lista_textos$hechos_sin_lesionadas_c5,
                 tags$div(
                   style = "text-align: justify; font-size: 12pt; color: #697070;",
                   tags$ul(
-                    tags$li(lista_textos$replicar_resultados_c5_1),
-                    tags$li(lista_textos$replicar_resultados_c5_2),
-                    tags$li(lista_textos$replicar_resultados_c5_3),
-                    tags$li(lista_textos$replicar_resultados_c5_4),
+                    tags$li(lista_textos$replicar_sin_lesionadas_c5_1 ),
+                    tags$li(lista_textos$replicar_sin_lesionadas_c5_2 ),
+                    tags$li(lista_textos$replicar_sin_lesionadas_c5_3 ),
+                    tags$li(lista_textos$replicar_sin_lesionadas_c5_4 ),
                     tags$li(
-                      lista_textos$replicar_resultados_c5_5,
+                      lista_textos$replicar_sin_lesionadas_c5_5,
                       tags$ul(
                         tags$li(lista_textos$categorias_c5_a),
                         tags$li(lista_textos$categorias_c5_b),
@@ -963,13 +1225,58 @@ mod_infoBdUI_ui <- function(id) {
                         tags$li(lista_textos$categorias_c5_j),
                         tags$li(lista_textos$categorias_c5_k),
                         tags$li(lista_textos$categorias_c5_l),
-                        tags$li(lista_textos$categorias_c5_m),
-                        tags$li(lista_textos$categorias_c5_n)
+                        tags$li(lista_textos$categorias_c5_m)
                       )
-                    ),
-                    tags$li(lista_textos$replicar_resultados_c5_6)
+                    )
                   )
-                )
+                ),
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Hechos de tránsito con decesos"),
+                " : ",
+                lista_textos$hechos_decesos_c5,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_decesos_c5_1),
+                    tags$li(lista_textos$replicar_decesos_c5_2),
+                    tags$li(lista_textos$replicar_decesos_c5_3),
+                    tags$li(lista_textos$replicar_decesos_c5_4)
+                  )
+                ),
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Hechos de tránsito con lesionados"),
+                " : ",
+                lista_textos$hechos_lesionados_c5,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_lesionados_c5_1),
+                    tags$li(lista_textos$replicar_lesionados_c5_2),
+                    tags$li(lista_textos$replicar_lesionados_c5_3),
+                    tags$li(lista_textos$replicar_lesionados_c5_4)
+                  )
+                ),
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Ocurrencia de hechos de tránsito dia y hora"),
+                " : ",
+                lista_textos$hechos_lesionados_c5,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_c5_heatmap_1),
+                    tags$li(lista_textos$replicar_c5_heatmap_2),
+                    tags$li(lista_textos$replicar_c5_heatmap_3),
+                    tags$li(lista_textos$replicar_c5_heatmap_4),
+                    tags$li(lista_textos$replicar_c5_heatmap_5),
+                    tags$li(lista_textos$replicar_c5_heatmap_6)
+                  )
+                ),
               ),
               tags$div(style = "height: 15px;")
             ),
@@ -1253,15 +1560,59 @@ mod_infoBdUI_ui <- function(id) {
               ),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
-                strong("Total de personas lesionadas:"),
+                strong("Hechos de tránsito sin victimas"),
                 " : ",
-                lista_textos$personas_lesionadas_AXA,
+                lista_textos$personas_sin_lesionadas_AXA,
                 tags$div(
                   style = "text-align: justify; font-size: 12pt; color: #697070;",
                   tags$ul(
-                    tags$li(lista_textos$replicar_resultados_AXA_1),
-                    tags$li(lista_textos$replicar_resultados_AXA_2),
-                    tags$li(lista_textos$replicar_resultados_AXA_3)
+                    tags$li(lista_textos$replicar_sin_lesionadas_AXA_1),
+                    tags$li(lista_textos$replicar_sin_lesionadas_AXA_2),
+                    tags$li(lista_textos$replicar_sin_lesionadas_AXA_3),
+                    tags$li(lista_textos$replicar_sin_lesionadas_AXA_4)
+                  )
+                )
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Hechos de tránsito con decesos"),
+                " : ",
+                lista_textos$hechos_decesos_AXA,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_decesos_AXA_1),
+                    tags$li(lista_textos$replicar_decesos_AXA_2),
+                    tags$li(lista_textos$replicar_decesos_AXA_3)
+                  )
+                )
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Hechos de tránsito con lesionados"),
+                " : ",
+                lista_textos$hechos_lesionados_AXA,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_lesionados_AXA_1),
+                    tags$li(lista_textos$replicar_lesionados_AXA_2),
+                    tags$li(lista_textos$replicar_lesionados_AXA_3)
+                  )
+                )
+              ),
+              tags$p(
+                style = "font-size: 12pt; color: #848888; text-align: left;",
+                strong("Ocurrencia de hechos de tránsito dia y hora"),
+                " : ",
+                lista_textos$heatmap_AXA_día_hora,
+                tags$div(
+                  style = "text-align: justify; font-size: 12pt; color: #697070;",
+                  tags$ul(
+                    tags$li(lista_textos$replicar_AXA_heatmap_1),
+                    tags$li(lista_textos$replicar_AXA_heatmap_2),
+                    tags$li(lista_textos$replicar_AXA_heatmap_3),
+                    tags$li(lista_textos$replicar_AXA_heatmap_4)
                   )
                 )
               ),
