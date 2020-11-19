@@ -7,13 +7,19 @@
 #' 
 #'jJ 
 preprocesa_pgj <- function(pgj) {
-  pgj['timestamp'] <- lubridate::parse_date_time(
-                       pgj$fecha_hechos,
-                       "Y-m-d H:M:S"
-                      )
+  #### Se eliminan los duplicados 
+  pgj <- dplyr::distinct(pgj,idCarpeta , .keep_all= TRUE)
+  ## Se eliminan los que no tienen fecha 
+  pgj <- pgj[!is.na(pgj$FechaHecho),]
+  ### Se eliminan los que no tienen hora 
+  pgj <- pgj[!is.na(pgj$HoraHecho),]
+  
+  pgj['fecha_hechos'] <- lubridate::dmy( pgj$FechaHecho )
+  pgj['hora_hechos'] <- lubridate::hms(pgj$HoraHecho)                        
+  pgj['timestamp'] <- pgj$fecha_hechos + pgj$hora_hechos
   pgj <-
-     dplyr::filter(pgj,
-       timestamp >= lubridate::parse_date_time("2016-01-01", "Y-m-d")
+     dplyr::filter( pgj,
+       timestamp >= lubridate::parse_date_time("2018-01-01", "Y-m-d")
       )
   pgj["geopoint"] <- NULL
   pgj <- pgj[order(pgj$timestamp), ]
@@ -70,9 +76,9 @@ preprocesa_pgj_origin <- function(fgj_new) {
 #'
 #' @return Tabla con los datos preprocesados listos para utilizarse
 #'  en la plataforma.
+#' 
 #'
-#'
-#'
+#' 
 preprocesa_ssc <- function(ssc) {
   ssc <- janitor::clean_names(ssc, "snake")
   # =
@@ -179,18 +185,18 @@ preprocesa_axa_origin<- function(axa_new) {
 #' 
 preprocesa_axa <- function(axa) {
   axa['hora'] <- lubridate::hms(paste0(axa$hora, ':01:00'))
-  axa$mes[axa$mes == "ENERO"] <- 1
-  axa$mes[axa$mes == "FEBRERO"] <- 2
-  axa$mes[axa$mes == "MARZO"] <- 3
-  axa$mes[axa$mes == "ABRIL"] <- 4
-  axa$mes[axa$mes == "MAYO"] <- 5
-  axa$mes[axa$mes == "JUNIO"] <- 6
-  axa$mes[axa$mes == "JULIO"] <- 7
-  axa$mes[axa$mes == "AGOSTO"] <- 8
-  axa$mes[axa$mes == "SEPTIEMBRE"] <- 9
-  axa$mes[axa$mes == "OCTUBRE"] <- 10
-  axa$mes[axa$mes == "NOVIEMBRE"] <- 11
-  axa$mes[axa$mes == "DICIEMBRE"] <- 12
+  axa$mes[axa$mes == 'ENERO'] <- 1
+  axa$mes[axa$mes == 'FEBRERO'] <- 2
+  axa$mes[axa$mes == 'MARZO'] <- 3
+  axa$mes[axa$mes == 'ABRIL'] <- 4
+  axa$mes[axa$mes == 'MAYO'] <- 5
+  axa$mes[axa$mes == 'JUNIO'] <- 6
+  axa$mes[axa$mes == 'JULIO'] <- 7
+  axa$mes[axa$mes == 'AGOSTO'] <- 8
+  axa$mes[axa$mes == 'SEPTIEMBRE'] <- 9
+  axa$mes[axa$mes == 'OCTUBRE'] <- 10
+  axa$mes[axa$mes == 'NOVIEMBRE'] <- 11
+  axa$mes[axa$mes == 'DICIEMBRE'] <- 12
   axa['fecha'] <- lubridate::date(chron::dates(
                                 paste0(
                                        axa$dia_numero,
@@ -215,7 +221,7 @@ preprocesa_axa <- function(axa) {
   # =
   axa <- sf::st_transform(
                           sf::st_as_sf(axa,
-                                          coords = c("longitud","latitud"),
+                                          coords = c('longitud','latitud'),
                                           crs = 4326), 32614
                           )
   return(axa)
@@ -335,18 +341,16 @@ preprocesa_C5_origin <- function(c5_new) {
 
 #' Joins the tables
 #'
-#'  Une tablas para hacer una única tabla y remueve los elementos que no
-#'   deben tomarse en cuenta.
+#'  Modifies the tables to joint in to a single table
 #'
-#' @param  Fecha de inicio a tomar en cuenta
-#'@returns La concatenación de la tabla
+#'@returns The table concatenation
 #'
-une_tablas <- function(fecha_inicio_todos="01/01/2018") {
+une_tablas <- function() {
   axa <- readRDS("./data-raw/axa.rds")
   fgj <- readRDS("./data-raw/fgj.rds")
   ssc <- readRDS("./data-raw/ssc.rds")
   c5 <- readRDS("./data-raw/c5.rds")
-  fgj_cols <- c("delito", "geometry", "timestamp")
+  fgj_cols <- c("Delito","CalidadJuridica", "geometry", "timestamp")
   ssc_cols <- c("total_occisos", "geometry", "timestamp", "total_lesionados")
   axa_cols <- c("fallecido", "geometry", "timestamp", "lesionados")
   c5_cols <- c("geometry", "timestamp", "tipo_incidente")
@@ -354,26 +358,67 @@ une_tablas <- function(fecha_inicio_todos="01/01/2018") {
   fgj <- dplyr::select(fgj, tidyselect::all_of(fgj_cols))
   ssc <- dplyr::select(ssc, tidyselect::all_of(ssc_cols))
   c5 <- dplyr::select(c5, tidyselect::all_of(c5_cols))
-  fgj <- dplyr::mutate(
-    fgj,
-    tipo_incidente =
-      ifelse(startsWith(
-        fgj$delito,
-        "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR"
-      ), "DECESO",
-      ifelse(startsWith(
-        fgj$delito,
-        "LESIONES CULPOSAS POR TRANSITO VEHICULAR"),
-        "LESIONADO",
-        ifelse(startsWith(
-        fgj$delito,
-        "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR"),
-        "ACCIDENTE",
-        NA
-        ))
-      )
+  # fgj <- dplyr::mutate(
+  #   fgj,
+  #   tipo_incidente =
+  #     ifelse(startsWith(
+  #       fgj$delito,
+  #       "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR"
+  #     ), "DECESO",
+  #     ifelse(startsWith(
+  #       fgj$delito,
+  #       "LESIONES CULPOSAS POR TRANSITO VEHICULAR"),
+  #       "LESIONADO",
+  #       ifelse(startsWith(
+  #       fgj$delito,
+  #       "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR"),
+  #       "ACCIDENTE",
+  #       NA
+  #       ))
+  #     )
+  # )
+  delitos_deceso <- c(
+    "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR A AUTOMOVIL",
+    "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR A BIENES INMUEBLES",
+    "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR A VIAS DE COMUNICACION",
+    "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR",
+    "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR (ATROPELLADO)",
+    "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR (CAIDA)",
+    "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR (COLISION)",
+    "LESIONES CULPOSAS POR TRANSITO VEHICULAR",
+    "LESIONES CULPOSAS POR TRANSITO VEHICULAR EN COLISION"
   )
+  delitos_lesionados <- c(
+    "LESIONES CULPOSAS POR TRANSITO VEHICULAR",
+    "LESIONES CULPOSAS POR TRANSITO VEHICULAR EN COLISION"
+  )
+  delitos_accidente <- c(
+    "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR A AUTOMOVIL",
+    "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR A BIENES INMUEBLES",
+    "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR A VIAS DE COMUNICACION"
+  )
+  condicion_deceso = fgj$Delito %in% delitos_deceso & fgj$CalidadJuridica == "CADAVER"
+  condicion_lesionados = fgj$Delito %in% delitos_lesionados & fgj$CalidadJuridica != "CADAVER"
+  condicion_accidente = fgj$Delito %in% delitos_accidente & fgj$CalidadJuridica != "CADAVER"
+  fgj <- dplyr::mutate(
+      fgj,
+      tipo_incidente =
+        ifelse(condicion_deceso,
+               "DECESO",
+               ifelse(condicion_lesionados,
+                      "LESIONADO",
+                      ifelse(condicion_accidente,
+                      "ACCIDENTE",
+                      NA
+                      )
+              )
+        )
+    )
+  
+  fgj<-fgj[!is.na(fgj$tipo_incidente), ]
   fgj$fuente <- "FGJ"
+  
+  
   ssc <- dplyr::mutate(
     ssc,
     tipo_incidente =
@@ -409,25 +454,18 @@ une_tablas <- function(fecha_inicio_todos="01/01/2018") {
   total <- rbind(total, ssc)
   sf::st_crs(c5) <- sf::st_crs(total)
   total <- rbind(total, c5)
-  cdmx <- sf::read_sf(dsn = "./data-raw/cdmx.shp")
+  cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
   cdmx$geometry <- sf::st_transform(
      cdmx$geometry,
      32614
   )
   sf::st_crs(cdmx) <- sf::st_crs(total)
-  total <- sf::st_join(total, cdmx["nom_mun"], left = TRUE)
+  total <- sf::st_join(total, cdmx["nom_mun"], left = FALSE)
   total <- total[!is.na(total$tipo_incidente), ]
   total <- sf::st_transform(total, "+init=epsg:4326") %>%
     dplyr::mutate(
       latitud = sf::st_coordinates(geometry)[, 2],
       longitud = sf::st_coordinates(geometry)[, 1]
     )
-  ###### Tomar las fechas 
-  total <- total[total$timestamp >=
-               lubridate::as_date(
-                        fecha_inicio_todos,
-                        format = "%d/%m/%Y"
-                ),
-            ]
   return(total)
 }
