@@ -357,7 +357,11 @@ horas_graf <- function(dataframe_rec_in, input) {
   }, 
   cacheKeyExpr =  list(input$tipo_grafica2,
                        dataframe_rec_in()
-                      )
+                      ),
+  cache = diskCache(
+                  dir= "./cache_dir",
+                  max_size = 20 * 1024^2
+                  )
   )
 }
 #' graficas Server Function

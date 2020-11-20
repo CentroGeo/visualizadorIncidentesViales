@@ -454,7 +454,7 @@ une_tablas <- function() {
   total <- rbind(total, ssc)
   sf::st_crs(c5) <- sf::st_crs(total)
   total <- rbind(total, c5)
-  cdmx <- sf::read_sf(dsn = "./data/cdmx.shp", layer = "cdmx")
+  cdmx <- sf::read_sf(dsn = "./data-raw/cdmx.shp")
   cdmx$geometry <- sf::st_transform(
      cdmx$geometry,
      32614
