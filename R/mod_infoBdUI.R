@@ -137,6 +137,8 @@ lista_textos <- list(
   TRÁNSITO VEHICULAR A BIENES INMUEBLES",
   categoria_FGJ_sin_lesionados_c = "DAÑO EN PROPIEDAD AJENA CULPOSA POR \
   TRÁNSITO VEHICULAR A VIAS DE COMUNICACION",
+  replicar_sin_lesionadas_FGJ_6 = "CalidadJuridica: con valor distinto a\
+   'CADAVER'",
   ### FGJ Decesos
   hechos_decesos_FGJ = "Son todos aquellos registros que cumplen con las \
   siguientes condiciones",
@@ -157,6 +159,16 @@ lista_textos <- list(
   (CAIDA)",
   categoria_FGJ_decesos_d = "HOMICIDIO CULPOSO POR TRÁNSITO \
   VEHICULAR (COLISION)",
+  categoria_FGJ_decesos_e = "LESIONES CULPOSAS POR TRANSITO VEHICULAR",
+  categoria_FGJ_decesos_f = "LESIONES CULPOSAS POR TRANSITO VEHICULAR EN \
+  COLISION",
+  categoria_FGJ_decesos_g = "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO \
+  VEHICULAR A AUTOMOVIL",
+  categoria_FGJ_decesos_h = "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO \
+  VEHICULAR A BIENES INMUEBLES",
+  categoria_FGJ_decesos_i = "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO \
+  VEHICULAR A VIAS DE COMUNICACION",
+  replicar_decesos_FGJ_5 = "CalidadJuridica: con valor igual a 'CADAVER'",
   ### FGJ Lesionados
   hechos_lesionados_FGJ = "Son todos aquellos registros que cumplen con \
   las siguientes condiciones:",
@@ -485,7 +497,15 @@ mod_infoBdUI_ui <- function(id) {
                     tags$li(lista_textos$replicar_sin_lesionadas_FGJ_2),
                     tags$li(lista_textos$replicar_sin_lesionadas_FGJ_3),
                     tags$li(lista_textos$replicar_sin_lesionadas_FGJ_4),
-                    tags$li(lista_textos$replicar_sin_lesionadas_FGJ_5)
+                    tags$li(
+                      lista_textos$replicar_sin_lesionadas_FGJ_5,
+                      tags$ul(
+                        tags$li(lista_textos$categoria_FGJ_sin_lesionados_a),
+                        tags$li(lista_textos$categoria_FGJ_sin_lesionados_b),
+                        tags$li(lista_textos$categoria_FGJ_sin_lesionados_c)
+                      )
+                    ),
+                    tags$li(lista_textos$replicar_sin_lesionadas_FGJ_6)
                   )
                 )
               ),
@@ -500,7 +520,20 @@ mod_infoBdUI_ui <- function(id) {
                     tags$li(lista_textos$replicar_decesos_FGJ_1),
                     tags$li(lista_textos$replicar_decesos_FGJ_2),
                     tags$li(lista_textos$replicar_decesos_FGJ_3),
-                    tags$li(lista_textos$replicar_decesos_FGJ_4)
+                    tags$li(
+                      lista_textos$replicar_decesos_FGJ_4,
+                      tags$ul(
+                        tags$li(lista_textos$categoria_FGJ_decesos_a),
+                        tags$li(lista_textos$categoria_FGJ_decesos_b),
+                        tags$li(lista_textos$categoria_FGJ_decesos_c),
+                        tags$li(lista_textos$categoria_FGJ_decesos_d),
+                        tags$li(lista_textos$categoria_FGJ_decesos_f),
+                        tags$li(lista_textos$categoria_FGJ_decesos_g),
+                        tags$li(lista_textos$categoria_FGJ_decesos_h),
+                        tags$li(lista_textos$categoria_FGJ_decesos_i)
+                      )
+                    ),
+                    tags$li(lista_textos$replicar_decesos_FGJ_5)
                   )
                 )
               ),
@@ -515,7 +548,13 @@ mod_infoBdUI_ui <- function(id) {
                     tags$li(lista_textos$replicar_lesionados_FGJ_1),
                     tags$li(lista_textos$replicar_lesionados_FGJ_2),
                     tags$li(lista_textos$replicar_lesionados_FGJ_3),
-                    tags$li(lista_textos$replicar_lesionados_FGJ_4),
+                    tags$li(
+                      lista_textos$replicar_lesionados_FGJ_4,
+                      tags$ul(
+                        tags$li(lista_textos$categoria_FGJ_lesionados_a),
+                        tags$li(lista_textos$categoria_FGJ_lesionados_b)                        
+                      )
+                    ),
                     tags$li(lista_textos$replicar_lesionados_FGJ_5)
                   )
                 )
