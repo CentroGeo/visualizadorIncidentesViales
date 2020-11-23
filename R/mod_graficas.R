@@ -268,7 +268,11 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
   cacheKeyExpr =  list(input$Datos_grafica,
                        input$tiempo_grafica,
                        dataframe_rec_in()
-                       )
+                       ),
+  cache = diskCache(
+            dir= "./cache_dir",
+            max_size = 20 * 1024^2
+          )
   )
 }
 
@@ -292,9 +296,6 @@ horas_graf <- function(dataframe_rec_in, input) {
       p <- ggplot2::ggplot()
       p <- p+ ggplot2::labs(x= "Dia") + 
         ggplot2::labs(y = "Hora") 
-
-        
-        
       return(p)
       
     }
