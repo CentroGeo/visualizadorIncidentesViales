@@ -11,7 +11,7 @@ Este repositorio contiene una implementación en [Shiny](https://shiny.rstudio.c
 Utilizando [devtools](https://cran.r-project.org/web/packages/devtools/index.html), desde una consola de `R`:
 
 ````R
-> devtools::installgithub("CentroGeo/visualizadorIncidentesViales")
+> devtools::install_github("CentroGeo/visualizadorIncidentesViales")
 > library(visualizadorIncidentesViales)
 > visualizadorIncidentesViales::run_app()
 ````
