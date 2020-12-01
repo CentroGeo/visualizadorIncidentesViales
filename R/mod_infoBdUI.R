@@ -124,7 +124,7 @@ lista_textos <- list(
   obstante el campo Alcaldía debe corresponder con las alcaldías de la \
   CDMX, no tomar en cuenta los registros de un municipio correspondiente \
   a una entidad distinta de la Ciudad de México.",
-  replicar_sin_lesionadas_FGJ_2 = "idCarpeta → sin duplicados",
+  replicar_sin_lesionadas_FGJ_2 = "idCarpeta sin duplicados",
   replicar_sin_lesionadas_FGJ_3 = "Año_hecho: corresponda con el año de \
   análisis",
   replicar_sin_lesionadas_FGJ_4 = "Mes_hecho: corresponda con el mes o \
