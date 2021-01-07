@@ -14,6 +14,7 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libudunits2-0 \
     libudunits2-dev \
     libgdal-dev \
+    libgit2-dev \
     build-essential
  #   libcurl4-gnutls-de
 
