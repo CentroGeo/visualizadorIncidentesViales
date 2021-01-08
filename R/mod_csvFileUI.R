@@ -91,7 +91,7 @@ mod_csvFileUI_server <- function(input, output, session) {
       validate(need(try(df<- preprocesa_axa_origin(df)), "El archivo no es de AXA"))
       shinyjs::toggleState("save")
       #df <- preprocesa_axa(df)
-      df 
+      df
     }
   })
 

@@ -43,3 +43,6 @@ CMD ["R", "-e", \
 #     options('shiny.port'=3838,shiny.host='0.0.0.0'); \
 #     options('Actualizar_datos' = TRUE); \
 #     visualizadorIncidentesViales::run_app()"]
+###
+### To run the docker container using the volume "Cache_vol" 
+#### docker run  -v Cache_vol:/tmp/cache_visualizador -p 3838:3838/tcp visualizadorIncidentesviales:0.9.1
