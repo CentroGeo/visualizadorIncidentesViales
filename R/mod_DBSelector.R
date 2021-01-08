@@ -76,13 +76,18 @@ filtra_datos <- function(dataframe_fil,
   }
   return(mem_data)
 }
-cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
+#cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
 
-fc <- memoise::cache_filesystem(cache_dir_o)
+#fc <- memoise::cache_filesystem(cache_dir_o)
 
 mem_filtra_datos <- memoise::memoise(
                               filtra_datos,
-                              cache = fc
+                              cache =  memoise::cache_filesystem(
+                                                  getOption(
+                                                    "Cache_dir",
+                                                     default = "./cache_dir"
+                                                     )
+                                )
                               )
 
 #' DBSelector Server Function
