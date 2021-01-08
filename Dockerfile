@@ -25,6 +25,9 @@ RUN apt-get update && \
 
 RUN R -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
 RUN R -e "devtools::install_github('CentroGeo/visualizadorIncidentesViales', force=TRUE)"
+
+###Make dir for cache
+RUN mkdir /tmp/cache_visualizador
 # expose port
 EXPOSE 3838
 
@@ -32,6 +35,7 @@ EXPOSE 3838
 CMD ["R", "-e", \
     "options('shiny.port'=3838,shiny.host='0.0.0.0'); \
     options('Actualizar_datos' = TRUE); \
+    options('Cache_dir'='/tmp/cache_visualizador');\ 
     library(visualizadorIncidentesViales); \
     visualizadorIncidentesViales::run_app()"]
 # CMD ["R", "-e", \

@@ -270,7 +270,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                        dataframe_rec_in()
                        ),
   cache = diskCache(
-            dir= "./cache_dir",
+            dir= cache_dir_o,
             max_size = 20 * 1024^2
           )
   )
@@ -289,15 +289,16 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 #'@returns The render plot selected in the UI
 horas_graf <- function(dataframe_rec_in, input) {
   # renderPlot({
+  cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
+  print(cache_dir_o)
   renderCachedPlot({
     datos <- dataframe_rec_in()
     if(nrow(datos)==0){
       ## Grafica vacia 
       p <- ggplot2::ggplot()
-      p <- p+ ggplot2::labs(x= "Dia") + 
-        ggplot2::labs(y = "Hora") 
+      p <- p+ ggplot2::labs(x = "Dia") +
+        ggplot2::labs(y = "Hora")
       return(p)
-      
     }
     colores_fgj <- list(start = "#ffffcc", end = "#b10026")
     colores_ssc <- list(start = "#fff7fb", end = "#034e7b")
@@ -337,7 +338,6 @@ horas_graf <- function(dataframe_rec_in, input) {
     cuentas <- tidyr::drop_na(cuentas)
     cuentas <- dplyr::mutate(cuentas, Hora = sprintf("%02d:00", hora))
     cuentas$Dia <- factor( cuentas$Dia, levels = c("2","3","4","5","6","7","1"))
-    
     p <- ggplot2::ggplot(
           cuentas,
           ggplot2::aes(x = Dia,
@@ -355,12 +355,12 @@ horas_graf <- function(dataframe_rec_in, input) {
     panel.border = ggplot2::element_blank()
     )
     return(p)
-  }, 
+  },
   cacheKeyExpr =  list(input$tipo_grafica2,
                        dataframe_rec_in()
                       ),
   cache = diskCache(
-                  dir= "./cache_dir",
+                  dir = cache_dir_o,
                   max_size = 20 * 1024^2
                   )
   )
