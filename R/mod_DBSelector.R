@@ -82,7 +82,7 @@ fc <- memoise::cache_filesystem(cache_dir_o)
 
 mem_filtra_datos <- memoise::memoise(
                               filtra_datos,
-                              cache= fc
+                              cache = fc
                               )
 
 #' DBSelector Server Function

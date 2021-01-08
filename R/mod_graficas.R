@@ -116,6 +116,8 @@ mod_graficas_ui <- function(id) {
 #'@returns The render plot selected in the UI
 mes_dia_graf <- function(dataframe_rec_in, input) {
   # renderPlot({
+  cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
+  print(cache_dir_o)
   renderCachedPlot({
     if (input$tiempo_grafica == "Mensual") {
       ############## Mensual####################
@@ -270,7 +272,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                        dataframe_rec_in()
                        ),
   cache = diskCache(
-            dir= cache_dir_o,
+            dir = cache_dir_o,
             max_size = 20 * 1024^2
           )
   )
@@ -290,7 +292,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 horas_graf <- function(dataframe_rec_in, input) {
   # renderPlot({
   cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
-  print(cache_dir_o)
+  #print(cache_dir_o)
   renderCachedPlot({
     datos <- dataframe_rec_in()
     if(nrow(datos)==0){
