@@ -292,7 +292,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 horas_graf <- function(dataframe_rec_in, input) {
   # renderPlot({
   cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
-  #print(cache_dir_o)
+  print(cache_dir_o)
   renderCachedPlot({
     datos <- dataframe_rec_in()
     if(nrow(datos)==0){
