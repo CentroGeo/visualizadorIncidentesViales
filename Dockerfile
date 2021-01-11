@@ -35,7 +35,7 @@ EXPOSE 3838
 CMD ["R", "-e", \
     "options('shiny.port'=3838,shiny.host='0.0.0.0'); \
     options('Actualizar_datos' = TRUE); \
-    options('Cache_dir'='/tmp/cache_visualizador');\ 
+    #options('Cache_dir'='/tmp/cache_visualizador');\ 
     library(visualizadorIncidentesViales); \
     visualizadorIncidentesViales::run_app()"]
 # CMD ["R", "-e", \
