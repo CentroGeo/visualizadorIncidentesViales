@@ -76,7 +76,7 @@ filtra_datos <- function(dataframe_fil,
   }
   return(mem_data)
 }
-cache_dir_o <- getOption("Cache_dir", default = "/tmp/cache_visualizador")
+cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
 
 fc <- memoise::cache_filesystem(cache_dir_o)
 
