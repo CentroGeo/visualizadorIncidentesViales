@@ -76,6 +76,8 @@ filtra_datos <- function(dataframe_fil,
   }
   return(mem_data)
 }
+#### Uncomment if we want to create the directori un a default manner
+#dir.create("./cache_dir",  showWarnings = TRUE)
 cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
 
 fc <- memoise::cache_filesystem(cache_dir_o)
