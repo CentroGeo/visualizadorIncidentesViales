@@ -87,11 +87,9 @@ fc <- function(cache_selected = "./cache_dir")
 {
   dir.create(cache_selected,  showWarnings = FALSE)
   fc_c <- memoise::cache_filesystem(cache_selected)
-  print(paste("Path for DB cache Storage: " , cache_selected))
+  print(paste("Path for DB cache Storage: ", cache_selected))
   return (fc_c)
 }
-
-
 
 
 mem_filtra_datos <- memoise::memoise(
