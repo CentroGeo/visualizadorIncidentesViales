@@ -35,7 +35,8 @@ EXPOSE 3838
 CMD ["R", "-e", \
     "options('shiny.port'=3838,shiny.host='0.0.0.0'); \
     options('Actualizar_datos' = TRUE); \
-    options('Cache_dir'='./cache_dir');\ 
+    options('Cache_dir'='./cache_dir');\
+    options('Cache_DB_dir'='./cache_dir');\ 
     library(visualizadorIncidentesViales); \
     visualizadorIncidentesViales::run_app()"]
 # CMD ["R", "-e", \
@@ -45,4 +46,4 @@ CMD ["R", "-e", \
 #     visualizadorIncidentesViales::run_app()"]
 ###
 ### To run the docker container using the volume "Cache_vol" 
-#### docker run  -v Cache_vol:./cache_visualizador -p 3838:3838/tcp visualizadorIncidentesviales:0.9.1
+#### docker run  -v Cache_vol:./cache_visualizador -p 3838:3838/tcp visualizadorIncidentesviales:0.9.1.2
