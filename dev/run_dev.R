@@ -6,6 +6,8 @@ shinyOptions(cache = memoryCache(size = 20e7))
 
 options("Actualizar_datos" = TRUE)
 options("Cache_dir" = "./cache_vis")
+options("Cache_DB_dir" = "./cache_vis")
+
 # Detach all loaded packages and clean your environment
 golem::detach_all_attached()
 #rm(list = ls(all.names = TRUE))

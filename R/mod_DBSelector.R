@@ -78,13 +78,29 @@ filtra_datos <- function(dataframe_fil,
 }
 #### Uncomment if we want to create the directori un a default manner
 #dir.create("./cache_dir",  showWarnings = TRUE)
-cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
+#cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
 
-fc <- memoise::cache_filesystem(cache_dir_o)
+
+
+
+fc <- function(cache_selected = "./cache_dir")
+{
+  dir.create(cache_selected,  showWarnings = FALSE)
+  fc_c <- memoise::cache_filesystem(cache_selected)
+  print(paste("Path for DB cache Storage: " , cache_selected))
+  return (fc_c)
+}
+
+
+
 
 mem_filtra_datos <- memoise::memoise(
                               filtra_datos,
-                              cache = fc
+                              cache = fc(getOption(
+                                            "Cache_DB_dir",
+                                             default = "./cache_dir"
+                                             )
+                                        )
                             )
 
 #' DBSelector Server Function
