@@ -83,12 +83,16 @@ filtra_datos <- function(dataframe_fil,
 
 
 
-fc <- function(cache_selected = "./cache_dir")
-{
-  dir.create(cache_selected,  showWarnings = FALSE)
-  fc_c <- memoise::cache_filesystem(cache_selected)
-  print(paste("Path for DB cache Storage: ", cache_selected))
-  return (fc_c)
+fc <- function(cache_selected = NULL){
+  if(!is.null(cache_selected)){
+      dir.create(cache_selected,  showWarnings = FALSE)
+      fc_c <- memoise::cache_filesystem(cache_selected)
+      print(paste("Path for DB cache Storage: ", cache_selected))
+      return (fc_c)
+  }else{
+    cm <- cachem::cache_mem(max_size = 1000 * 1024^2)
+    return (cm)
+  } 
 }
 
 
@@ -96,7 +100,7 @@ mem_filtra_datos <- memoise::memoise(
                               filtra_datos,
                               cache = fc(getOption(
                                             "Cache_DB_dir",
-                                             default = "./cache_dir"
+                                             default = NULL
                                              )
                                         )
                             )

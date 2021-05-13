@@ -36,6 +36,7 @@ usethis::use_package("rgdal")
 usethis::use_package("DT")
 usethis::use_package("tidyr")
 usethis::use_package("memoise")
+usethis::use_package("cachem")
 usethis::use_pipe()
 
 

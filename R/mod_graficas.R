@@ -116,8 +116,8 @@ mod_graficas_ui <- function(id) {
 #'@returns The render plot selected in the UI
 mes_dia_graf <- function(dataframe_rec_in, input) {
   # renderPlot({
-  cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
-  print(cache_dir_o)
+  cache_dir_o <- getOption("Cache_dir", default = NULL)
+  configed_cache <- get_configed_cache(cache_dir_o)
   renderCachedPlot({
     if (input$tiempo_grafica == "Mensual") {
       ############## Mensual####################
@@ -271,10 +271,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                        input$tiempo_grafica,
                        dataframe_rec_in()
                        ),
-  cache = diskCache(
-            dir = cache_dir_o,
-            max_size = 20 * 1024^2
-          )
+  cache = configed_cache
   )
 }
 
@@ -290,9 +287,10 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 #'
 #'@returns The render plot selected in the UI
 horas_graf <- function(dataframe_rec_in, input) {
-  # renderPlot({
-  cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
+  cache_dir_o <- getOption("Cache_dir", default = NULL)
   print(cache_dir_o)
+  configed_cache <- get_configed_cache(cache_dir_o)
+  print(configed_cache)
   renderCachedPlot({
     datos <- dataframe_rec_in()
     if(nrow(datos)==0){
@@ -361,10 +359,7 @@ horas_graf <- function(dataframe_rec_in, input) {
   cacheKeyExpr =  list(input$tipo_grafica2,
                        dataframe_rec_in()
                       ),
-  cache = diskCache(
-                  dir = cache_dir_o,
-                  max_size = 20 * 1024^2
-                  )
+  cache = configed_cache
   )
 }
 #' graficas Server Function
@@ -404,4 +399,16 @@ mod_graficas_server <- function(input, output, session, dataframe_rec) {
   output$grafica_sp <- mes_dia_graf(dataframe_rec, input)
   output$grafica_horas <- horas_graf(dataframe_rec, input)
 
+}
+
+get_configed_cache <- function(option) {
+  if(!is.null(option)){
+    configed_cache <- diskCache(
+            dir = option,
+            max_size = 20 * 1024^2
+          )
+  }else{
+    configed_cache <- "app"
+  }
+  return(configed_cache)
 }
