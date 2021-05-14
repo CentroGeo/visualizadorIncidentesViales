@@ -24,7 +24,7 @@ RUN apt-get update && \
     apt-get clean
 
 RUN R -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
-RUN R -e "devtools::install_github('CentroGeo/visualizadorIncidentesViales', force=TRUE)"
+RUN R -e "devtools::install_github('CentroGeo/visualizadorIncidentesViales', force=TRUE, ref = 'swarm_compatible' )"
 
 ###Make dir for cache
 RUN mkdir ./cache_dir
