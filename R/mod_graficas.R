@@ -10,17 +10,15 @@
 #' @importFrom shiny NS tagList
 #'
 #'
-
 mod_graficas_ui <- function(id) {
   ns <- NS(id)
-  # Type of plot
+  # Tipo de gráfica
   Mes_dia <- c("Mensual", "Diaria")
-  # Interval of the day
+  # Intervalo del dia
   intervalos <- c("Todo el Día", "Mañana (6AM - 12PM)",
                   "Tarde (1PM - 9PM)", "Noche (10PM - 5AM)")
-  # This vector is use to select
+  # Tipos de base de datos
   choices_po <- c("Todas", "FGJ", "SSC", "C5", "AXA")
-  ## the data and is updated in the server function   #print(ns("fuentes_graf"))
   tabsetPanel(
     ### Graph by month
     tabPanel(title = "Gráficas de conteos",
@@ -37,13 +35,6 @@ mod_graficas_ui <- function(id) {
                                     selected = "Mensual"
                                     )
                       )
-                      # column(2, offset = 1,
-                      #        actionButton(
-                      #                     inputId = ns("boton_zoom_grafica"),  # Name to reference in the input
-                      #                     label = NULL , 
-                      #                     icon = icon("search-plus"),
-                      #                     style = "font-size:150%")
-                      #        )
                       ),
         shinycssloaders::withSpinner(
                     plotOutput(outputId = ns("grafica_sp"), ## Name to reference in the input
@@ -60,30 +51,12 @@ mod_graficas_ui <- function(id) {
         tags$div(tableOutput(outputId = ns("tabla_totales")),
                 style = "font-size: 80%; width: 100%; margin: auto;")
         ),
-    tabPanel(### Graph by day of the week and time
+    tabPanel(# Gráfica por día de la semana y hora
              title = "Agregados por día de la semana",
              selectInput(inputId = ns("tipo_grafica2"),
                          label = "Datos a Graficar",
                          choices = choices_po,
                          selected = "Todas"),
-            #  fluidRow(
-            #           column(9,
-            #               radioButtons(
-            #                       inputId = ns("tiempo_grafica2"),
-            #                       label = "Temporalidad a Graficar",
-            #                       inline = TRUE,
-            #                       choices = intervalos,
-            #                       selected = "Todo el Día"
-            #                       )
-            #           )#,
-            #           # column(2, 
-            #           #        offset = 1,
-            #           #        actionButton(inputId = ns('boton_zoom_grafica2'), # Name to reference the type of graphic
-            #           #                     label = NULL , 
-            #           #                     icon = icon('search-plus'),
-            #           #                     style = 'font-size:150%')
-            #           #        )
-            #            ),
              shinycssloaders::withSpinner(
                                     plotOutput(outputId = ns("grafica_horas"),
                                                height = "350px",
@@ -94,8 +67,7 @@ mod_graficas_ui <- function(id) {
                                     color = "#00A65A",
                                     size = 1,
                                     color.background = "#FFFFFF"
-                    )#,
-             #plotOutput(outputId = ns("grafica_pastel"), height = "50px")
+                    )
              )
   )
 }
@@ -115,9 +87,7 @@ mod_graficas_ui <- function(id) {
 #'
 #'@returns The render plot selected in the UI
 mes_dia_graf <- function(dataframe_rec_in, input) {
-  # renderPlot({
   cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
-  print(cache_dir_o)
   renderCachedPlot({
     if (input$tiempo_grafica == "Mensual") {
       ############## Mensual####################
