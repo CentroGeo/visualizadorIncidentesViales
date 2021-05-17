@@ -15,10 +15,11 @@ mod_bar_ui <- function(id) {
                 label = "Periodo de Tiempo",
                 width = "100%",
                 timeFormat = "%d/%m/%Y",
+                # TODO: deben venir de los datos
                 min = as.Date("2018-01-01", "%Y-%m-%d"),
                 max = as.Date("2020-09-09", "%Y-%m-%d"),
-                value = c(as.Date("2018-01-01", "%Y-%m-%d"),
-                        as.Date("2019-12-31", "%Y-%m-%d"))
+                value = c(as.Date("2020-03-01", "%Y-%m-%d"),
+                        as.Date("2020-09-09", "%Y-%m-%d"))
                 )
   )
 }
