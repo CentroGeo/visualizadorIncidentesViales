@@ -91,6 +91,7 @@ filtra_datos <- function(datos_filtrados,
 
 # Esta sólo se encarga de que exista el objeto cache 
 fc <- function(cache_selected = "./cache_dir") {
+  
   dir.create(cache_selected,  showWarnings = FALSE)
   fc_c <- memoise::cache_filesystem(cache_selected)
   print(paste("Path for DB cache Storage: ", cache_selected))
