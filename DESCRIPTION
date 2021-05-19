@@ -1,6 +1,6 @@
 Package: visualizadorIncidentesViales
 Title: Visualizador de Incidentes Viales para la CDMX
-Version: 0.1
+Version: 0.9.4
 Authors@R: c(person('Karime', 'González-Zuccolotto', 
              email = 'karime.gonzalez@centreogeo.edu.mx', 
              role = c('aut')),
