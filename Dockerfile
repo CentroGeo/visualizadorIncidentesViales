@@ -27,7 +27,7 @@ RUN mkdir /visualizadorIncidentesViales
 RUN R -e "install.packages('devtools', repos = 'http://cran.us.r-project.org')"
 ADD ./ /visualizadorIncidentesViales/
 RUN R -e "devtools::install_local('/visualizadorIncidentesViales')"
-#RUN R -e "devtools::install_github('CentroGeo/visualizadorIncidentesViales', force=TRUE, ref = 'fix_cache_bugs')"
+RUN mkdir /tmp/vis-viales-cache
 
 # expose port
 EXPOSE 3838
