@@ -89,23 +89,6 @@ filtra_datos <- function(datos_filtrados,
   return(datos_filtrados)
 }
 
-# Esta sólo se encarga de que exista el objeto cache 
-fc <- function(cache_selected = "./cache_dir") {
-  dir.create(cache_selected,  showWarnings = FALSE)
-  fc_c <- memoise::cache_filesystem(cache_selected)
-  print(paste("Path for DB cache Storage: ", cache_selected))
-  return (fc_c)
-}
-
-# Versión memoizada de filtra_datos
-mem_filtra_datos <- memoise::memoise(
-                              filtra_datos,
-                              cache = fc(getOption(
-                                            "Cache_DB_dir",
-                                             default = "./cache_dir"
-                                             )
-                                        )
-                            )
 
 #' DBSelector Server Function
 #'
@@ -131,10 +114,25 @@ mod_DBSelector_server <- function(input, output, session,
       filtro_bd <- input$filtro_bd
       filtro_intervalo <- interval_ba_rea()
       filtro_lugar <- input$filtro_lugar
-      datos_filtrados <- mem_filtra_datos(datos_filtrados, filtro_incidente,
-        filtro_bd, filtro_intervalo, filtro_lugar)
+      datos_filtrados <- dplyr::filter(
+        datos_filtrados,
+        (datos_filtrados$timestamp > lubridate::ymd(filtro_intervalo[1])
+        &
+        datos_filtrados$timestamp < lubridate::ymd(filtro_intervalo[2])
+        )
+      )
+      datos_filtrados <- dplyr::filter(datos_filtrados,
+        fuente %in% filtro_bd) %>%
+        dplyr::filter(tipo_incidente %in% filtro_incidente)
+      ### Filter by location (Alcaldias)
+      if (filtro_lugar != "Total Ciudad de México") {
+        datos_filtrados <- dplyr::filter(datos_filtrados,
+          nom_mun == filtro_lugar)
+      }      
       return(datos_filtrados)
-    })
+    }) %>%
+    bindCache(input$filtro_incidente, input$filtro_bd, 
+              interval_ba_rea(), input$filtro_lugar)
     #datafram_re <- datafram_re %>% shiny::debounce(100)
     seleccion_lugar <- reactive({
       input$filtro_lugar

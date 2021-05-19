@@ -5,8 +5,6 @@
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
-  ########To set new upload file size
-  #options(shiny.maxRequestSize=510*1024^2)
   actualizar <- getOption("Actualizar_datos")
   output$menu <- shinydashboard::renderMenu({
     shinydashboard::sidebarMenu(id = "tabs",

@@ -87,8 +87,7 @@ mod_graficas_ui <- function(id) {
 #'
 #'@returns The render plot selected in the UI
 mes_dia_graf <- function(dataframe_rec_in, input) {
-  cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
-  renderCachedPlot({
+  renderPlot({
     if (input$tiempo_grafica == "Mensual") {
       ############## Mensual####################
       datos <- dataframe_rec_in()
@@ -236,16 +235,9 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 
     }
     return(p)
-  },
-  cacheKeyExpr =  list(input$Datos_grafica,
-                       input$tiempo_grafica,
-                       dataframe_rec_in()
-                       ),
-  cache = diskCache(
-            dir = cache_dir_o,
-            max_size = 20 * 1024^2
-          )
-  )
+  }
+  ) %>%
+  bindCache(input$Datos_grafica, input$tiempo_grafica, dataframe_rec_in())
 }
 
 #' Grafica Horas Function
@@ -260,10 +252,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
 #'
 #'@returns The render plot selected in the UI
 horas_graf <- function(dataframe_rec_in, input) {
-  # renderPlot({
-  cache_dir_o <- getOption("Cache_dir", default = "./cache_dir")
-  print(cache_dir_o)
-  renderCachedPlot({
+  renderPlot({
     datos <- dataframe_rec_in()
     if(nrow(datos)==0){
       ## Grafica vacia 
@@ -327,15 +316,9 @@ horas_graf <- function(dataframe_rec_in, input) {
     panel.border = ggplot2::element_blank()
     )
     return(p)
-  },
-  cacheKeyExpr =  list(input$tipo_grafica2,
-                       dataframe_rec_in()
-                      ),
-  cache = diskCache(
-                  dir = cache_dir_o,
-                  max_size = 20 * 1024^2
-                  )
-  )
+  }
+  ) %>%
+  bindCache(input$tipo_grafica2, dataframe_rec_in())
 }
 #' graficas Server Function
 #'
