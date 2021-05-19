@@ -29,19 +29,15 @@ ADD ./ /visualizadorIncidentesViales/
 RUN R -e "devtools::install_local('/visualizadorIncidentesViales')"
 #RUN R -e "devtools::install_github('CentroGeo/visualizadorIncidentesViales', force=TRUE, ref = 'fix_cache_bugs')"
 
-###Make dir for cache
-RUN mkdir /cache_dir
 # expose port
 EXPOSE 3838
 
 # run app on container start
 CMD ["R", "-e", \
     "options('shiny.port'=3838,shiny.host='0.0.0.0'); \
-    options('Actualizar_datos' = TRUE); \
-    options('Cache_dir'='/cache_dir');\
-    options('Cache_DB_dir'='/cache_dir');\     
-    library(visualizadorIncidentesViales); \
-    visualizadorIncidentesViales::run_app()"]
+     options('Actualizar_datos' = TRUE); \
+     library(visualizadorIncidentesViales); \
+     visualizadorIncidentesViales::run_app()"]
 # CMD ["R", "-e", \
 #     "devtools::install_github('CentroGeo/visualizadorIncidentesViales', force=TRUE); \
 #     options('shiny.port'=3838,shiny.host='0.0.0.0'); \
