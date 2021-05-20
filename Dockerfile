@@ -37,6 +37,7 @@ CMD ["R", "-e", \
     "options('shiny.port'=3838,shiny.host='0.0.0.0'); \
      options('Actualizar_datos' = TRUE); \
      library(visualizadorIncidentesViales); \
+     shiny::shinyOptions(cache = cachem::cache_disk(file.path(dirname(tempdir()), 'vis-viales-cache'))); \
      visualizadorIncidentesViales::run_app()"]
 # CMD ["R", "-e", \
 #     "devtools::install_github('CentroGeo/visualizadorIncidentesViales', force=TRUE); \
