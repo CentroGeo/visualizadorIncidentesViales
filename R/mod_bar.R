@@ -1,6 +1,6 @@
 #' bar UI Function
 #'
-#' Generate a bar to get a time interval
+#' Genera la UI para el slider de tiempo.
 #'
 #'
 #' @param id Internal parameters for {shiny}.
@@ -25,9 +25,9 @@ mod_bar_ui <- function(id) {
 }
     
 #' Bar Server Function
-#' ¿
-#' The function returns a reactive function that returns a vectors with the
-#'  date of the interval
+#' 
+#' Regresa un reactive con los valores seleccionados en un vector
+#' strings Y-m-d
 #'
 #' @param input shiny internal
 #'
@@ -35,8 +35,7 @@ mod_bar_ui <- function(id) {
 #'
 #' @param session shiny internal
 #'
-#' @return Reactive function that returns a vector with a time interval
-#' (min, max) dates
+#' @return reactive con los valores seleccionados c(fecha_min, fecha_max) strings Y-m-d
 mod_bar_server <- function(input, output, session) {
   ns <- session$ns
   interval_val <- reactive({

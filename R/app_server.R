@@ -1,4 +1,6 @@
 #' The application server-side
+#' Define la estructura general de la aplicación
+#' sidebar, paneles, etc
 #' 
 #' @param input,output,session Internal parameters for {shiny}. 
 #'     DO NOT REMOVE.

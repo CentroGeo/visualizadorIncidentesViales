@@ -1,4 +1,6 @@
 #' The application User-Interface
+#' Los elementos de la UI que corresponden a la estructura
+#' del server side
 #'
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
@@ -7,18 +9,16 @@
 
 app_ui <- function(request) {
   shinydashboard::dashboardPage(
-    # title = 'Visualizador de Datos de Incidentes Viales - SEMOVI',
-    # skin = 'green',
     shinydashboard::dashboardHeader(
       title = "Visualizador de Datos de Incidentes Viales - SEMOVI"),
     shinydashboard::dashboardSidebar(shinydashboard::sidebarMenuOutput("menu")),
     shinydashboard::dashboardBody(shinydashboard::tabItems(
-  ##############Introduccion##########
+      ### Introduccion ###
       shinydashboard::tabItem(tabName = "intro",
         mod_introPageUI_ui("introPageUI_ui_1")
       ),
       shinydashboard::tabItem(tabName = "bd", mod_infoBdUI_ui("infoBdUI_ui_1")),
-      ########### Visualizador#################
+      ### Visualizador ###
       shinydashboard::tabItem(
                           tabName = "visualizador",
                           fluidPage(
@@ -32,7 +32,7 @@ app_ui <- function(request) {
                             )
                         )
                     ),
-      ######## Actualizacion########
+      ### Actualizacion ###
       shinydashboard::tabItem(tabName = "actualiza",
         mod_csvFileUI_ui("csvFileUI_ui", label = "Selecciona un CSV"),
         DT::dataTableOutput("tabla")
@@ -41,8 +41,6 @@ app_ui <- function(request) {
     tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-    # List the first level UI elements here
-
     )
  )
 ) 

@@ -92,19 +92,16 @@ filtra_datos <- function(datos_filtrados,
 
 #' DBSelector Server Function
 #'
-#' Using the filters selected in the UI the function returns a reactive function that returns
-#' a dataframe filtered using the corresponding filters.
-#'
+#' A partir de los filtros seleccionados por el usuario regresa un reactive con 
+#' los datos filtrados.
 #'
 #'
 #' @keywords internal
 #' @param input shiny internal
 #' @param output shiny  internal
 #' @param session shiny internal
-#' @param interval_ba_rea Interval reactive that returne time
-#' interval to select data
-#' @return reactive function that returns a filtered dataframe
-#'  using the inputs from the UI
+#' @param interval_ba_rea reactive con los valores seleccionados en la barra de tiempo
+#' @return reactive con el dataframe de los valores filtrados
 mod_DBSelector_server <- function(input, output, session,
   interval_ba_rea, datos_filtrados) {
     ns <- session$ns
@@ -133,7 +130,6 @@ mod_DBSelector_server <- function(input, output, session,
     }) %>%
     bindCache(input$filtro_incidente, input$filtro_bd, 
               interval_ba_rea(), input$filtro_lugar)
-    #datafram_re <- datafram_re %>% shiny::debounce(100)
     seleccion_lugar <- reactive({
       input$filtro_lugar
     })

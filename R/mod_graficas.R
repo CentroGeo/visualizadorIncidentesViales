@@ -1,10 +1,10 @@
 #' graficas UI Function
 #'
-#' UI function that produces the graphic interface to select the type of plots
-#' and the interval to generate them.
+#' Función de UI que produce las gráficas y los controles para 
+#' seleccionar el tipo de gráfica de acuerdo a los datos seleccionados
+#' en DBSelector.
 #'
-#'
-#' @param id  shiny parameter for the different sessions
+#' @param id  parámetro de shiny para diferentes sesiones
 #'
 #'
 #' @importFrom shiny NS tagList
@@ -75,17 +75,18 @@ mod_graficas_ui <- function(id) {
 
 
 
-#' Graficas Mes Dia Function
+#' Función de Gráficas Mes/Dia 
 #'
-#' Generates the graph of the "Incidentes viales" by month or daily
+#' Genera las gráficas de "Incidentes viales" por mes o diarias
 #'
 #'
-#'@param input shiny parameter where the inputs from the UI are store
-#'and the month or day graph is selected
+#'@param input Los valores seleccionados por el usuario en la función UI
+#'       input$tiempo_grafica Temporalidad de la gráfica
+#'       input$Datos_grafica Qué base de datos fgraficar
 #'
-#'@param dataframe_rec_in The reactive function that returns a dataframe
+#'@param dataframe_rec_in El reactive con los datos seleccionados en DBSelector
 #'
-#'@returns The render plot selected in the UI
+#'@returns La gráfica renderizada
 mes_dia_graf <- function(dataframe_rec_in, input) {
   renderPlot({
     if (input$tiempo_grafica == "Mensual") {
@@ -138,8 +139,6 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                           AXA = "#5E0061")
       p <- p +
           ggplot2::geom_line() +
-
-          #ggplot2::scale_x_date(breaks = "1 month") +
           ggplot2::scale_x_date(
             minor_breaks = function(x) seq.Date(from = min(x),
             to = max(x),
@@ -162,12 +161,12 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
           )
     }
     else if (input$tiempo_grafica == "Diaria") {
-      ############## Por DIA####################
+      ### Por DIA ###
       datos <- dataframe_rec_in()
       if (input$Datos_grafica != "Todas") {
         datos <- datos[datos$fuente == input$Datos_grafica, ]
       }
-      ########### Agrupar###################
+      ### Agrupar ###
       count_months_year <- dplyr::count(datos,
                    lubridate::day(datos$timestamp),
                    lubridate::month(datos$timestamp),
@@ -184,7 +183,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
                                                   format = "%d/%m/%Y"
                                       )
       count_months_year$fuente <- as.factor(count_months_year$fuente)
-      ##########Grafica
+      ### Grafica ###
       if (length(unique(datos$fuente)) != 1) {
         p <- ggplot2::ggplot(
                       data = count_months_year,
@@ -211,7 +210,6 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
           ggplot2::geom_smooth(
                 method = "loess"
           ) +
-         #ggplot2::scale_x_date(breaks = "2 week") +
          ggplot2::scale_x_date(minor_breaks =
             function(x) seq.Date(from = min(x),
                                   to = max(x),
@@ -237,6 +235,7 @@ mes_dia_graf <- function(dataframe_rec_in, input) {
     return(p)
   }
   ) %>%
+  # Esto lo liga al cache (shiny >= 1.6)
   bindCache(input$Datos_grafica, input$tiempo_grafica, dataframe_rec_in())
 }
 
