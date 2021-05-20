@@ -18,7 +18,7 @@ License: MIT + file LICENSE
 Imports: 
     config,
     golem,
-    shiny,
+    shiny (<= 1.6.0),
     processx,
     attempt,
     DT,
