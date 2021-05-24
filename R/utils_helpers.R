@@ -7,16 +7,19 @@
 #' 
 #'jJ 
 preprocesa_pgj <- function(pgj) {
-  #### Se eliminan los duplicados 
+  #### Se eliminan los duplicados
+  # TODO: Esto ya no va (no hay esas columnas)
   pgj <- dplyr::distinct(pgj,idCarpeta , .keep_all= TRUE)
-  ## Se eliminan los que no tienen fecha 
+  ## Se eliminan los que no tienen fecha
+  # TODO: ya no se llama así la columna (fecha_hechos) y es timestamp
   pgj <- pgj[!is.na(pgj$FechaHecho),]
   ### Se eliminan los que no tienen hora 
   pgj <- pgj[!is.na(pgj$HoraHecho),]
-  
+  # TODO por lo anterior, todo esto es un poco diferente
   pgj['fecha_hechos'] <- lubridate::dmy( pgj$FechaHecho )
   pgj['hora_hechos'] <- lubridate::hms(pgj$HoraHecho)                        
   pgj['timestamp'] <- pgj$fecha_hechos + pgj$hora_hechos
+  ### Hasta acá
   pgj <-
      dplyr::filter( pgj,
        timestamp >= lubridate::parse_date_time("2018-01-01", "Y-m-d")
@@ -24,6 +27,7 @@ preprocesa_pgj <- function(pgj) {
   pgj["geopoint"] <- NULL
   pgj <- pgj[order(pgj$timestamp), ]
   pgj["id"] <- seq.int(nrow(pgj))
+  # TODO: EStos campos ya no tienen nulos, ahora están codificados con NA
   pgj <- dplyr::filter(pgj, !is.na(latitud) & !is.na(longitud))
   pgj <- dplyr::filter(pgj, !is.na(timestamp))
   pgj <- sf::st_transform(sf::st_as_sf(
@@ -80,8 +84,10 @@ preprocesa_pgj_origin <- function(fgj_new) {
 #'
 #' 
 preprocesa_ssc <- function(ssc) {
+  # TODO: al parecer ya no necesitamos esto
   ssc <- janitor::clean_names(ssc, "snake")
-  # =
+  # TODO: ya no se llama hora_evento, se llama hora
+  # TODO: checar cómo viene codificado ahora
   ssc$hora_evento <- lubridate::hms(chron::times(paste0(
     ifelse(nchar(ssc$hora2) == 1, paste0("0", ssc$hora2), ssc$hora2),
     ":",
@@ -94,7 +100,7 @@ preprocesa_ssc <- function(ssc) {
   )))
 
   ssc$timestamp <- with(ssc, lubridate::ymd(ssc$fecha_evento) + ssc$hora_evento)
-  # =
+  # TODO: No sabemos si esto sigue siendo así LOL
   ssc$no_folio[ssc$no_folio == "SD"] <-
     paste0("SinID_", seq(1:nrow(dplyr::filter(ssc, no_folio == "SD"))))
   tmp <- dplyr::filter(
@@ -244,13 +250,16 @@ preprocesa_C5<- function(df_abierto) {
                             df_abierto$clas_con_f_alarma != "Delito",
                           ]
   # Se eliminan los incidentes falsos
+  # TODO: Cambió esta columna, hay que actualizar (ahora es más simple, sólo trae el código)
+  # TODO: Cambiar por un dplyr::filter
   Confirmacion1 <- df_abierto$codigo_cierre == "(A) La unidad de atención a emergencias fue despachada, llegó al lugar de los hechos y confirmó la emergencia reportada"
   Confirmacion2 <- df_abierto$codigo_cierre == "(I) El incidente reportado es afirmativo y se añade información adicional al evento"
   df_abierto <- df_abierto[Confirmacion1 | Confirmacion2, ]
   ##Lesionados
   incidente_c4_lesionados <- c("accidente-choque con lesionados",
+                               # "accidente-choque con prensados", # esta qué onda, preguntarle a Vanessa
                                "detención ciudadana-atropellado",
-                               "lesionado-accidente automovilístico",
+                               "lesionado-accidente automovilístico", # Esta categoría no viene
                                "lesionado-atropellado"
                               )
   ###Accidente
@@ -258,14 +267,14 @@ preprocesa_C5<- function(df_abierto) {
                               "detención ciudadana-accidente automovilístico",
                               "accidente-ciclista",
                               "accidente-ferroviario",
-                              "accidente-monopatín",
+                              "accidente-monopatín", # No viene
                               "accidente-motociclista",
                               "accidente-otros",
-                              "accidente-choque con prensados",
-                              "accidente-persona atrapada / desbarrancada",
-                              "accidente-vehiculo atrapado",
-                              "accidente-vehículo atrapado-varado",
-                              "accidente-vehiculo desbarrancado",
+                              "accidente-choque con prensados", # A poco estos no están lesionados
+                              "accidente-persona atrapada / desbarrancada", # A poco estos no están lesionados?
+                              "accidente-vehiculo atrapado", # A poco estos no están lesionados?
+                              "accidente-vehículo atrapado-varado", # A poco estos no están lesionados?
+                              "accidente-vehiculo desbarrancado", # A poco estos no están lesionados?
                               "accidente-volcadura"
                               )
 
@@ -290,6 +299,7 @@ preprocesa_C5<- function(df_abierto) {
   
   ### obtenemos el timestamp como estan en dos formatos distintos
   ## vamos a tener que hacer moidificaciones
+  # TODO: REVISAR SI SIGUE FUNCIONANDO ASÍ O SE PUEDE SIMPLIFICAR
   df_abierto$fecha_creacion_2 <- ifelse(nchar(df_abierto$fecha_creacion) > 8,
                      lubridate::as_date(df_abierto$fecha_creacion,
                                          format = "%d/%m/%Y"),
