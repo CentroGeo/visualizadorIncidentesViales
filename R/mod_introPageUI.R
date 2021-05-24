@@ -1,23 +1,28 @@
 
 lis_intro <- list(
-    panorama_general = "Uno de los compromisos de la Secretaría \
-      de Movilidad de la Ciudad de México (SEMOVI) es generar \
-      estrategias de seguridad vial basadas en evidencia. \
-      Para ello es fundamental entender las características de los hechos \
-      de tránsito que se suscitan en la ciudad. Por lo que a partir de la \
-      liberación de distintas fuentes de datos oficiales, la SEMOVI en \
-      colaboración con el Laboratorio de Datos Geoespaciales (DataLab) del \
-      Centro de Ciencias de Información Geoespacial (CentroGeo) y la \
-      Aseguradora AXA, se dieron a la tarea de desarrollar herramientas de \
-      visualización y manejo de información para entender la dinámica \
-      espacial que siguen los hechos de tránsito.",
+    panorama_general = "Uno de los compromisos de la Secretaría de \
+    Movilidad de la Ciudad de México (SEMOVI) es generar estrategias \
+    de seguridad vial basadas en evidencia y para ello, es fundamental \
+    entender las características de los hechos de tránsito que \
+    ocurren en la ciudad.",
+
+    panorama_general_2 =  "A partir de la liberación de datos de \
+    fuentes oficiales, en materia de hechos de tránsito, la SEMOVI \
+    en colaboración con el Laboratorio de Datos Geoespaciales (DataLab) \
+    del Centro de Ciencias de Información Geoespacial (CentroGeo) \
+    y AXA Seguros, se dieron a la tarea de desarrollar una herramienta \
+    de geovisualización de información que permitiera",
+
+    panorama_general_3 = "entender la dinámica espacial de los hechos \
+    de tránsito.",
 
 
     herramienta_geovisualizacion =
       "Esta herramienta permite a los usuarios explorar y analizar de \
       forma interactiva, los datos disponibles de la Secretaría de \
-      Seguridad Ciudadana (SSC), la Fiscalía General de Justicia \
-      (FGJ) y la aseguradora AXA."
+      Seguridad Ciudadana (SSC), del Centro de Comando, Control, \
+      Cómputo, Comunicaciones y Contacto Ciudadano de la Ciudad de México \
+      (C5), de la Fiscalía General de Justicia (FGJ) y AXA Seguros."
 )
 
 
@@ -47,7 +52,10 @@ mod_introPageUI_ui <- function(id) {
               9,
               tags$p(strong("Panorama General"),
                 style = "font-size: 18pt; color: #848888; text-align: left;"),
-              tags$p(lis_intro$panorama_general)
+              tags$p(lis_intro$panorama_general),
+              tags$p(lis_intro$panorama_general_2, 
+                    tags$b(lis_intro$panorama_general_3)
+                    )
             ),
             column(
               3,

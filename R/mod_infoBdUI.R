@@ -65,55 +65,86 @@ lista_textos <- list(
   asegurados, se recopila la información la cual es capturada en un \
   sistema de registro",
   ## ==============Introduccion ==========================
-  bases_de_datos_fix_1 = "Para llevar a cabo el análisis y seguimiento de las \
-  tendencias de los hechos de tránsito ocurridos en la Ciudad de México, \
+  bases_de_datos_fix_1_0 = "Para llevar a cabo el análisis y seguimiento de \
+  las tendencias de los hechos de tránsito ocurridos en la Ciudad de México, \
   la Secretaría de Movilidad (SEMOVI) hace uso de la información de cuatro \
-  fuentes principales: la Secretaría de Seguridad Ciudadana (SSC), el \
-  Centro de Comando, Cómputo, Comunicaciones y Contacto Ciudadano de la \
-  Ciudad de México (C5), la Fiscalía General de Justicia de la Ciudad de \
-  México (FGJ) y AXA Seguros. Es importante subrayar que la SEMOVI no es \
-  responsable de generar los datos provistos, sino que cada una de las \
-  instituciones y dependencias mencionadas, produce su información, \
-  cumpliendo objetivos distintos y haciendo uso de diferentes metodologías, \
-  lo que se refleja en el reporte de cada institución.",
-  bases_de_datos_fix_2 = "Hasta enero de 2020, la información de hechos de \
-  tránsito de la SSC se basaba, principalmente, en los reportes realizados \
-  por un elemento de la policía, a través de la plataforma de Puesto de \
-  Mando, la cual a partir de febrero del mismo año, se incorporó al C5 \
-  para integrar y mejorar la coordinación de atención a los diversos \
-  eventos ocurridos en la Ciudad convirtiendo a esta última en su fuente \
-  de acopio y recolección de información, relacionada con los incidentes \
-  viales. Esta información es comparada con los reportes hechos por \
-  elementos de la Policía mediante frecuencias de radio, analizada y \
-  depurada por la SSC para constituir su base de datos de hechos de \
-  tránsito.",
-  bases_de_datos_fix_3 = "El C5 integra los incidentes reportados, \
-  mediante vía telefónica a través del 911, botones de auxilio y equipos \
-  de radio de policía, principalmente. En lo que respecta a FGJ, sus \
-  datos derivan de las carpetas de investigación abiertas por delitos \
-  relacionados con hechos de tránsito. A su vez, los datos de AXA \
-  responden a los siniestros viales en los que se ven involucrados los \
-  vehículos asegurados por esta compañía.",
-  bases_de_datos_fix_4 = "Las diferencias entre las cifras reportadas por \
-  cada dependencia o institución radican en el objetivo para el cual cada \
-  una de ellas fue creada. En el caso del C5, se registran todos aquellos \
-  incidentes viales reportados a través de sus diferentes canales de \
-  emergencia, sin hacer distinción entre incidentes sin víctimas \
+  fuentes de datos abiertos: la Secretaría de Seguridad Ciudadana (SSC), \
+  el Centro de Comando, Control, Cómputo, Comunicaciones y Contacto \
+  Ciudadano de la Ciudad de México (C5), la Fiscalía General de Justicia de \
+  la Ciudad de México (FGJ) y AXA Seguros. Es importante subrayar que",
+  bases_de_datos_fix_1_1 = "la SEMOVI no es responsable de generar los datos \
+  provistos",
+  bases_de_datos_fix_1_2 = ", sino que ",
+  bases_de_datos_fix_1_3 = "cada una de las instituciones mencionadas produce\
+   su información cumpliendo objetivos distintos y haciendo uso de \
+   diferentes metodologías",
+  bases_de_datos_fix_1_4 = ", lo que se refleja en lo reportado por cada \
+  institución.",
+
+  bases_de_datos_fix_2 = "En lo que a la SSC respecta, su base de datos \
+  reporta exclusivamente los hechos de tránsito que derivaron en personas \
+  lesionadas y/o fallecidas; un registro corresponde a un hecho de \
+  tránsito con una o varias víctimas. A lo largo del tiempo la SSC ha \
+  sufrido diversos cambios en sus metodologías de recolección y \
+  procesamiento de información. Durante el primer semestre de 2018 su base \
+  de datos se alimentaba de los reportes realizados por las unidades médicas \
+  de apoyo del ERUM y la Cruz Roja Mexicana, y los reportes por fallecimiento \
+  de cualquier unidad médica sin importar fuera pública o privada; para el \
+  segundo semestre la fuente de ingreso de información cambió a las \
+  frecuencias de radio a través del Puesto de Mando de la SSC, permaneciendo \
+  esta metodología durante todo el 2019 y enero de 2020. Para febrero de 2020 \
+  el Puesto de Mando se incorporó al C5 para integrar y mejorar la \
+  coordinación de atención a emergencias en la Ciudad, convirtiendo a esta \
+  última junto con los reportes ciudadanos de hechos de tránsito con muertes, \
+  a través de redes sociales, en su nueva fuente de acopio y recolección de \
+  información relacionada con los incidentes viales. Para hacer comparables \
+  2021 y 2020 con 2019 es necesario eliminar aquellos hechos que fueron \
+  reportados pero no corroborados en sitio.",
+
+  bases_de_datos_fix_3 = "El Centro de Comando, Control, Cómputo, \
+  Comunicaciones y Contacto Ciudadano (C5)  registra todos aquellos reportes \
+  por incidentes viales ingresados a través de sus diferentes canales de \
+  emergencia (llamadas al 911, botones de auxilio y equipos de radio de \
+  policía, entre otros), sin hacer distinción entre incidentes sin víctimas \
   (“lamineros”) y aquellos que derivaron en personas lesionadas y/o \
-  fallecidas; sin embargo, son de interés sólo aquellos reportes que \
-  fueron confirmados en el lugar de los hechos por un policía o por las \
-  cámaras del C2 y los reportes afirmativos en los que se incluyó \
-  información adicional al evento. En lo que a la SSC respecta, su base \
-  de datos reporta exclusivamente los hechos de tránsito que derivaron \
-  en personas lesionadas y/o fallecidas. Por su parte, la FGJ reporta \
-  únicamente los incidentes por los cuales se abrió una carpeta de \
-  investigación en las agencias del Ministerio Público por delitos \
-  relacionados con hechos de tránsito. Finalmente, AXA Seguros reporta \
-  todos los incidentes viales en los que se vieron involucrados \
-  vehículos asegurados por la compañía sin importar la gravedad de \
-  los mismos, es decir sin considerar si a consecuencia de estos hubo \
-  personas lesionadas y/o fallecidas; al igual que el C5, registra \
-  también los incidentes comúnmente denominados “lamineros”.",
+  fallecidas. Son de interés sólo aquellos reportes afirmativos, es decir, \
+  aquellos en los que la unidad de atención a emergencias fue despachada, \
+  llegó al lugar de los hechos y confirmó la emergencia reportada en el lugar \
+  de los hechos por un policía o por las cámaras del Centro de Comando y \
+  Control (C2) y los reportes en los que el incidente reportado es afirmativo \
+  y se añade información adicional al evento. Los registros de la base de \
+  datos de esta dependencia corresponden a reportes por hechos de tránsito \
+  con víctimas o sin víctimas, sin embargo, no es posible conocer el total de \
+  víctimas involucradas en cada reporte, por lo que los indicadores total de \
+  personas lesionadas y total de personas fallecidas están calculados con \
+  base en el número de reportes por hechos de tránsito con víctimas.",
+
+  bases_de_datos_fix_4 = "La FGJ reporta únicamente los incidentes por los \
+  cuales se abrió una carpeta de investigación en las agencias del \
+  Ministerio Público por delitos relacionados con percances de tránsito. Su \
+  base de datos se compone por los registros de las víctimas relacionadas con \
+  dichos incidentes por lo que para analizar el total de carpetas de \
+  investigación es necesario eliminar aquellos folios duplicados, debido a que \
+  una carpeta de investigación puede corresponder a una o más víctimas e \
+  inclusive a uno o más delitos. Es importante destacar que es necesario solo \
+  tomar en cuenta aquellos incidentes ocurridos en la Ciudad de México.",
+
+  bases_de_datos_fix_5 = "La información de AXA Seguros corresponde a todos \
+  los siniestros viales en los que se ven involucrados los vehículos \
+  asegurados por esta compañía. Incluye aquellos siniestros en donde hubo \
+  personas lesionadas y/o fallecidas, así como los incidentes comúnmente \
+  denominados “lamineros”. Su base de datos se compone por los registros de \
+  las víctimas relacionadas con dichos percances, por lo que para analizar el \
+  total de siniestros es necesario eliminar los folios duplicados.",
+
+  bases_de_datos_pie_1 = "UNIDAD A CARGO = SD",
+
+  bases_de_datos_pie_2 = "A partir de octubre de 2020 se agregó el tipo de \
+  entrada APLICATIVOS, mismos que deben ser eliminados con el objetivo de \
+  hacer comparativo 2021 con 2020 y 2019.",
+
+
+
 ##### =========== FGJ Replicar ==================================
   ### FGJ SIN Lesionados
   hechos_sin_lesionadas_FGJ = "Son todos aquellos registros que cumplen \
@@ -416,14 +447,40 @@ mod_infoBdUI_ui <- function(id) {
                 tags$p(
                   strong("Detalle de las bases de datos de hechos de tránsito")
                 )
-              ),              
+              ),
               tags$div(
                 style = "text-align: justify; font-size: 12pt; color: #697070;",
-                tags$p(lista_textos$bases_de_datos_fix_1),
+                tags$p(lista_textos$bases_de_datos_fix_1_0,
+                        strong(lista_textos$bases_de_datos_fix_1_1),
+                        lista_textos$bases_de_datos_fix_1_2,
+                        strong(lista_textos$bases_de_datos_fix_1_3),
+                        lista_textos$bases_de_datos_fix_1_4
+                      ),
+
+
                 tags$p(lista_textos$bases_de_datos_fix_2),
                 tags$p(lista_textos$bases_de_datos_fix_3),
-                tags$p(lista_textos$bases_de_datos_fix_4)
+                tags$p(lista_textos$bases_de_datos_fix_4),
+                tags$p(lista_textos$bases_de_datos_fix_5)
               ),
+              tags$footer(lista_textos$bases_de_datos_pie_1,
+                      align = "right",
+                      style = "bottom:0;
+                              font-size: 5pt
+                              height:8px; /* Height of the footer */
+                              color: #697070;
+                              padding: 15px;
+                              background-color: #fff;"
+              ),
+              tags$footer(lista_textos$bases_de_datos_pie_2,
+                      align = "right",
+                      style = "bottom:0;
+                              font-size: 5pt
+                              height:8px; /* Height of the footer */
+                              color: #697070;
+                              padding: 15px;
+                              background-color: #fff;"
+              )
             ),
           )
         ),
