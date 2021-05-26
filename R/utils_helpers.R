@@ -5,29 +5,26 @@
 #' @return Tabla con los datos preprocesados listos para utilizarse 
 #' en la plataforma.
 #' 
-#'jJ 
+#'
 preprocesa_pgj <- function(pgj) {
   #### Se eliminan los duplicados
-  # TODO: Esto ya no va (no hay esas columnas)
+  pgj <- dplyr::filter(pgj , grepl("TRANSITO",Delito) | grepl("TRÁNSITO",Delito))  
   pgj <- dplyr::distinct(pgj,idCarpeta , .keep_all= TRUE)
   ## Se eliminan los que no tienen fecha
-  # TODO: ya no se llama así la columna (fecha_hechos) y es timestamp
   pgj <- pgj[!is.na(pgj$FechaHecho),]
   ### Se eliminan los que no tienen hora 
   pgj <- pgj[!is.na(pgj$HoraHecho),]
-  # TODO por lo anterior, todo esto es un poco diferente
   pgj['fecha_hechos'] <- lubridate::dmy( pgj$FechaHecho )
   pgj['hora_hechos'] <- lubridate::hms(pgj$HoraHecho)                        
   pgj['timestamp'] <- pgj$fecha_hechos + pgj$hora_hechos
   ### Hasta acá
   pgj <-
      dplyr::filter( pgj,
-       timestamp >= lubridate::parse_date_time("2018-01-01", "Y-m-d")
+       timestamp >= lubridate::parse_date_time("2019-01-01", "Y-m-d")
       )
   pgj["geopoint"] <- NULL
   pgj <- pgj[order(pgj$timestamp), ]
   pgj["id"] <- seq.int(nrow(pgj))
-  # TODO: EStos campos ya no tienen nulos, ahora están codificados con NA
   pgj <- dplyr::filter(pgj, !is.na(latitud) & !is.na(longitud))
   pgj <- dplyr::filter(pgj, !is.na(timestamp))
   pgj <- sf::st_transform(sf::st_as_sf(
@@ -37,6 +34,8 @@ preprocesa_pgj <- function(pgj) {
   ), 32614)
   return(pgj)
 }
+
+
 
 #' Preprocesa archivo csv de Fiscalía
 #'
@@ -84,48 +83,19 @@ preprocesa_pgj_origin <- function(fgj_new) {
 #'
 #' 
 preprocesa_ssc <- function(ssc) {
-  # TODO: al parecer ya no necesitamos esto
-  ssc <- janitor::clean_names(ssc, "snake")
-  # TODO: ya no se llama hora_evento, se llama hora
-  # TODO: checar cómo viene codificado ahora
-  ssc$hora_evento <- lubridate::hms(chron::times(paste0(
-    ifelse(nchar(ssc$hora2) == 1, paste0("0", ssc$hora2), ssc$hora2),
-    ":",
-    ifelse(
-      stringr::str_sub(ssc$hora_evento,-1) == ".",
-      substr(ssc$hora_evento, 4, 5),
-      stringr::str_sub(ssc$hora_evento,-2)
-    ),
-    ":00"
-  )))
-
-  ssc$timestamp <- with(ssc, lubridate::ymd(ssc$fecha_evento) + ssc$hora_evento)
-  # TODO: No sabemos si esto sigue siendo así LOL
-  ssc$no_folio[ssc$no_folio == "SD"] <-
-    paste0("SinID_", seq(1:nrow(dplyr::filter(ssc, no_folio == "SD"))))
-  tmp <- dplyr::filter(
-                       as.data.frame(
-                         table(ssc$no_folio),
-                         stringsAsFactors = FALSE),
-                         Freq > 1
-                      )
-  for (i in tmp$Var1) {
-    ssc$no_folio[ssc$no_folio == i] <-
-      paste0(i, "_", seq(1:tmp[tmp$Var1 == i,]$Freq))
-  }
-  rm(tmp, i)
+  ssc <- ssc %>% dplyr::filter(hora != "SD" & unidad_a_cargo != "SD")
+  ssc$hora_bien <- lubridate::hm(ssc$hora)
+  ssc[is.na(ssc$hora_bien),]$hora_bien <- lubridate::hms(ssc[is.na(ssc$hora_bien),]$hora)
+  ssc$timestamp <- with(ssc, lubridate::dmy(ssc$fecha_evento) + ssc$hora_bien)
   ssc <- dplyr::filter(ssc,!is.na(coordenada_y) & !is.na(coordenada_x))
-  ssc <- dplyr::filter(ssc,!is.na(timestamp))
-  # =
   ssc <- sf::st_transform(sf::st_as_sf(
     ssc,
-    coords = c("coordenada_x", "coordenada_y"),
+    coords = c("coordenada_y", "coordenada_x"),
     crs = 4326
   ), 32614)
   return(ssc)
 }
 
-######Nio hay para SSC por que sus datos estan iguales
 
 
 #' Preprocesa los datos de AXA
@@ -133,47 +103,28 @@ preprocesa_ssc <- function(ssc) {
 #'Preprocess the data from the tables in the AXA site
 #'
 #'
-preprocesa_axa_origin<- function(axa_new) {
+preprocesa_axa_origin <- function(axa_new) {
 
   ### axa is the new and should have the corresponding column names
   #### Read old axa
-  df_old <- readr::read_delim("./data-raw/AXA.csv",
-                          col_names = TRUE,
-                          quote = "\"",
-                          delim = ";"
-  )
+  # df_old <- readr::read_delim("./data-raw/AXA.csv",
+  #                         col_names = TRUE,
+  #                         quote = "\"",
+  #                         delim = ";"
+  # )
 
-
-  ##### Va a tener que ser harcodeado
-  name_look <- c("LATITUD", "LONGITUD", "CAUSA SINIESTRO", "TIPO VEHICULO",
-     "NIVEL DAÑO VEHICULO", "PUNTO DE IMPACTO", "AÑO", "MES", "DÍA NUMERO",
-     "HORA", "LESIONADOS", "RELACION LESIONADOS", "NIVEL LESIONADO",
-     "HOSPITALIZADO", "FALLECIDO")
-  axa_new <- axa_new[, name_look]
-  ##### remove before pass 
-  axa_new <- axa_new[!(axa_new$LATITUD == '\\N' | axa_new$LATITUD == '0'), ]
-  axa_new <- axa_new[!(axa_new$LONGITUD == '\\N' | axa_new$LONGITUD == '0'), ]
-  names(axa_new) <- names(df_old)
-  axa_new$latitud <- as.double(axa_new$latitud)
-  axa_new$longitud <- as.double(axa_new$longitud)
-
-  axa_rds_loc <- preprocesa_axa(df_old)
-  max_year_axa <- max(axa_rds_loc$ao)
-  axa_rds_loc_y <- axa_rds_loc[axa_rds_loc$ao == max_year_axa, ]
-  max_month_axa <- max(axa_rds_loc_y$mes)
-  axa_rds_loc_y_m <- axa_rds_loc_y[axa_rds_loc_y$mes == max_month_axa, ]
-  max_day_axa <- max(axa_rds_loc_y_m$dia_numero)
-  axa_red_pre <- preprocesa_axa(axa_new)
+  df_old <- readRDS("./data-raw/axa.rds")
+  max_timestamp_old <- max(df_old$timestamp)
+  # TODO: en realidad tiene que haber dos de estas porque estos datos 
+  #       pueden venir en dos formatos diferentes
+  axa_red_pre <- preprocesa_axa_nuevos_datos(axa_new)
   #axa_red_pre$mes<- as.integer(axa_red_pre$mes)
-  axa_red_pre <- axa_red_pre[axa_red_pre$ao >= max_year_axa, ]
-  axa_red_pre <- axa_red_pre[axa_red_pre$mes >= max_month_axa, ]
-
-  axa_red_pre <- axa_red_pre[axa_red_pre$mes == max_month_axa &
-    axa_red_pre$dia_numero >= max_day_axa |
-    axa_red_pre$mes > max_month_axa, ]
-
+  axa_red_pre <- axa_red_pre[axa_red_pre$timestamp >= max_timestamp_old, ]
   #axa_red_pre$timestamp <-as.chron(axa_red_pre$timestamp)
-  axa_all <- rbind(axa_rds_loc, axa_red_pre)
+  cols <- c("fallecido", "geometry", "timestamp", "lesionados")
+  df_old <- dplyr::select(df_old, tidyselect::all_of(cols))
+  axa_red_pre <- dplyr::select(axa_red_pre, tidyselect::all_of(cols))
+  axa_all <- rbind(df_old, axa_red_pre)
   return(axa_all)
 }
 
@@ -189,7 +140,9 @@ preprocesa_axa_origin<- function(axa_new) {
 #' 
 #'
 #' 
-preprocesa_axa <- function(axa) {
+preprocesa_axa_nuevos_datos <- function(axa) {
+  axa <- janitor::clean_names(axa, "snake")
+  axa <- axa[rowSums(is.na(axa)) != ncol(axa),]
   axa['hora'] <- lubridate::hms(paste0(axa$hora, ':01:00'))
   axa$mes[axa$mes == 'ENERO'] <- 1
   axa$mes[axa$mes == 'FEBRERO'] <- 2
@@ -203,28 +156,22 @@ preprocesa_axa <- function(axa) {
   axa$mes[axa$mes == 'OCTUBRE'] <- 10
   axa$mes[axa$mes == 'NOVIEMBRE'] <- 11
   axa$mes[axa$mes == 'DICIEMBRE'] <- 12
-  axa['fecha'] <- lubridate::date(chron::dates(
-                                paste0(
-                                       axa$dia_numero,
-                                       "-",
-                                       axa$mes,
-                                       "-",
-                                       axa$ao),
-                                       format = "d-m-y"
-                              ))
+  axa['fecha'] <- lubridate::dmy(
+                                  paste0(
+                                        axa$dia_numero,
+                                        "/",
+                                        axa$mes,
+                                        "/",
+                                        axa$ano)
+                              )
   axa$timestamp <- with(
                           axa,
                           axa$fecha + axa$hora
                         )
-  axa['causa_siniestro'] <- as.character(axa$causa_siniestro)
-  axa$causa_siniestro[axa$causa_siniestro == '\\N'] <-
-    paste0(
-      'SinID_',
-      seq(1:nrow(dplyr::filter(axa , causa_siniestro == '\\N')
-      )))
+  axa$longitud <- as.numeric(axa$longitud)
+  axa$latitud <- as.numeric(axa$latitud)
   axa <- dplyr::filter(axa, !is.na(latitud) & !is.na(longitud))
   axa <- dplyr::filter(axa, !is.na(timestamp))
-  # =
   axa <- sf::st_transform(
                           sf::st_as_sf(axa,
                                           coords = c('longitud','latitud'),
@@ -236,26 +183,18 @@ preprocesa_axa <- function(axa) {
 
 #' Preprocesa archivo csv de AXA
 #'
-#' @param df_abierto Tabla con los datos del C5 leídos de un csv
+#' @param c5 Tabla con los datos del C5 leídos de un csv
 #'
 #' @return Tabla con los datos preprocesados listos para utilizarse 
 #' en la plataforma.
 #'
 #'
 #'
-preprocesa_C5<- function(df_abierto) {
+preprocesa_C5 <- function(c5) {
 
   #Se eliminan falsas alarmas y delitos 
-  df_abierto <- df_abierto[df_abierto$clas_con_f_alarma != "Falsa Alarma" |
-                            df_abierto$clas_con_f_alarma != "Delito",
-                          ]
-  # Se eliminan los incidentes falsos
-  # TODO: Cambió esta columna, hay que actualizar (ahora es más simple, sólo trae el código)
-  # TODO: Cambiar por un dplyr::filter
-  Confirmacion1 <- df_abierto$codigo_cierre == "(A) La unidad de atención a emergencias fue despachada, llegó al lugar de los hechos y confirmó la emergencia reportada"
-  Confirmacion2 <- df_abierto$codigo_cierre == "(I) El incidente reportado es afirmativo y se añade información adicional al evento"
-  df_abierto <- df_abierto[Confirmacion1 | Confirmacion2, ]
-  ##Lesionados
+  c5 <- c5 %>% dplyr::filter(clas_con_f_alarma != "FALSA ALARMA" & clas_con_f_alarma != "DELITO")%>% 
+               dplyr::filter(codigo_cierre != "A" & codigo_cierre != "I")
   incidente_c4_lesionados <- c("accidente-choque con lesionados",
                                # "accidente-choque con prensados", # esta qué onda, preguntarle a Vanessa
                                "detención ciudadana-atropellado",
@@ -283,46 +222,33 @@ preprocesa_C5<- function(df_abierto) {
                             "cadáver-atropellado"
                             )
   ####Se les da la etiqueta correspondiente
-  df_abierto <- dplyr::mutate(
-    df_abierto,
+  c5 <- dplyr::mutate(
+    c5,
     tipo_incidente =
-      ifelse(df_abierto$incidente_c4 %in% incidente_c4_decesos, "DECESO",
-             ifelse(df_abierto$incidente_c4 %in% incidente_c4_lesionados,
+      ifelse(c5$incidente_c4 %in% incidente_c4_decesos, "DECESO",
+             ifelse(c5$incidente_c4 %in% incidente_c4_lesionados,
                     "LESIONADO",
-                    ifelse(df_abierto$incidente_c4 %in% incidente_c4_accidente,
+                    ifelse(c5$incidente_c4 %in% incidente_c4_accidente,
                            "ACCIDENTE",
                            NA
                     ))
       )
   )
-  
-  
-  ### obtenemos el timestamp como estan en dos formatos distintos
-  ## vamos a tener que hacer moidificaciones
-  # TODO: REVISAR SI SIGUE FUNCIONANDO ASÍ O SE PUEDE SIMPLIFICAR
-  df_abierto$fecha_creacion_2 <- ifelse(nchar(df_abierto$fecha_creacion) > 8,
-                     lubridate::as_date(df_abierto$fecha_creacion,
-                                         format = "%d/%m/%Y"),
-                     lubridate::as_date(df_abierto$fecha_creacion,
-                                        format = "%d/%m/%y")
-                     )
-  # df_abierto$fecha_creacion_2 <- lubridate::as_date( df_abierto$fecha_creacion,
-  #                                                  format= "%d/%m/%Y")
-  df_abierto$fecha_creacion_2 <- lubridate::as_date(df_abierto$fecha_creacion_2)
-  df_abierto$hora_creacion_2 <- lubridate::hms(df_abierto$hora_creacion)
-  df_abierto$timestamp <- with(
-    df_abierto,
-    df_abierto$fecha_creacion_2 + df_abierto$hora_creacion_2
+  c5$fecha_creacion <- lubridate::dmy(c5$fecha_creacion)
+  c5$hora_creacion <- lubridate::hms(c5$hora_creacion)
+  c5$timestamp <- with(
+    c5,
+    c5$fecha_creacion + c5$hora_creacion
   )
-  df_abierto <- dplyr::filter(df_abierto, !is.na(latitud) & !is.na(longitud))
-  df_abierto <- dplyr::filter(df_abierto, !is.na(timestamp))
+  c5 <- dplyr::filter(c5, !is.na(latitud) & !is.na(longitud))
+  c5 <- dplyr::filter(c5, !is.na(timestamp))
   #obtenemos los puntos
-  df_abierto <- sf::st_transform(
-    sf::st_as_sf(df_abierto,
+  c5 <- sf::st_transform(
+    sf::st_as_sf(c5,
                  coords = c('longitud','latitud'),
                  crs = 4326), 32614
   )
-  return(df_abierto)
+  return(c5)
 }
 
 #' Preprocesa archivo csv del C5
@@ -368,25 +294,7 @@ une_tablas <- function() {
   fgj <- dplyr::select(fgj, tidyselect::all_of(fgj_cols))
   ssc <- dplyr::select(ssc, tidyselect::all_of(ssc_cols))
   c5 <- dplyr::select(c5, tidyselect::all_of(c5_cols))
-  # fgj <- dplyr::mutate(
-  #   fgj,
-  #   tipo_incidente =
-  #     ifelse(startsWith(
-  #       fgj$delito,
-  #       "HOMICIDIO CULPOSO POR TRÁNSITO VEHICULAR"
-  #     ), "DECESO",
-  #     ifelse(startsWith(
-  #       fgj$delito,
-  #       "LESIONES CULPOSAS POR TRANSITO VEHICULAR"),
-  #       "LESIONADO",
-  #       ifelse(startsWith(
-  #       fgj$delito,
-  #       "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR"),
-  #       "ACCIDENTE",
-  #       NA
-  #       ))
-  #     )
-  # )
+
   delitos_deceso <- c(
     "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR A AUTOMOVIL",
     "DAÑO EN PROPIEDAD AJENA CULPOSA POR TRÁNSITO VEHICULAR A BIENES INMUEBLES",
@@ -469,7 +377,6 @@ une_tablas <- function() {
      cdmx$geometry,
      32614
   )
-  sf::st_crs(cdmx) <- sf::st_crs(total)
   total <- sf::st_join(total, cdmx["nom_mun"], left = FALSE)
   total <- total[!is.na(total$tipo_incidente), ]
   total <- sf::st_transform(total, "+init=epsg:4326") %>%

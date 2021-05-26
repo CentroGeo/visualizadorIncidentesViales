@@ -53,18 +53,14 @@ mod_csvFileUI_server <- function(input, output, session) {
         delim = ","
       )
       ##### Validates if the file is from FGJ
-      validate(need(try(df <- preprocesa_pgj_origin(df)), "El archivo no es de la FGJ"))
+      validate(need(try(df <- preprocesa_pgj(df)), "El archivo no es de la FGJ"))
       shinyjs::toggleState("save")
       df
     } else if (input$database == "ssc") {
       df <- readr::read_delim(userFile()$datapath,
         col_names = TRUE,
         quote = "\"",
-        delim = ",",
-        col_types = list(
-          "No. FOLIO" = readr::col_character(),
-          "HORA_EVENTO" = readr::col_character()
-        )
+        delim = ","
       )
       ##### Validates if the file is from SSC
       validate(need(try(preprocesa_ssc(df)), "El archivo no es de la SSC"))
@@ -76,8 +72,8 @@ mod_csvFileUI_server <- function(input, output, session) {
                               quote = "\"",
                               delim = ","
       )
-      ##### Validates if the file is from AXA
-      validate(need(try(df<- preprocesa_C5_origin(df)), "El archivo no es del C5"))
+      ##### Validates if the file is from C5
+      validate(need(try(df<- preprocesa_C5(df)), "El archivo no es del C5"))
       shinyjs::toggleState("save")
       #df <- preprocesa_axa(df)
       df 
@@ -104,6 +100,7 @@ mod_csvFileUI_server <- function(input, output, session) {
   observeEvent(input$save, {
     f_name <- paste0(input$database, ".rds")
     saveRDS(dataframe(), file = paste0("data-raw/", f_name))
+    # TODO: Acá se tendría que correr une_tablas
     shinyjs::toggleState("save")
     showNotification("Datos guardados", type = "message")
   })

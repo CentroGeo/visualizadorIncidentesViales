@@ -16,10 +16,10 @@ mod_bar_ui <- function(id) {
                 width = "100%",
                 timeFormat = "%d/%m/%Y",
                 # TODO: deben venir de los datos
-                min = as.Date("2018-01-01", "%Y-%m-%d"),
-                max = as.Date("2020-09-09", "%Y-%m-%d"),
-                value = c(as.Date("2019-08-01", "%Y-%m-%d"),
-                        as.Date("2020-09-09", "%Y-%m-%d"))
+                min = as.Date("2019-01-01", "%Y-%m-%d"),
+                max = lubridate::date(max(fuentes_unidas$timestamp)),
+                value = c(as.Date("2020-09-09", "%Y-%m-%d"),
+                          lubridate::date(max(fuentes_unidas$timestamp)))
                 )
   )
 }
