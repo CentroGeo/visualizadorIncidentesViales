@@ -799,11 +799,20 @@ mod_infoBdUI_ui <- function(id) {
                   " – ",
                   tags$a(
                     "Datos Abiertos de la CDMX",
-                    href = "https://datos.cdmx.gob.mx/explore/dataset/incidentes-viales-c5"
+                    href = "https://datos.cdmx.gob.mx/dataset/incidentes-viales-c5"
+                  )
+                ),
+                tags$p(
+                  style = "font-size: 10pt;",
+                  strong("Diccionario de datos"),
+                  " – ",
+                  tags$a(
+                    "Diccionario de datos de incidentes viales",
+                    href = "https://datos.cdmx.gob.mx/dataset/incidentes-viales-c5/resource/49b5360c-5922-46bd-b4f8-ed0225d5ddbf"
                   )
                 ),
               ),
-                #Aqui va el texto para reproducir los datos
+              #Aqui va el texto para reproducir los datos
               tags$div(style = "height: 15px;"),
               tags$p(strong("Replicar estos resultados"),
                 style = "font-size: 14pt; color: #848888; text-align: left;"
@@ -851,6 +860,10 @@ mod_infoBdUI_ui <- function(id) {
                   )
                 ),
               ),
+            ),
+            column(
+              6,
+              tags$div(style = "height: 15px;"),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
                 strong("Hechos de tránsito con decesos"),
@@ -898,235 +911,7 @@ mod_infoBdUI_ui <- function(id) {
                   )
                 ),
               ),
-              tags$div(style = "height: 15px;")
-            ),
-            column(
-              6,
-              tags$div(style = "height: 15px;"),
-              tags$p(
-                strong("Diccionario de Datos"),
-                style = "font-size: 14pt; color: #848888; text-align: left;"
-              ),
-              # ===== Tabla C5 =====
-              tags$table(
-                style = "width: 100%; font-size: 10pt;",
-                class = "diccionario",
-                tags$col(
-                  width = "17%"
-                ),
-                tags$col(width = "58%"),
-                tags$col(width = "25%"),
-                tags$tr(
-                  class = "diccionario dicc_header",
-                  tags$th("Nombre de la Variable",
-                    class = "diccionario dicc_center"
-                  ),
-                  tags$th("Descripción",
-                    class = "diccionario dicc_center"
-                  ),
-                  tags$th("Tipo o Categorías",
-                    class = "diccionario dicc_center"
-                  )
-                ),
-                tags$tr(
-                  tags$td(
-                    "folio",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Código único alfa numérico que se la asigna a cada uno de los incidentes, compuesto por dos iniciales del Centro que recibió la emergencia, fecha en formato AA/MM/DD y número consecutivo de ingreso",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto Alfanumérico Variable",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("fecha_creacion",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Fecha de apertura del folio del evento",
-                    class = "diccionario"
-                  ),
-                  tags$td('Fecha en formato "aaaa-mm-dd"',
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("hora_creacion",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Hora de apertura del folio del evento",
-                    class = "diccionario"
-                  ),
-                  tags$td('Hora en formato "hh:mm:ss"',
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("dia_semana",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Día de apertura del folio", class = "diccionario"),
-                  tags$td("7 días", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("fecha_cierre",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Fecha de cierre del folio del evento",
-                    class = "diccionario"
-                  ),
-                  tags$td('Fecha en formato "aaaa-mm-dd"',
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("año_cierre",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Año de cierre del folio del evento",
-                    class = "diccionario"
-                  ),
-                  tags$td("Número Entero", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("mes_cierre",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Mes de cierre del folio del evento",
-                    class = "diccionario"
-                  ),
-                  tags$td("12 meses", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("hora_cierre",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Hora de cierre del folio del evento",
-                    class = "diccionario"
-                  ),
-                  tags$td('Hora en formato "hh:mm:ss"',
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("delegacion_inicio",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Alcaldía donde inicialmente se reportó el incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("16 alcaldías", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("incidente_c4",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Tipo de incidente", class = "diccionario"),
-                  tags$td("21 Incidentes Posibles (",
-                    tags$span(
-                      id = "bd_incidentes-c5",
-                      tags$u("Ver"),
-                      style = "color: #00AA5A;"
-                    ),
-                    ")",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("latitud",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Coordenada Y", class = "diccionario"),
-                  tags$td("Numérico", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("longitud",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Coordenada X", class = "diccionario"),
-                  tags$td("Numérico", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("codigo_cierre",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Código que fue asignado al incidente en el cierre",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto, 2 Categorías (",
-                    tags$span(
-                      id = "bd_cierre-c5",
-                      tags$u("Ver"),
-                      style = "color: #00AA5A;"
-                    ),
-                    ")",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("clas_con_f_alarma",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Clasificación del Incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto, 4 Categorías (",
-                    tags$span(
-                      id = "bd_clas-c5",
-                      tags$u("Ver"),
-                      style = "color: #00AA5A;"
-                    ),
-                    ")",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("tipo_entrada",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Medio por el cual se dio aviso del incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto, 6 Categorías (",
-                    tags$span(
-                      id = "bd_entrada-c5",
-                      tags$u("Ver"),
-                      style = "color: #00AA5A;"
-                    ),
-                    ")",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("delegacion_cierre",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Alcaldía donde cierra el folio del incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("16 alcaldías", class = "diccionario"),
-                  class = "diccionario"
-                )
-              )
-              # =====
+
             )
           )
         ),
