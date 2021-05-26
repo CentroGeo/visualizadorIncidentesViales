@@ -3,72 +3,61 @@ lista_textos <- list(
   las Bases de Datos utilizadas en esta aplicación, a modo de conocer más \
   a fondo su función original en el organismo generador y su utilidad para \
   los objetivos de la SEMOVI.",
-  objetivo_base_datos_FGJ_1 = "A través del Ministerio Público, tiene las \
-  atribuciones de investigar los delitos de orden común, y perseguir a \
-  los imputados. Promoviendo la pronta, expedita y debida procuración de \
-  Justicia.",
-  objetivo_base_datos_FGJ_2 = "Esta fuente recaba una gran parte de \
-  información que se complementa en el lugar de investigación como cada \
-  uno de los campos pertenecientes a su base de datos.",
-  objetivo_base_datos_FGJ_3 = "Esta fuente se considera fundamental debido a \
-  que un accidente vial puede resultar en la comisión de delitos como \
-  daños, lesiones o incluso homicidio (no intencional). Por lo cual le \
-  corresponderá a la FGJ tomar la investigación y con ello la \
-  recopilación de información.",
-  objetivo_base_datos_FGJ_4 = "Para lo anterior, el Ministerio Público quien \
-  coordina la investigación, recaba información de las entrevistas a \
-  víctimas o imputados, las policías o bien de los peritos.",
-  objetivo_base_datos_SSC_1 = "Sus atribuciones en la Ciudad de México, \
-  encaminan las acciones dirigidas a salvaguardar la integridad y \
-  patrimonio de las personas, prevenir la comisión de delitos e \
-  infracciones a las disposiciones gubernativas y de policía, así como a \
-  preservar las libertades, el orden y la paz públicos.",
-  objetivo_base_datos_SSC_2 = "La información que tiene la SSC está en \
-  función a la atención que se brinda a través de la policía, por lo cual \
-  pueden allegarse de información que sólamente es posible recuperar \
-  cuando el incidente vial es atendido en campo.",
-  objetivo_base_datos_SSC_3 = "En la cadena de operaciones, son el primer \
-  contacto físico con la ciudadanía que se encuentre involucrada en un \
-  accidente vial, por lo cual tienen la facilidad de recabar información \
-  casi al momento del evento.",
-  objetivo_base_datos_SSC_4 = "A través de esta atención que brindan, los \
-  policías, obtienen información del accidente, la cual se pasa a través \
-  de formatos homologados a las áreas correspondientes de captura.",
+  objetivo_base_datos_FGJ_1 = "A través del Ministerio Público, tiene las atribuciones \
+  de investigar los delitos de orden común cometidos en la Ciudad de México y perseguir \
+  a los imputados promoviendo la pronta, expedita y debida procuración de Justicia.",
+  objetivo_base_datos_FGJ_2 = "Gran parte de la información recabada por esta dependencia, \
+  se complementa en el lugar de investigación",
+  objetivo_base_datos_FGJ_3 = "Esta fuente de información es fundamental debido a que un \
+  incidente vial puede resultar en la comisión de delitos por hechos de tránsito como daños, \
+  lesiones o incluso homicidio (no intencional). En tanto, la FGJ es el organismo facultado \
+  para llevar a cabo la investigación de los delitos mencionados y de recopilar la información 
+  derivada de los mismos. El Ministerio Público es quien coordina la investigación y recaba \
+  la información a través de las entrevistas a víctimas, imputados, primeros respondientes \
+  (en general elementos de la policía de la SSC) y peritos. ",
+
+  objetivo_base_datos_SSC_1 = "Sus atribuciones en la Ciudad de México, encaminan las \
+  acciones dirigidas a salvaguardar la integridad y patrimonio de las personas, prevenir \
+  la comisión de delitos e infracciones a las disposiciones gubernativas y de policía, \
+  así como a preservar las libertades, el orden y la paz públicos.",
+  objetivo_base_datos_SSC_2 = "La información que tiene la SSC está en función a la atención \
+  que se brinda a través de la policía, por lo cual pueden allegarse de información que sólamente\
+   es posible recopilar cuando el incidente vial es atendido en campo.",
+  objetivo_base_datos_SSC_3 = "En la cadena de operaciones, son el primer contacto físico con \
+  la ciudadanía que se encuentra involucrada en un incidente vial, por lo que tienen la \
+  facilidad de recabar información casi al momento del evento.",
   replicar_resultados_ssc_intro = "Se toma como partida la base no comparativa ya que estamos analizando \
   los datos a partir de 2019. Para obtrener los incidentes base (a partir de donde se calculan los demás)\
   necesitamos filtrar los que no contengan datos válidos en fechas y coordenadas.\
   Además, no se consideran aquellos incidentes en donde el campo 'unidad_a_cargo'\
   tenga el valor 'SD'",
-  objetivo_base_datos_C5_1 = "Entre las atribuciones que tiene son las de \
-  proveer información a la Jefa de Gobierno para la oportuna e inmediata \
-  toma de decisiones, a través de video monitoreo de la ciudad, la \
-  administración del Servicio de Atención de llamadas de emergencia 9-1-1 \
-  CDMX, así como Denuncia Anónima 089 y LOCATEL.",
-  objetivo_base_datos_C5_2 = "La información que se tiene corresponde a los \
-  reportes hechos por la ciudadanía directamente, por lo cual la \
-  información que puede ser pública es la fecha y hora, ubicación, la \
-  clasificación interna que se realiza. Existe una alta probabilidad de \
-  que esta institución tenga más reportes que las otras, debido a que \
-  algunos de estos, no tienen continuidad ante la policía o la PGJ, claro \
-  está, cuando no hay personas fallecidas o lesionadas.",
-  objetivo_base_datos_C5_3 = "La integración de C5, ayuda a reducir la \
-  brecha de reportes, ya que suele ser el primer contacto no físico con \
-  alguna autoridad ante un accidente vial.",
-  objetivo_base_datos_C5_4 = "Para ello, las y los operadores de C5 \
-  toman la información directa de la ciudadanía y realizan una \
-  clasificación de los eventos.",
+  objetivo_base_datos_C5_1 = "Proveer información a la Jefa de Gobierno de la \
+  CDMX para la oportuna inmediata toma de decisiones.",
+  objetivo_base_datos_C5_2 = "Captación de información en distintas materias, \
+  como procuración de justicia, seguridad ciudadana, urgencias médicas y movilidad, \
+  mediante la integración y análisis de la información captada a través de sus diferentes \
+  medios de entrada como el Servicio de Atención de Llamadas a Emergencias 9-1-1  así como \
+  Denuncia Anónima 089 .",
+  objetivo_base_datos_C5_3 = "La información que se tiene corresponde a los reportes tomados \
+  por las y los operadores del C5 con información directa de la ciudadanía. Tales operadores \
+  realizan la clasificación de los eventos.",
+  objetivo_base_datos_C5_4 = "Utilizar la información captada para difundir índices delictivos, \
+  zonas peligrosas, intersecciones viales más conflictivas y percances viales, entre otros.",
+  objetivo_base_datos_C5_5 = "Esta dependencia cuenta con más reportes por hechos de tránsito, debido a que cuando \
+  no hay personas fallecidas o lesionadas a consecuencia de ellos, no tienen continuidad\
+   ante la policía o la FGJ.",
   objetivo_base_datos_AXA_1 = "Es una aseguradora multirramo de origen \
-  francés con presencia en 64 países",
-  objetivo_base_datos_AXA_2 = "Esta fuente, contiene información \
-  referente a sus clientes asegurados, sobre los datos generales, así \
-  como un desglose sobre causas y entorno que intervino en el accidente",
-  objetivo_base_datos_AXA_3 = "A través de “Fundación Axa” se suman \
-  generando un convenio de colaboración para la integración de su \
-  información, cuidando como siempre, la protección de datos personales \
-  de sus clientes",
+  francés con presencia en 57 países.",
+  objetivo_base_datos_AXA_2 = "Esta fuente, contiene información referente a los siniestros \
+  reportados por sus asegurados, sin incluir datos personales. \
+  La base incluye los siniestros georreferenciados, así como el desglose sobre causas y\
+   entorno que intervino en el incidente.",
+  objetivo_base_datos_AXA_3 = "Desde 2019, AXA Seguros se suma a través de un convenio \
+  de colaboración para la integración de su información, garantizando la protección \
+  de datos personales.",
   objetivo_base_datos_AXA_4 = "El personal que atiende a sus \
   asegurados, se recopila la información la cual es capturada en un \
-  sistema de registro",
+  sistema de registro único.",
   ## ==============Introduccion ==========================
   bases_de_datos_fix_1_0 = "Para llevar a cabo el análisis y seguimiento de \
   las tendencias de los hechos de tránsito ocurridos en la Ciudad de México, \
@@ -104,13 +93,13 @@ lista_textos <- list(
   a través de redes sociales, en su nueva fuente de acopio y recolección de \
   información relacionada con los incidentes viales. Para hacer comparables \
   2021 y 2020 con 2019 es necesario eliminar aquellos hechos que fueron \
-  reportados pero no corroborados en sitio.",
+  reportados pero no corroborados en sitio(*).",
 
   bases_de_datos_fix_3 = "El Centro de Comando, Control, Cómputo, \
   Comunicaciones y Contacto Ciudadano (C5)  registra todos aquellos reportes \
   por incidentes viales ingresados a través de sus diferentes canales de \
   emergencia (llamadas al 911, botones de auxilio y equipos de radio de \
-  policía, entre otros), sin hacer distinción entre incidentes sin víctimas \
+  policía, entre otros(**)), sin hacer distinción entre incidentes sin víctimas \
   (“lamineros”) y aquellos que derivaron en personas lesionadas y/o \
   fallecidas. Son de interés sólo aquellos reportes afirmativos, es decir, \
   aquellos en los que la unidad de atención a emergencias fue despachada, \
@@ -142,9 +131,9 @@ lista_textos <- list(
   las víctimas relacionadas con dichos percances, por lo que para analizar el \
   total de siniestros es necesario eliminar los folios duplicados.",
 
-  bases_de_datos_pie_1 = "UNIDAD A CARGO = SD",
+  bases_de_datos_pie_1 = "* UNIDAD A CARGO = SD",
 
-  bases_de_datos_pie_2 = "A partir de octubre de 2020 se agregó el tipo de \
+  bases_de_datos_pie_2 = "** A partir de octubre de 2020 se agregó el tipo de \
   entrada APLICATIVOS, mismos que deben ser eliminados con el objetivo de \
   hacer comparativo 2021 con 2020 y 2019.",
 
@@ -515,8 +504,7 @@ mod_infoBdUI_ui <- function(id) {
                 tags$ul(
                   tags$li(lista_textos$objetivo_base_datos_FGJ_1),
                   tags$li(lista_textos$objetivo_base_datos_FGJ_2),
-                  tags$li(lista_textos$objetivo_base_datos_FGJ_3),
-                  tags$li(lista_textos$objetivo_base_datos_FGJ_4)
+                  tags$li(lista_textos$objetivo_base_datos_FGJ_3)
                 ),
                 tags$p(
                   style = "font-size: 10pt;",
@@ -682,8 +670,7 @@ mod_infoBdUI_ui <- function(id) {
                 tags$ul(
                   tags$li(lista_textos$objetivo_base_datos_SSC_1),
                   tags$li(lista_textos$objetivo_base_datos_SSC_2),
-                  tags$li(lista_textos$objetivo_base_datos_SSC_3),
-                  tags$li(lista_textos$objetivo_base_datos_SSC_4)
+                  tags$li(lista_textos$objetivo_base_datos_SSC_3)
                 ),
                 tags$p(
                   style = "font-size: 10pt;",
