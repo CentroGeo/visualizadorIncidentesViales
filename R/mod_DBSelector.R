@@ -106,7 +106,11 @@ mod_DBSelector_server <- function(input, output, session,
   interval_ba_rea, datos_filtrados) {
     ns <- session$ns
     #### Read
-    datafram_re <- reactive({
+    datafram_re <- reactive({ 
+      validate(
+        need(!is.null(input$filtro_bd) & !is.null(input$filtro_incidente),
+            'Por favor selecciona al menos una base de datos y un tipo de incidente')
+      )
       filtro_incidente <- input$filtro_incidente
       filtro_bd <- input$filtro_bd
       filtro_intervalo <- interval_ba_rea()
