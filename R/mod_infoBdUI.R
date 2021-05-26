@@ -528,9 +528,18 @@ mod_infoBdUI_ui <- function(id) {
                     " – ",
                     tags$a(
                       "Datos Abiertos de la CDMX",
-                      href = "https://datos.cdmx.gob.mx/explore/dataset/carpetas-de-investigacion-pgj-de-la-ciudad-de-mexico/"
+                      href = "https://datos.cdmx.gob.mx/dataset/victimas-en-carpetas-de-investigacion-fgj"
                     ),
                 ),
+                tags$p(
+                    style = "font-size: 10pt;",
+                    strong("Diccionario de datos"),
+                    " – ",
+                    tags$a(
+                      "Diccionario de datos de Víctimas en Carpetas de Investigación",
+                      href = "https://datos.cdmx.gob.mx/dataset/victimas-en-carpetas-de-investigacion-fgj/resource/10235569-f4a9-4876-9465-9780887df8e2"
+                    ),
+                )
               ),
               tags$div(style = "height: 15px;"),
               tags$p(strong("Replicar estos resultados"),
@@ -566,6 +575,11 @@ mod_infoBdUI_ui <- function(id) {
                   )
                 )
               ),
+              tags$div(style = "height: 15px;")
+            ),
+            column(
+              6,
+              tags$div(style = "height: 15px;"),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
                 strong("Hechos de tránsito con decesos"),
@@ -632,230 +646,6 @@ mod_infoBdUI_ui <- function(id) {
                     tags$li(lista_textos$replicar_FGJ_heatmap_6)
                   )
                 )
-              ),
-              tags$div(style = "height: 15px;")
-            ),
-            column(
-              6,
-              tags$div(style = "height: 15px;"),
-              tags$p(
-                strong("Diccionario de Datos"),
-                style = "font-size: 14pt; color: #848888; text-align: left;"
-              ),
-              # ===== Tabla PGJ =====
-              tags$table(
-                style = "width: 100%; font-size: 10pt;", class = "diccionario",
-                tags$col(width = "17%"),
-                tags$col(width = "58%"),
-                tags$col(width = "25%"),
-                tags$tr(
-                  class = "diccionario dicc_header",
-                  tags$th("Nombre de la Variable",
-                    class = "diccionario dicc_center"
-                  ),
-                  tags$th("Descripción",
-                    class = "diccionario dicc_center"
-                  ),
-                  tags$th("Tipo o Categorías",
-                    class = "diccionario dicc_center"
-                  )
-                ),
-                tags$tr(
-                  tags$td("ao_hechos",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Año en que ocurrió el hecho",
-                    class = "diccionario"
-                  ),
-                  tags$td("Entero", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("mes_hechos",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Mes en el que ocurrió el hecho",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("fecha_hechos",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Día, mes, año y hora en el que ocurrió el hecho",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto, en formato “aaaa-mm-dd hh:mm” (24 hrs)",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("ao_inicio",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Año en el cual se abrió la carpeta de investigación",
-                    class = "diccionario"
-                  ),
-                  tags$td("Entero", class = "diccionario")
-                ),
-                tags$tr(
-                  tags$td(
-                    "mes_inicio",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Mes en el cual se abrió la carpeta de investigación",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("fecha_inicio",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Día, mes, año y hora en el cual se abrió la carpeta de investigación",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto, en formato “aaaa-mm-dd hh:mm” (24 hrs)",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("delito",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Tipo penal con base en Código Penal de la CDMX",
-                    class = "diccionario"
-                  ),
-                  tags$td(
-                    "8 Tipos Penales (",
-                    tags$span(
-                      id = "bd_delitos-pgj",
-                      tags$u("Ver"),
-                      style = "color: #00AA5A;"
-                    ),
-                    ")",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("fiscalia",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Entidad pública encargada de la investigación",
-                    class = "diccionario"
-                  ),
-                  tags$td("24 fiscalías", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("agencia",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Clave de la agencia encargada de la investigación",
-                    class = "diccionario"
-                  ),
-                  tags$td("89 agencias", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("unidad_investigacion",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Clave con unidad de investigación detallando si existieron detenidos",
-                    class = "diccionario"
-                  ),
-                  tags$td("20 claves",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("categoria_delito",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Categoría del delito con base en Código Penal de la CDMX",
-                    class = "diccionario"
-                  ),
-                  tags$td("1 categoría (Delito de Bajo Impacto)",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("calle_hechos",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Nombre de la calle del hecho",
-                    class = "diccionario"
-                  ),
-                  tags$td("12,336 calles", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("calle_hechos2",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Segunda referencia al lugar donde ocurrieron los hechos",
-                    class = "diccionario"
-                  ),
-                  tags$td("8,581 calles",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("colonia_hechos",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Nombre de la colonia del hecho",
-                    class = "diccionario"
-                  ),
-                  tags$td("1,370 colonias", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(tags$td("alcaldia_hechos",
-                  class = "diccionario dicc_center dicc_rndm"
-                ),
-                tags$td("Nombre de la alcaldia del hecho",
-                  class = "diccionario"
-                ),
-                tags$td("16 alcaldías",
-                  class = "diccionario"
-                ),
-                class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("longitud",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Coordenada X", class = "diccionario"),
-                  tags$td("Numérico", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("latitud",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Coordenada Y", class = "diccionario"),
-                  tags$td("Numérico", class = "diccionario"),
-                  class = "diccionario"
-                )
               )
               # =====
             )
@@ -911,52 +701,6 @@ mod_infoBdUI_ui <- function(id) {
                 ),
               ),
               tags$div(style = "height: 15px;"),
-              tags$p(strong("Replicar estos resultados"),
-                style = "font-size: 20pt; color: #848888; text-align: left;"
-              ),
-              tags$p(strong("Eventos gráfica total de hechos de tránsito"),
-                style = "font-size: 14pt; color: #848888; text-align: left;"
-              ),
-              tags$p(
-                style = "font-size: 12pt; color: #848888; text-align: left;",
-                strong("Base de referencia"),
-                " : ",
-                "Toma como referencia la base de ",
-                tags$a(
-                  "Hechos de tránsito registrados por la SSC (serie para comparaciones interanuales)",
-                  href = "https://datos.cdmx.gob.mx/explore/dataset/hechos-de-transito-reportados-por-ssc-base-comparativa/table/"
-                )
-              ),
-              tags$p(
-                style = "font-size: 12pt; color: #848888; text-align: left;",
-                strong("Hechos de tránsito sin victimas:"),
-                " : ",
-                lista_textos$hechos_transito_scc,
-                tags$div(
-                  style = "text-align: justify; font-size: 12pt; color: #697070;",
-                  tags$ul(
-                    tags$li(lista_textos$replicar_scc_hechos_transito_1),
-                    tags$li(lista_textos$replicar_scc_hechos_transito_2),
-                    tags$li(lista_textos$replicar_scc_hechos_transito_3),
-                    tags$li(lista_textos$replicar_scc_hechos_transito_4)
-                  )
-                )
-              ),
-              tags$p(
-                style = "font-size: 12pt; color: #848888; text-align: left;",
-                strong("Hechos de tránsito con lesionados"),
-                " : ",
-                lista_textos$hechos_lesionados_scc,
-                tags$div(
-                  style = "text-align: justify; font-size: 12pt; color: #697070;",
-                  tags$ul(
-                    tags$li(lista_textos$replicar_scc_personas_lesionadas_1),
-                    tags$li(lista_textos$replicar_scc_personas_lesionadas_2),
-                    tags$li(lista_textos$replicar_scc_personas_lesionadas_3),
-                    tags$li(lista_textos$replicar_scc_personas_lesionadas_4)
-                  )
-                )
-              ),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
                 strong("Hechos de tránsito con decesos:"),
