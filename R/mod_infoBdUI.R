@@ -457,6 +457,7 @@ mod_infoBdUI_ui <- function(id) {
                 tags$p(lista_textos$bases_de_datos_fix_4),
                 tags$p(lista_textos$bases_de_datos_fix_5)
               ),
+              tags$hr(),
               tags$footer(lista_textos$bases_de_datos_pie_1,
                       align = "right",
                       style = "bottom:0;
