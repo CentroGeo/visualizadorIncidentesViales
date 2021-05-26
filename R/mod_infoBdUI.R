@@ -34,6 +34,11 @@ lista_textos <- list(
   objetivo_base_datos_SSC_4 = "A través de esta atención que brindan, los \
   policías, obtienen información del accidente, la cual se pasa a través \
   de formatos homologados a las áreas correspondientes de captura.",
+  replicar_resultados_ssc_intro = "Se toma como partida la base no comparativa ya que estamos analizando \
+  los datos a partir de 2019. Para obtrener los incidentes base (a partir de donde se calculan los demás)\
+  necesitamos filtrar los que no contengan datos válidos en fechas y coordenadas.\
+  Además, no se consideran aquellos incidentes en donde el campo 'unidad_a_cargo'\
+  tenga el valor 'SD'",
   objetivo_base_datos_C5_1 = "Entre las atribuciones que tiene son las de \
   proveer información a la Jefa de Gobierno para la oportuna e inmediata \
   toma de decisiones, a través de video monitoreo de la ciudad, la \
@@ -695,16 +700,31 @@ mod_infoBdUI_ui <- function(id) {
                   " – ",
                   tags$a(
                     tags$a("Datos Abiertos de la CDMX",
-                      href = "https://datos.cdmx.gob.mx/explore/dataset/hechos-de-transito-registrados-por-la-ssc-serie-para-comparaciones-interanuales-"
+                      href = "https://datos.cdmx.gob.mx/dataset/hechos-de-transito-reportados-por-ssc-base-ampliada-no-comparativa"
+                    )
+                  )
+                ),
+                tags$p(
+                  style = "font-size: 10pt;",
+                  strong("Diccionario de datos"),
+                  " – ",
+                  tags$a(
+                    tags$a("Diccionario de hechos de tránsito",
+                      href = "https://datos.cdmx.gob.mx/dataset/hechos-de-transito-reportados-por-ssc-base-ampliada-no-comparativa/resource/3ea0519c-9690-4cfa-ab46-b84dccba5886"
                     )
                   )
                 ),
               ),
               tags$div(style = "height: 15px;"),
+              tags$p(strong("Replicar estos resultados"),
+                style = "font-size: 14pt; color: #848888; text-align: left;"
+              ),
+              tags$p(lista_textos$replicar_resultados_ssc_intro,
+                style = "font-size: 12pt; color: #848888; text-align: left;"
+              ),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
                 strong("Hechos de tránsito con decesos:"),
-                " : ",
                 lista_textos$hechos_decesos_scc,
                 tags$div(
                   style = "text-align: justify; font-size: 12pt; color: #697070;",
@@ -716,10 +736,13 @@ mod_infoBdUI_ui <- function(id) {
                   )
                 )
               ),
+            ),
+            column(
+              6,
+              tags$div(style = "height: 15px;"),
               tags$p(
                 style = "font-size: 12pt; color: #848888; text-align: left;",
                 strong("Ocurrencia de hechos de tránsito dia y hora:"),
-                " : ",
                 lista_textos$heatmap_ssc_día_hora,
                 tags$div(
                   style = "text-align: justify; font-size: 12pt; color: #697070;",
@@ -731,249 +754,6 @@ mod_infoBdUI_ui <- function(id) {
                   )
                 )
               ),
-              tags$div(style = "height: 15px;")
-            ),
-            column(
-              6,
-              tags$div(style = "height: 15px;"),
-              tags$p(strong("Diccionario de Datos"),
-                style = "font-size: 14pt; color: #848888; text-align: left;"
-              ),
-              # ===== Tabla SSC =====
-              tags$table(
-                style = "width: 100%; font-size: 10pt;",
-                class = "diccionario",
-                tags$col(width = "17%"),
-                tags$col(width = "58%"),
-                tags$col(width = "25%"),
-                tags$tr(
-                  class = "diccionario dicc_header",
-                  tags$th("Nombre de la Variable",
-                    class = "diccionario dicc_center"
-                  ),
-                  tags$th("Descripción",
-                    class = "diccionario dicc_center"
-                  ),
-                  tags$th("Tipo o Categorías",
-                    class = "diccionario dicc_center"
-                  )
-                ),
-                tags$tr(
-                  tags$td("no_folio",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Número de folio único asignado a cada registro",
-                    class = "diccionario"
-                  ),
-                  tags$td("Entero", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("fecha_evento",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Fecha en la cual ocurrió el incidente vial",
-                    class = "diccionario"
-                  ),
-                  tags$td('Texto en formato "aa-mm-dd"',
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("año_evento",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Año en el cual ocurrió el incidente vial",
-                    class = "diccionario"
-                  ),
-                  tags$td("Entero", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("mes_evento",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Mes en el cual ocurrió el incidente vial",
-                    class = "diccionario"
-                  ),
-                  tags$td("12 meses", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("hora_evento",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Hora en la cual ocurrió el incidente vial",
-                    class = "diccionario"
-                  ),
-                  tags$td('Texto en formato "hh:mm"',
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("condicion",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Detalla si la víctima principal resultó lesionada o falleció en el incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto (Lesionado y Occiso)",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("tipo_evento",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Descripción del tipo de incidente vial ocurrido",
-                    class = "diccionario"
-                  ),
-                  tags$td("6 Tipos de Eventos (",
-                    tags$span(
-                      id = "bd_evento-ssc",
-                      tags$u("Ver"),
-                      style = "color: #00AA5A;"
-                    ),
-                    ")",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("coordenada_x",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Longitud del incidente", class = "diccionario"),
-                  tags$td("Numérico", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("coordenada_y",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Latitud del incidente", class = "diccionario"),
-                  tags$td("Numérico", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("punto_1",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Calle de referencia en la cual ocurrió el incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("punto_2",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Calle secundaria de referencia en la cual ocurrió el incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("colonia",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Colonia dentro de la cual ocurrió el incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("alcaldia",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Alcaldía dentro de la cual ocurrió el incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("16 Alcaldías", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("tipo_interseccion",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Intersección sobre la cual ocurrió el incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td(
-                    "Texto (Cruz, Curva, Desnivel, Gaza, Glorieta, Ramas Múltiples, Recta, T o Y)",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("tipo_vehiculo",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Descripción de los vehículos involucrados en el incidente. Cada uno se encuentra descrito en columnas diferentes",
-                    class = "diccionario"
-                  ),
-                  tags$td("15 Tipos de Vehículos (",
-                    tags$span(
-                      id = "bd_vehiculo-ssc",
-                      tags$u("Ver"),
-                      style = "color: #00AA5A;"
-                    ),
-                    ")",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("marca_vehiculo",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Marca de los vehículos involucrados en el incidente. Cada marca se encuentra descrita en columnas diferentes",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("lesiones",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td(
-                    "Descripción detallada de las lesiones sufridas por la víctima principal del incidente",
-                    class = "diccionario"
-                  ),
-                  tags$td("Texto", class = "diccionario"),
-                  class = "diccionario"
-                ),
-                tags$tr(
-                  tags$td("Edades de Occisos / Lesionados",
-                    class = "diccionario dicc_center dicc_rndm"
-                  ),
-                  tags$td("Conjunto de columnas que describen las edades",
-                    class = "diccionario"
-                  ),
-                  tags$td("15 Tipos de Vehículos (",
-                    tags$span(
-                      id = "bd_vehiculo-ssc",
-                      tags$u("Ver"),
-                      style = "color: #00AA5A;"
-                    ),
-                    ")",
-                    class = "diccionario"
-                  ),
-                  class = "diccionario"
-                )
-              )
             )
           )
         ),
